@@ -21,6 +21,9 @@
 
 namespace oat\generisHard\helpers;
 
+use oat\generisHard\models\hardapi\ResourceReferencer;
+use oat\generisHard\models\switcher\Switcher;
+
 /**
  * This helper class provides helper methods dealing with optimization of TAO.
  * 
@@ -116,7 +119,7 @@ class Optimization {
         }
     
         $optimizableClasses = array_unique($optimizableClasses);
-        $referencer = \core_kernel_persistence_hardapi_ResourceReferencer::singleton();
+        $referencer = ResourceReferencer::singleton();
     
         foreach ($optimizableClasses as $optClass){
             $optClass = new \core_kernel_classes_Class($optClass);
@@ -160,7 +163,7 @@ class Optimization {
             //build the option array and launch the compilation:
             $options = array_merge($optimizableClasses[$class->getUri()]['compile']);
     
-            $switcher = new \core_kernel_persistence_Switcher();
+            $switcher = new Switcher();
             $switcher->hardify($class, $options);
     
             //prepare return value
@@ -213,7 +216,7 @@ class Optimization {
             $userDefinedOptions = array();
             $options = array_merge($optimizableClasses[$class->getUri()]['decompile'], $userDefinedOptions);
     
-            $switcher = new \core_kernel_persistence_Switcher();
+            $switcher = new Switcher();
             $switcher->unhardify($class, $options);
     
             //prepare return value

@@ -19,44 +19,36 @@
  * 
  */
 
-namespace oat\generisHard\models\proxy;
+namespace oat\generisHard\models\hardsql;
 
-use oat\generisHard\models\hardsql\Property;
+use oat\generisHard\models\hardapi\Utils as HardapiUtils;
+use oat\generisHard\models\hardapi\Exception as HardapiException;
+use oat\generisHard\models\hardapi\ResourceReferencer;
 
 /**
+ * Short description of class self
+ *
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package core
- * @subpackage kernel_persistence
+ * @subpackage kernel_persistence_hardsql
  */
-class PropertyProxy
-    extends PersistenceProxy
+class Property
+    extends \core_kernel_persistence_PersistenceImpl
         implements \core_kernel_persistence_PropertyInterface
 {
     // --- ASSOCIATIONS ---
 
 
     // --- ATTRIBUTES ---
-    public static $implClasses = array(
-        'hardsql' => 'oat\generisHard\models\hardsql\Property',
-        'smoothsql' => '\\\core_kernel_persistence_smoothsql_Property'
-    );
-    
+
     /**
      * Short description of attribute instance
      *
      * @access public
-     * @var PersistenceProxy
+     * @var Resource
      */
     public static $instance = null;
-
-    /**
-     * Short description of attribute ressourcesDelegatedTo
-     *
-     * @access public
-     * @var array
-     */
-    public static $ressourcesDelegatedTo = array();
 
     // --- OPERATIONS ---
 
@@ -74,6 +66,7 @@ class PropertyProxy
         $returnValue = array();
 
         // section 127-0-1-1-7b8668ff:12f77d22c39:-8000:000000000000144D begin
+        throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
         // section 127-0-1-1-7b8668ff:12f77d22c39:-8000:000000000000144D end
 
         return (array) $returnValue;
@@ -92,23 +85,7 @@ class PropertyProxy
         $returnValue = (bool) false;
 
         // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DB begin
-        $lgDependentProperty = new \core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT, __METHOD__);
-        $lgDependent = null;
-
-        $delegate = $this->getImpToDelegateTo($resource);
-        if ($delegate instanceof Property) {
-                // Use the smooth sql implementation to get this information
-                // Or find the right way to treat this case
-                $lgDependent = \core_kernel_persistence_smoothsql_Resource::singleton()->getOnePropertyValue($resource, $lgDependentProperty);
-        } else {
-                $lgDependent = $delegate->getOnePropertyValue($resource, $lgDependentProperty);
-        }
-
-        if (is_null($lgDependent)) {
-                $returnValue = false;
-        } else {
-                $returnValue = ($lgDependent->getUri() == GENERIS_TRUE);
-        }
+        throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
         // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DB end
 
         return (bool) $returnValue;
@@ -127,24 +104,7 @@ class PropertyProxy
         $returnValue = (bool) false;
 
         // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DD begin
-        $multipleProperty = new \core_kernel_classes_Property(PROPERTY_MULTIPLE,__METHOD__);
-        $multiple = null;
-        
-		$delegate = $this->getImpToDelegateTo($resource);
-        if($delegate instanceof Property){
-            // Use the smooth sql implementation to get this information
-			// Or find the right way to treat this case
-			$multiple = \core_kernel_persistence_smoothsql_Resource::singleton()->getOnePropertyValue($resource, $multipleProperty);
-        } else {
-			$multiple = $delegate->getOnePropertyValue($resource, $multipleProperty);
-        }
-        
-        if(is_null($multiple)){
-			$returnValue = false;
-        }
-        else{
-			$returnValue = ($multiple->getUri() == GENERIS_TRUE);
-        }
+        throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
         // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DD end
 
         return (bool) $returnValue;
@@ -163,22 +123,7 @@ class PropertyProxy
         $returnValue = null;
 
         // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001539 begin
-        $rangeProperty = new \core_kernel_classes_Property(RDFS_RANGE,__METHOD__);
-        $rangeValues = array();
-        
-        $delegate = $this->getImpToDelegateTo($resource);
-        if($delegate instanceof Property){
-        // Use the smooth sql implementation to get this information
-		// Or find the right way to treat this case
-                $rangeValues = \core_kernel_persistence_smoothsql_Resource::singleton()->getPropertyValues($resource, $rangeProperty);
-        }else{
-                $rangeValues = $delegate->getPropertyValues($resource, $rangeProperty);
-        }
-		        
-        if(sizeOf($rangeValues)>0){
-                $returnValue = new \core_kernel_classes_Class($rangeValues[0]);
-        }
-        
+        throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
         // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001539 end
 
         return $returnValue;
@@ -199,8 +144,7 @@ class PropertyProxy
 
         // section 127-0-1-1--330ca9de:1318ac7ca9f:-8000:0000000000001641 begin
         
-    	$delegate = $this->getImpToDelegateTo($resource);
-		$returnValue = $delegate->delete($resource, $deleteReference);
+        throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
         
         // section 127-0-1-1--330ca9de:1318ac7ca9f:-8000:0000000000001641 end
 
@@ -221,8 +165,10 @@ class PropertyProxy
         $returnValue = null;
 
         // section 10-13-1-85-36aaae10:13bad44a267:-8000:0000000000001E25 begin
-        $delegate = $this->getImpToDelegateTo($resource);
-		$returnValue = $delegate->setRange($resource, $class);
+        
+        // always remain in smooth mode.
+        $returnValue = \core_kernel_persistence_smoothsql_Property::singleton()->setRange($resource, $class);
+
         // section 10-13-1-85-36aaae10:13bad44a267:-8000:0000000000001E25 end
 
         return $returnValue;
@@ -240,8 +186,45 @@ class PropertyProxy
     public function setMultiple( \core_kernel_classes_Resource $resource, $isMultiple)
     {
         // section 10-13-1-85-71dc1cdd:13bade8452c:-8000:0000000000001E32 begin
-        $delegate = $this->getImpToDelegateTo($resource);
-		$delegate->setMultiple($resource, $isMultiple);
+        
+        // First, do the same as in smooth mode.
+        \core_kernel_persistence_smoothsql_Property::singleton()->setMultiple($resource, $isMultiple);
+        
+    	// Second, we alter the relevant table(s) if needed.
+        // For all the classes that have the resource as domain,
+        // we have to alter the correspondent tables.
+        $referencer = ResourceReferencer::singleton();
+        $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
+        $propertyDescription = HardapiUtils::propertyDescriptor($resource);
+        
+        $wasMulti = $propertyDescription['isMultiple'];
+        $wasLgDependent = $propertyDescription['isLgDependent'];
+        
+        // @TODO $batchSize's value is arbitrary.
+        $batchSize = 100;	// Transfer data $batchSize by $batchSize.
+        
+        if ($wasMulti != $isMultiple){
+        	
+        	try{
+        		// The multiplicity is then changing.
+        		// However, if the property was not 'multiple' but 'language dependent'
+        		// it is already stored as it should.
+        		if ($isMultiple == true && $wasLgDependent == false && $wasMulti == false){
+        			
+        			// We go from single to multiple.
+        			HardapiUtils::scalarToMultiple($resource, $batchSize);
+        		}
+        		else if ($isMultiple == false && ($wasLgDependent == true || $wasMulti == true)){
+        			
+        			// We go from multiple to single.
+        			HardapiUtils::multipleToScalar($resource, $batchSize);
+        		}
+        	}
+        	catch (HardapiException $e){
+        		throw new Exception($e->getMessage());
+        	}
+        }
+        
         // section 10-13-1-85-71dc1cdd:13bade8452c:-8000:0000000000001E32 end
     }
 
@@ -257,8 +240,43 @@ class PropertyProxy
     public function setLgDependent( \core_kernel_classes_Resource $resource, $isLgDependent)
     {
         // section 10-13-1-85-4a20f448:13bdca46e9a:-8000:0000000000001E45 begin
-        $delegate = $this->getImpToDelegateTo($resource);
-		$delegate->setLgDependent($resource, $isLgDependent);
+        // First, do the same as in smooth mode.
+        \core_kernel_persistence_smoothsql_Property::singleton()->setLgDependent($resource, $isLgDependent);
+        
+    	// Second, we alter the relevant table(s) if needed.
+        // For all the classes that have the resource as domain,
+        // we have to alter the correspondent tables.
+        $referencer = ResourceReferencer::singleton();
+        $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
+        $propertyDescription = HardapiUtils::propertyDescriptor($resource);
+        
+        $wasMulti = $propertyDescription['isMultiple'];
+        $wasLgDependent = $propertyDescription['isLgDependent'];
+        
+        // @TODO $batchSize's value is arbitrary.
+        $batchSize = 100;	// Transfer data $batchSize by $batchSize.
+        
+        if ($wasLgDependent != $isLgDependent){
+        	
+        	try{
+        		// The multiplicity is then changing.
+        		// However, if the property was not 'language dependent' but 'multiple'
+        		// it is already stored as it should.
+        		if ($isLgDependent == true && $wasMulti == false && $wasLgDependent == false){
+        			
+        			// We go from single to multiple.
+        			HardapiUtils::scalarToMultiple($resource, $batchSize);
+        		}
+        		else if ($isLgDependent == false && ($wasMulti == true || $wasLgDependent == true)){
+        			
+        			// We go from multiple to single.
+        			HardapiUtils::multipleToScalar($resource, $batchSize);
+        		}
+        	}
+        	catch (HardapiException $e){
+        		throw new Exception($e->getMessage());
+        	}
+        }
         // section 10-13-1-85-4a20f448:13bdca46e9a:-8000:0000000000001E45 end
     }
 
@@ -267,63 +285,20 @@ class PropertyProxy
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return PersistenceProxy
+     * @return \core_kernel_classes_Resource
      */
     public static function singleton()
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001401 begin
-
-        if(self::$instance == null){
-                self::$instance = new self();
+        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001499 begin
+        
+        if (self::$instance == null){
+        	self::$instance = new self();
         }
         $returnValue = self::$instance;
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001401 end
-
-        return $returnValue;
-    }
-
-    /**
-     * Short description of method getImpToDelegateTo
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  array params
-     * @return \core_kernel_persistence_ResourceInterface
-     */
-    public function getImpToDelegateTo( \core_kernel_classes_Resource $resource, $params = array())
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F63 begin
-		
-        if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
-        || PersistenceProxy::isForcedMode()){
-        	
-	    	$impls = $this->getAvailableImpl($params);
-                foreach($impls as $implName=>$enable){
-                        // If the implementation is enabled && the resource exists in this context
-                        if($enable && $this->isValidContext($implName, $resource)){
-                                $implClass = self::$implClasses[$implName];
-                                $reflectionMethod = new ReflectionMethod($implClass, 'singleton');
-                                $delegate = $reflectionMethod->invoke(null);
-
-                                if(PersistenceProxy::isForcedMode()){
-                                        return $delegate;
-                                }
-
-                                self::$ressourcesDelegatedTo[$resource->getUri()] = $delegate;
-                                break;
-                        }
-                }
-        }
-
-		$returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
-
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F63 end
+        
+        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001499 end
 
         return $returnValue;
     }
@@ -333,30 +308,16 @@ class PropertyProxy
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string context
      * @param  Resource resource
      * @return boolean
      */
-    public function isValidContext($context,  \core_kernel_classes_Resource $resource)
+    public function isValidContext( \core_kernel_classes_Resource $resource)
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000155E begin
-
-        $impls = $this->getAvailableImpl(); 
-        if(isset($impls[$context]) && $impls[$context]){
-            
-        	$implClass = self::$implClasses[$context];
-        	$reflectionMethod = new ReflectionMethod($implClass, 'singleton');
-                $singleton = $reflectionMethod->invoke(null);
-                try{
-                	$returnValue = $singleton->isValidContext($resource);
-                }catch(Exception $e){
-                	echo 'error*';
-                }
-        }
-        
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000155E end
+        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F54 begin
+        $returnValue = ResourceReferencer::singleton()->isPropertyReferenced($resource);
+        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F54 end
 
         return (bool) $returnValue;
     }

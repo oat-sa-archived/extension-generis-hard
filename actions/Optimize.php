@@ -22,6 +22,7 @@
 namespace oat\generisHard\actions;
 
 use oat\generisHard\helpers\Optimization;
+use oat\generisHard\models\switcher\Switcher;
 
 /**
  * This controller provide the actions to manage classes optimizations.
@@ -163,7 +164,7 @@ class Optimize extends \tao_actions_CommonModule {
 
 		$properties = $this->getOptimizableProperties();
 		$result = array(
-			'success' => \core_kernel_persistence_Switcher::createIndex($properties)
+			'success' => Switcher::createIndex($properties)
 		);
 
 		echo json_encode($result);
