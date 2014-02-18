@@ -23,9 +23,8 @@ namespace oat\generisHard\models\hardsql;
 
 /**
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_hardsql
+ * @author Joel Bout, <joel@taotesting.com>
+ * @package generisHard
  */
 class Exception
     extends \core_kernel_persistence_Exception

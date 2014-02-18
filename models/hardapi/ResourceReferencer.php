@@ -339,7 +339,7 @@ class ResourceReferencer
 					break;
 					
 				default:
-					throw Exception("File and Db cache not yet implemented for classes");
+					throw new Exception("File and Db cache not yet implemented for classes");
 					break;
 					
 			}
@@ -628,7 +628,7 @@ class ResourceReferencer
 					break;
 					
 				default:
-					throw Exception("File and Db cache not yet implemented for resources");
+					throw new Exception("File and Db cache not yet implemented for resources");
 					break;
 			}
 		}
@@ -950,9 +950,9 @@ class ResourceReferencer
 					break;
 					
 				case self::CACHE_NONE:
-					throw Exception("Property are always cached");
+					throw new Exception("Property are always cached");
 				case self::CACHE_DB:
-					throw Exception("Db cache not yet implemented for classes");
+					throw new Exception("Db cache not yet implemented for classes");
 			}
 		}
         

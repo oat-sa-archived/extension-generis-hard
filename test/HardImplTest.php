@@ -1090,8 +1090,36 @@ class HardImplTest extends GenerisPhpUnitTestRunner {
 	}
 	
 
-	
-
-
+	public function testSetPropertiesValues(){
+	    $this->hardify();
+	    $instance = $this->targetMovieClass->createInstance("Hard Sub Movie (Unit Test)");
+	    $instance2 = $this->targetMovieClass->createInstance("Hard Sub Movie2 (Unit Test)");
+	    
+		$instance->setPropertiesValues(array(
+		    $this->targetRelatedMoviesProperty->getUri() => $instance2,
+		    $this->targetActorsProperty->getUri() => array(
+	            'I\'m special"! !',
+		        'So special"! !'
+		    ),
+		    RDFS_LABEL => 'I\'m special"! !'
+	    ));
+		
+		$actors = $instance->getPropertyValues($this->targetActorsProperty);
+		$this->assertEquals(2, count($actors));
+		$this->assertTrue(in_array('I\'m special"! !', $actors));
+		$this->assertTrue(in_array('So special"! !', $actors));
+		
+		$relateds = $instance->getPropertyValues($this->targetRelatedMoviesProperty);
+		$this->assertEquals(1, count($relateds));
+		$related = current($relateds);
+		$this->assertEquals($instance2->getUri(),$related);
+		
+		$labels = $instance->getPropertyValues(new core_kernel_classes_Property(RDFS_LABEL));
+		$this->assertEquals(2, count($labels));
+		$this->assertTrue(in_array('I\'m special"! !', $labels));
+		$this->assertTrue(in_array("Hard Sub Movie (Unit Test)", $labels));
+		
+		$instance->delete();
+		$instance2->delete();
+	}
 }
-?>

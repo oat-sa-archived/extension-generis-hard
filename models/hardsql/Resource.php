@@ -78,7 +78,7 @@ class Resource
 			}
 		}
 		catch (\PDOException $e){
-			throw Exception("Unable to getType of the resource {$resource->getUri()} : " .$e->getMessage());
+			throw new Exception("Unable to getType of the resource {$resource->getUri()} : " .$e->getMessage());
 		}
         // section 127-0-1-1--1ee05ee5:13611d6d34c:-8000:000000000000196B end
 
@@ -176,7 +176,7 @@ class Resource
 				}
 			}
 			catch (\PDOException $e){
-				throw Exception("Unable to get property (multiple) values for {$resource->getUri()} in {$table} : " .$e->getMessage());
+				throw new Exception("Unable to get property (multiple) values for {$resource->getUri()} in {$table} : " .$e->getMessage());
 			}
 		}
 		// Select in the main table of the class
@@ -197,7 +197,7 @@ class Resource
 					// Column doesn't exists is not an error. Try to get a property which does not exist is allowed
 				}
 				else if ($e->getCode() !== '00000'){ 
-					throw Exception("Unable to get property (single) values for {$resource->getUri()} in {$table} : " .$e->getMessage());
+					throw new Exception("Unable to get property (single) values for {$resource->getUri()} in {$table} : " .$e->getMessage());
 				}
 			} catch (\common_exception_UnknownNamespace $n) {
 				// unknown namespace means we have no propertyAlias, so it's impossible that a value exists
@@ -317,7 +317,7 @@ class Resource
 				$returnValue = true;
 			}
 			catch (\PDOException $e){
-				throw Exception("Unable to set property (multiple) Value for the instance {$resource->getUri()} in {$tableName} : " .$e->getMessage());
+				throw new Exception("Unable to set property (multiple) Value for the instance {$resource->getUri()} in {$tableName} : " .$e->getMessage());
 			}
 		} 
 		else {
@@ -333,7 +333,7 @@ class Resource
 				$returnValue = true;
 			}
 			catch (\PDOException $e){
-				throw Exception("Unable to set property (single) Value for the instance {$resource->getUri()} in {$tableName} : " .$e->getMessage());
+				throw new Exception("Unable to set property (single) Value for the instance {$resource->getUri()} in {$tableName} : " .$e->getMessage());
 			}
 		}
 
@@ -389,15 +389,15 @@ class Resource
 						} else if (is_array($value)) {
 							foreach ($value as $val) {
 								if ($val instanceof \core_kernel_classes_Resource) {
-									$formatedValues[] = $val->getUri();
+									$formatedValues[] = $dbWrapper->quote($val->getUri());
 								} else {
-									$formatedValues[] = trim($dbWrapper->quote($val), "'\"");
+									$formatedValues[] = $dbWrapper->quote($val);
 								}
 							}
 						} else {
 							$formatedValues[] = $dbWrapper->quote($value);
 						}
-
+						
 						if ($propertyRange instanceof \core_kernel_classes_Class && $propertyRange->getUri() == RDFS_LITERAL) {
 							foreach ($formatedValues as $formatedValue) {
 								$queryProps .= " ({$instanceId}, '{$property->getUri()}', {$formatedValue}, null, '{$lang}'),";
@@ -413,7 +413,7 @@ class Resource
 						if ($value instanceof \core_kernel_classes_Resource) {
 							$value = $value->getUri();
 						} else if (is_array($value)) {
-							throw Exception("try setting multivalue for the non multiple property {$property->getLabel()} ({$property->getUri()})");
+							throw new Exception("try setting multivalue for the non multiple property {$property->getLabel()} ({$property->getUri()})");
 						} else {
 							$value = $value; // no need to quote passed as variable
 						}
@@ -430,7 +430,7 @@ class Resource
 						$returnValue = true;
 					}
 					catch (\PDOException $e){
-						throw Exception("Unable to set properties (multiple) Value for the instance {$resource->getUri()} in {$tableName} : " . $e->getMessage());
+						throw new Exception("Unable to set properties (multiple) Value for the instance {$resource->getUri()} in {$tableName} : " . $e->getMessage());
 					}
 				}
 
@@ -455,7 +455,7 @@ class Resource
 						$returnValue = true;
 					}
 					catch (\PDOException $e){
-						throw Exception("Unable to set properties (single) Value for the instance {$resource->getUri()} in {$tableName} : " . $e->getMessage());
+						throw new Exception("Unable to set properties (single) Value for the instance {$resource->getUri()} in {$tableName} : " . $e->getMessage());
 					}
 				}
 			}
@@ -567,7 +567,7 @@ class Resource
 	                                $returnValue = true;
                                 }
                                 catch (\PDOException $e){
-                                	throw Exception("Unable to delete property values (multiple) for the instance {$resource->getUri()} : " .$e->getMessage());
+                                	throw new Exception("Unable to delete property values (multiple) for the instance {$resource->getUri()} : " .$e->getMessage());
                                 }
                         }
 		} else {
@@ -605,7 +605,7 @@ class Resource
 				$returnValue = true;
 			}
 			catch (\PDOException $e){
-				throw Exception("Unable to delete property values (single) for the instance {$resource->getUri()} : " .$e->getMessage());
+				throw new Exception("Unable to delete property values (single) for the instance {$resource->getUri()} : " .$e->getMessage());
 			}
 		}
 
@@ -680,7 +680,7 @@ class Resource
                                 $returnValue = true;
                                 }
                                 catch (\PDOException $e){
-                                	throw Exception("Unable to delete property values (multiple) for the instance {$resource->getUri()} : " .$e->getMessage());
+                                	throw new Exception("Unable to delete property values (multiple) for the instance {$resource->getUri()} : " .$e->getMessage());
                                 }
                         }
 		}
@@ -764,11 +764,11 @@ class Resource
 				}
 				catch (\PDOException $e){
 					$uri = $resource->getUri();
-					throw Exception("Unable to retrieve RDF triples of resource '${uri}': " . $e->getMessage());	
+					throw new Exception("Unable to retrieve RDF triples of resource '${uri}': " . $e->getMessage());	
 				}
 			}
 			catch (HardapiException $e){
-				throw Exception("Unable to access data from table '${tableName}: " . $e->getMessage());
+				throw new Exception("Unable to access data from table '${tableName}: " . $e->getMessage());
 			}
 		}
         // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C6 end
@@ -859,7 +859,7 @@ class Resource
 			$insertQuery ='INSERT INTO "'.$tableName.'" ("uri"';
 			foreach($columnProps as $column){
 			    if(!is_string($column)){
-			        throw Exception('columns should be a string');
+			        throw new Exception('columns should be a string');
 			    }
 				$insertQuery .= ', "'.$column.'"';
 			}
@@ -900,7 +900,7 @@ class Resource
 					$propsResult = $dbWrapper->query($propsQuery, array($instanceId));
 				}
 				catch (\PDOException $e){
-					throw Exception("Unable to duplicate the resource {$resource->getUri()} : " .$e->getMessage());
+					throw new Exception("Unable to duplicate the resource {$resource->getUri()} : " .$e->getMessage());
 				}
 				
 				while($row = $propsResult->fetch()){
@@ -1060,7 +1060,7 @@ class Resource
 				}
 			}
 			catch (\PDOException $e){
-				throw Exception("Unable to delete resource ({$resource->getUri()}) ;".$e->getMessage());
+				throw new Exception("Unable to delete resource ({$resource->getUri()}) ;".$e->getMessage());
 			}
 		}
 
@@ -1150,7 +1150,7 @@ class Resource
 				$result = $dbWrapper->query($query, array($resource->getUri(), $lang));
 			}
 			catch (\PDOException $e){
-				throw Exception("Unable to get property (multiple) values for {$resource->getUri()} in {$table} : " . $e->getMessage());
+				throw new Exception("Unable to get property (multiple) values for {$resource->getUri()} in {$table} : " . $e->getMessage());
 			}
 			
 			$currentPredicate = null;
@@ -1184,7 +1184,7 @@ class Resource
 				if ($e->getCode() == $dbWrapper->getColumnNotFoundErrorCode()) {
 					// Column doesn't exists is not an error. Try to get a property which does not exist is allowed
 				} else if ($e->getCode() !== '00000') {
-					throw Exception("Unable to get property (single) values for {$resource->getUri()} in {$table} : " . $e->getMessage());
+					throw new Exception("Unable to get property (single) values for {$resource->getUri()} in {$table} : " . $e->getMessage());
 				}
 			}
 		}
