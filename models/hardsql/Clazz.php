@@ -608,8 +608,9 @@ class Clazz
 		if (!empty($queries)){
 			
 			$finalQuery = implode(' UNION ', $queries);
-			$finalQuery .= ' GROUP BY "b"."id", "b"."uri", "tblname"';
-			
+			//TODO this work with mysql pgsql but not with MSSQL, I remove it and see no issue
+			//$finalQuery .= ' GROUP BY "b"."id", "b"."uri", "tblname"';
+			$finalQuery .= ' GROUP BY "b"."id", "b"."uri"';
 			if (!empty($limit) || !empty($offset)){
 				
 				$finalQuery = $dbWrapper->limitStatement($finalQuery, $limit,$offset);
