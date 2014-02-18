@@ -39,7 +39,7 @@ class PropertyProxy
     // --- ATTRIBUTES ---
     public static $implClasses = array(
         'hardsql' => 'oat\generisHard\models\hardsql\Property',
-        'smoothsql' => '\\\core_kernel_persistence_smoothsql_Property'
+        'smoothsql' => '\core_kernel_persistence_smoothsql_Property'
     );
     
     /**
@@ -304,21 +304,21 @@ class PropertyProxy
         || PersistenceProxy::isForcedMode()){
         	
 	    	$impls = $this->getAvailableImpl($params);
-                foreach($impls as $implName=>$enable){
-                        // If the implementation is enabled && the resource exists in this context
-                        if($enable && $this->isValidContext($implName, $resource)){
-                                $implClass = self::$implClasses[$implName];
-                                $reflectionMethod = new ReflectionMethod($implClass, 'singleton');
-                                $delegate = $reflectionMethod->invoke(null);
+            foreach($impls as $implName=>$enable){
+                // If the implementation is enabled && the resource exists in this context
+                if($enable && $this->isValidContext($implName, $resource)){
+                    $implClass = self::$implClasses[$implName];
+                    $reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
+                    $delegate = $reflectionMethod->invoke(null);
 
-                                if(PersistenceProxy::isForcedMode()){
-                                        return $delegate;
-                                }
+                    if(PersistenceProxy::isForcedMode()){
+                            return $delegate;
+                    }
 
-                                self::$ressourcesDelegatedTo[$resource->getUri()] = $delegate;
-                                break;
-                        }
+                    self::$ressourcesDelegatedTo[$resource->getUri()] = $delegate;
+                    break;
                 }
+            }
         }
 
 		$returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
@@ -347,7 +347,7 @@ class PropertyProxy
         if(isset($impls[$context]) && $impls[$context]){
             
         	$implClass = self::$implClasses[$context];
-        	$reflectionMethod = new ReflectionMethod($implClass, 'singleton');
+        	$reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
                 $singleton = $reflectionMethod->invoke(null);
                 try{
                 	$returnValue = $singleton->isValidContext($resource);
