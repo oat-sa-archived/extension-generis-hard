@@ -184,10 +184,10 @@ class TableManager
 			         $dbWrapper->exec($q);
 			    }
 			}
-			catch(Exception $e){
+			catch(\Exception $e){
 				if($e->getCode() != $dbWrapper->getIndexAlreadyExistsErrorCode() && $e->getCode() != '00000'){
 					//the user may not have the right to create the table index or it already exists.
-					throw new Exception("Unable to create the multiples properties table indexes  {$this->name} : " .$e->getMessage());
+					throw new \Exception("Unable to create the multiples properties table indexes  {$this->name} : " .$e->getMessage());
 				}
 				else {
 				    \common_Logger::i('index already exist ' . $e->getMessage());
