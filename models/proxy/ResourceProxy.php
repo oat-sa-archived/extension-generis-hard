@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -71,16 +71,14 @@ class ResourceProxy
     {
         $returnValue = array();
         
-        // section 127-0-1-1--1ee05ee5:13611d6d34c:-8000:000000000000196B begin
         $delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->getTypes($resource);
-        // section 127-0-1-1--1ee05ee5:13611d6d34c:-8000:000000000000196B end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method getPropertyValues
+     * retrieve the value of a property for the resource
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -113,18 +111,16 @@ class ResourceProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012A9 begin
 
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->getPropertyValuesByLg($resource, $property, $lg);
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012A9 end
 
         return $returnValue;
     }
 
     /**
-     * Short description of method setPropertyValue
+     *  set the value of a property for the resource
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -138,18 +134,14 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012AE begin
-
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->setPropertyValue($resource, $property, $object);
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012AE end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method setPropertiesValues
+     * set the value of an array of properties for the resource
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -161,18 +153,16 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B3 begin
 
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->setPropertiesValues($resource, $properties);
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B3 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method setPropertyValueByLg
+     * set the value of a property for the resource in given language
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -197,7 +187,7 @@ class ResourceProxy
     }
 
     /**
-     * Short description of method removePropertyValues
+     * unset the value of a property for the resource
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -210,18 +200,17 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012BD begin
+
 
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->removePropertyValues($resource, $property, $options);
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012BD end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method removePropertyValueByLg
+     * unset the value of a property for the resource in the given language
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -235,18 +224,17 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C1 begin
 
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->removePropertyValueByLg($resource, $property, $lg, $options);
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C1 end
+
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method getRdfTriples
+     * retrieve all triples where resource is the subject
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -257,18 +245,14 @@ class ResourceProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C6 begin
-
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->getRdfTriples($resource);
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C6 end
 
         return $returnValue;
     }
 
     /**
-     * Short description of method getUsedLanguages
+     * For a resource, retrieve languages used for a property
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -280,18 +264,14 @@ class ResourceProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C9 begin
-
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->getUsedLanguages($resource, $property);
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C9 end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method duplicate
+     * duplicate the resource
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -303,18 +283,14 @@ class ResourceProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012CD begin
-
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->duplicate($resource, $excludedProperties);
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012CD end
 
         return $returnValue;
     }
 
     /**
-     * Short description of method delete
+     * delete the resource
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -326,18 +302,14 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012D2 begin
-
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->delete($resource, $deleteReference);
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012D2 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method getPropertiesValues
+     * retrieve values of properties for the givens resource
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -349,18 +321,15 @@ class ResourceProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1-77557f59:12fa87873f4:-8000:00000000000014D1 begin
-        
+       
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->getPropertiesValues($resource, $properties/*, $last*/);
         
-        // section 127-0-1-1-77557f59:12fa87873f4:-8000:00000000000014D1 end
-
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method setType
+     * set type of the given resource 
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -372,18 +341,15 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--398d2ad6:12fd3f7ebdd:-8000:0000000000001548 begin
-        
+       
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->setType($resource, $class);
 		
-        // section 127-0-1-1--398d2ad6:12fd3f7ebdd:-8000:0000000000001548 end
-
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method removeType
+     *  remove type of the given resource 
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -395,18 +361,15 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--398d2ad6:12fd3f7ebdd:-8000:000000000000154C begin
-        
+       
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->removeType($resource, $class);
 		
-        // section 127-0-1-1--398d2ad6:12fd3f7ebdd:-8000:000000000000154C end
-
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method singleton
+     * singleton
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -416,20 +379,16 @@ class ResourceProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000138E begin
-
 		if(self::$instance == null){
 			self::$instance = new self();
 		}
 		$returnValue = self::$instance;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000138E end
-
         return $returnValue;
     }
 
     /**
-     * Short description of method getImpToDelegateTo
+     * Retrieve the inplementation to delegate
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -441,7 +400,6 @@ class ResourceProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F5D begin
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
         	
@@ -479,13 +437,12 @@ class ResourceProxy
 			throw new \core_kernel_persistence_Exception($errorMessage);
 		}
 		
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F5D end
 
         return $returnValue;
     }
 
     /**
-     * Short description of method isValidContext
+     * Check if context is valid
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -497,7 +454,6 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:0000000000001558 begin
 
         $impls = $this->getAvailableImpl();
         if(isset($impls[$context]) && $impls[$context]){
@@ -511,7 +467,6 @@ class ResourceProxy
             }
         }
 		 
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:0000000000001558 end
 
         return (bool) $returnValue;
     }
