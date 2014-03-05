@@ -1,5 +1,5 @@
 <?php
-/*  
+/** 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -63,7 +63,7 @@ class ClassProxy
     // --- OPERATIONS ---
 
     /**
-     * Short description of method getSubClasses
+     *  Retrieve all subclass of the class
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -75,7 +75,6 @@ class ClassProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014EB begin
     	
         $delegate = $this->getImpToDelegateTo($resource);
         if($delegate instanceof Clazz){
@@ -86,13 +85,12 @@ class ClassProxy
                 $returnValue = $delegate->getSubClasses($resource, $recursive);
         }
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014EB end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method isSubClassOf
+     * check if the resource is a subclass of given parentClass
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -104,7 +102,6 @@ class ClassProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F0 begin
         
         $delegate = $this->getImpToDelegateTo($resource);
         if($delegate instanceof Clazz){
@@ -115,13 +112,12 @@ class ClassProxy
                 $returnValue = $delegate->isSubClassOf($resource, $parentClass);
         }
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F0 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method getParentClasses
+     * retrieve parent Classes
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -133,7 +129,6 @@ class ClassProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F5 begin
         
         $delegate = $this->getImpToDelegateTo($resource);
         if($delegate instanceof Clazz){
@@ -144,13 +139,12 @@ class ClassProxy
                 $returnValue = $delegate->getParentClasses($resource, $recursive);
         }
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F5 end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method getProperties
+     * retrieve properties
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -162,7 +156,6 @@ class ClassProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014FA begin
         
     	$delegate = $this->getImpToDelegateTo($resource);
         if($delegate instanceof Clazz){
@@ -173,13 +166,12 @@ class ClassProxy
                 $returnValue = $delegate->getProperties($resource, $recursive);
         }
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014FA end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method getInstances
+     * retrieve all instances
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -192,12 +184,10 @@ class ClassProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001500 begin
         
         $delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->getInstances($resource, $recursive, $params);
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001500 end
 
         return (array) $returnValue;
     }
@@ -226,7 +216,7 @@ class ClassProxy
     }
 
     /**
-     * Short description of method setSubClassOf
+     * set the class as a subClassOf resource
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -238,8 +228,7 @@ class ClassProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000150F begin
-        
+       
     	$delegate = $this->getImpToDelegateTo($resource);
         if($delegate instanceof Clazz){
                 // Use the smooth sql implementation to get this information
@@ -249,13 +238,11 @@ class ClassProxy
                 $returnValue = $delegate->setSubClassOf($resource, $iClass);
         }
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000150F end
-
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method setProperty
+     * add given property as a property of the class 
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -267,7 +254,6 @@ class ClassProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001512 begin
         
         $delegate = $this->getImpToDelegateTo($resource);
         if($delegate instanceof Clazz){
@@ -278,7 +264,6 @@ class ClassProxy
                 $returnValue = $delegate->setProperty($resource, $property);
         }
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001512 end
 
         return (bool) $returnValue;
     }
@@ -341,12 +326,10 @@ class ClassProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F3C begin
         
     	$delegate = $this->getImpToDelegateTo($resource);
         $returnValue = $delegate->createProperty($resource, $label, $comment, $isLgDependent);
         
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F3C end
 
         return $returnValue;
     }
