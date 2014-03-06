@@ -32,7 +32,7 @@ use oat\generisHard\models\hardsql\Clazz;
  * @subpackage kernel_persistence
  */
 class ClassProxy
-    extends PersistenceProxy
+    extends ResourceProxy
         implements \core_kernel_persistence_ClassInterface
 {
     // --- ASSOCIATIONS ---
@@ -63,15 +63,10 @@ class ClassProxy
     // --- OPERATIONS ---
 
     /**
-     *  Retrieve all subclass of the class
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getSubClasses()
      */
-    public function getSubClasses( \core_kernel_classes_Resource $resource, $recursive = false)
+    public function getSubClasses( \core_kernel_classes_Class $resource, $recursive = false)
     {
         $returnValue = array();
 
@@ -90,15 +85,10 @@ class ClassProxy
     }
 
     /**
-     * check if the resource is a subclass of given parentClass
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Class parentClass
-     * @return boolean
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::isSubClassOf()
      */
-    public function isSubClassOf( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $parentClass)
+    public function isSubClassOf( \core_kernel_classes_Class $resource,  \core_kernel_classes_Class $parentClass)
     {
         $returnValue = (bool) false;
 
@@ -117,15 +107,10 @@ class ClassProxy
     }
 
     /**
-     * retrieve parent Classes
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getParentClasses()
      */
-    public function getParentClasses( \core_kernel_classes_Resource $resource, $recursive = false)
+    public function getParentClasses( \core_kernel_classes_Class $resource, $recursive = false)
     {
         $returnValue = array();
 
@@ -144,15 +129,10 @@ class ClassProxy
     }
 
     /**
-     * retrieve properties
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getProperties()
      */
-    public function getProperties( \core_kernel_classes_Resource $resource, $recursive = false)
+    public function getProperties( \core_kernel_classes_Class $resource, $recursive = false)
     {
         $returnValue = array();
 
@@ -171,16 +151,10 @@ class ClassProxy
     }
 
     /**
-     * retrieve all instances
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @param  array params
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getInstances()
      */
-    public function getInstances( \core_kernel_classes_Resource $resource, $recursive = false, $params = array())
+    public function getInstances( \core_kernel_classes_Class $resource, $recursive = false, $params = array())
     {
         $returnValue = array();
 
@@ -192,95 +166,12 @@ class ClassProxy
         return (array) $returnValue;
     }
 
-    /**
-     * Short description of method setInstance
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Resource instance
-     * @return \core_kernel_classes_Resource
-     */
-    public function setInstance( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Resource $instance)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001506 begin
-        
-        $delegate = $this->getImpToDelegateTo($resource);
-        $returnValue = $delegate->setInstance($resource, $instance);
-        
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001506 end
-
-        return $returnValue;
-    }
 
     /**
-     * set the class as a subClassOf resource
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Class iClass
-     * @return boolean
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createInstance()
      */
-    public function setSubClassOf( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $iClass)
-    {
-        $returnValue = (bool) false;
-
-       
-    	$delegate = $this->getImpToDelegateTo($resource);
-        if($delegate instanceof Clazz){
-                // Use the smooth sql implementation to get this information
-		// Or find the right way to treat this case
-                $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->setSubClassOf($resource, $iClass);
-        }else{
-                $returnValue = $delegate->setSubClassOf($resource, $iClass);
-        }
-        
-        return (bool) $returnValue;
-    }
-
-    /**
-     * add given property as a property of the class 
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Property property
-     * @return boolean
-     */
-    public function setProperty( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property)
-    {
-        $returnValue = (bool) false;
-
-        
-        $delegate = $this->getImpToDelegateTo($resource);
-        if($delegate instanceof Clazz){
-                // Use the smooth sql implementation to get this information
-		// Or find the right way to treat this case
-                $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->setProperty($resource, $property);
-        }else{
-                $returnValue = $delegate->setProperty($resource, $property);
-        }
-        
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * Should not be called by application code, please use
-     * instead
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  string label
-     * @param  string comment
-     * @param  string uri
-     * @return \core_kernel_classes_Resource
-     */
-    public function createInstance( \core_kernel_classes_Resource $resource, $label = '', $comment = '', $uri = '')
+    public function createInstance( \core_kernel_classes_Class $resource, $label = '', $comment = '', $uri = '')
     {
         $returnValue = null;
 
@@ -295,34 +186,20 @@ class ClassProxy
     }
 
     /**
-     * Short description of method createSubClass
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  string label
-     * @param  string comment
-     * @param  string uri
-     * @return \core_kernel_classes_Class
-     */
-    public function createSubClass( \core_kernel_classes_Resource $resource, $label = '', $comment = '', $uri = '')
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createSubClass()
+     */    
+    public function createSubClass( \core_kernel_classes_Class $resource, $label = '', $comment = '', $uri = '')
     {
         $delegate = $this->getImpToDelegateTo($resource);
         return $delegate->createSubClass($resource, $label, $comment, $uri);
     }
 
     /**
-     * Short description of method createProperty
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  string label
-     * @param  string comment
-     * @param  boolean isLgDependent
-     * @return \core_kernel_classes_Property
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createProperty()
      */
-    public function createProperty( \core_kernel_classes_Resource $resource, $label = '', $comment = '', $isLgDependent = false)
+    public function createProperty( \core_kernel_classes_Class $resource, $label = '', $comment = '', $isLgDependent = false)
     {
         $returnValue = null;
 
@@ -335,16 +212,10 @@ class ClassProxy
     }
 
     /**
-     * Short description of method searchInstances
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  array propertyFilters
-     * @param  array options
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::searchInstances()
      */
-    public function searchInstances( \core_kernel_classes_Resource $resource, $propertyFilters = array(), $options = array())
+    public function searchInstances( \core_kernel_classes_Class $resource, $propertyFilters = array(), $options = array())
     {
         $returnValue = array();
 
@@ -396,16 +267,10 @@ class ClassProxy
     }
 
     /**
-     * Short description of method countInstances
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  array propertyFilters
-     * @param  array options
-     * @return Integer
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::countInstances()
      */
-    public function countInstances( \core_kernel_classes_Resource $resource, $propertyFilters = array(), $options = array())
+    public function countInstances( \core_kernel_classes_Class $resource, $propertyFilters = array(), $options = array())
     {
         $returnValue = null;
 
@@ -420,17 +285,10 @@ class ClassProxy
     }
 
     /**
-     * Short description of method getInstancesPropertyValues
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Property property
-     * @param  array propertyFilters
-     * @param  array options
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getInstancesPropertyValues()
      */
-    public function getInstancesPropertyValues( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $propertyFilters = array(), $options = array())
+    public function getInstancesPropertyValues( \core_kernel_classes_Class $resource,  \core_kernel_classes_Property $property, $propertyFilters = array(), $options = array())
     {
         $returnValue = array();
 
@@ -444,44 +302,10 @@ class ClassProxy
         return (array) $returnValue;
     }
 
-    /**
-     * Short description of method unsetProperty
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Property property
-     * @return boolean
-     */
-    public function unsetProperty( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-4f08ff91:131764e4b1f:-8000:00000000000031F8 begin
-        
-        $delegate = $this->getImpToDelegateTo($resource);
-        $returnValue = $delegate->unsetProperty($resource, $property);
-        
-        // section 127-0-1-1-4f08ff91:131764e4b1f:-8000:00000000000031F8 end
-
-        return (bool) $returnValue;
-    }
 
     /**
-     * Should not be called by application code, please use
-     * \core_kernel_classes_ResourceFactory::create() 
-     * or \core_kernel_classes_Class::createInstanceWithProperties()
-     * instead
-     *
-     * Creates a new instance using the properties provided.
-     * May NOT contain additional types in the properties array
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Class type
-     * @param  array properties
-     * @return \core_kernel_classes_Resource
-     * @see \core_kernel_classes_ResourceFactory
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createInstanceWithProperties()
      */
     public function createInstanceWithProperties( \core_kernel_classes_Class $type, $properties)
     {
@@ -496,16 +320,10 @@ class ClassProxy
     }
 
     /**
-     * Delete a collection of instances of the Class.
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource The resource (class) on which to apply the deletion.
-     * @param  array resources An array containing \core_kernel_classes_Resource objects or URIs.
-     * @param  boolean deleteReference If set to true, references to instances will be deleted accross the database.
-     * @return boolean
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::deleteInstances()
      */
-    public function deleteInstances( \core_kernel_classes_Resource $resource, $resources, $deleteReference = false)
+    public function deleteInstances( \core_kernel_classes_Class $resource, $resources, $deleteReference = false)
     {
         $returnValue = (bool) false;
 
@@ -516,30 +334,11 @@ class ClassProxy
 
         return (bool) $returnValue;
     }
+    
+    
 
     /**
-     * Short description of method delete
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean deleteReference
-     * @return boolean
-     */
-    public function delete( \core_kernel_classes_Resource $resource, $deleteReference = false)
-    {
-        $returnValue = (bool) false;
-
-        // section 10-13-1-85--2c835591:13bffd6ae29:-8000:0000000000001E78 begin
-        $delegate = $this->getImpToDelegateTo($resource);
-        $returnValue = $delegate->delete($resource, $deleteReference);
-        // section 10-13-1-85--2c835591:13bffd6ae29:-8000:0000000000001E78 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method singleton
+     * singleton
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -562,13 +361,8 @@ class ClassProxy
     }
 
     /**
-     * Short description of method getImpToDelegateTo
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  array params
-     * @return \core_kernel_persistence_ResourceInterface
+     * (non-PHPdoc)
+     * @see \oat\generisHard\models\proxy\PersistenceProxy::getImpToDelegateTo()
      */
     public function getImpToDelegateTo( \core_kernel_classes_Resource $resource, $params = array())
     {
@@ -629,6 +423,27 @@ class ClassProxy
         
         // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000155B end
 
+        return (bool) $returnValue;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::setSubClassOf()
+     */
+    public function setSubClassOf( \core_kernel_classes_Class $resource,  \core_kernel_classes_Class $iClass)
+    {
+        $returnValue = (bool) false;
+    
+         
+        $delegate = $this->getImpToDelegateTo($resource);
+        if($delegate instanceof Clazz){
+            // Use the smooth sql implementation to get this information
+            // Or find the right way to treat this case
+            $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->setSubClassOf($resource, $iClass);
+        }else{
+            $returnValue = $delegate->setSubClassOf($resource, $iClass);
+        }
+    
         return (bool) $returnValue;
     }
 

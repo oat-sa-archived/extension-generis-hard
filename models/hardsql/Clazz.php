@@ -35,7 +35,7 @@ use oat\generisHard\models\hardapi\Exception as HardapiException;
  * @subpackage kernel_persistence_hardsql
  */
 class Clazz
-    extends \core_kernel_persistence_PersistenceImpl
+    extends Resource
         implements \core_kernel_persistence_ClassInterface
 {
     // --- ASSOCIATIONS ---
@@ -54,15 +54,10 @@ class Clazz
     // --- OPERATIONS ---
 
     /**
-     * Short description of method getSubClasses
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getSubClasses()
      */
-    public function getSubClasses( \core_kernel_classes_Resource $resource, $recursive = false)
+    public function getSubClasses( \core_kernel_classes_Class $resource, $recursive = false)
     {
         $returnValue = array();
 
@@ -79,15 +74,10 @@ class Clazz
     }
 
     /**
-     * Short description of method isSubClassOf
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Class parentClass
-     * @return boolean
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::isSubClassOf()
      */
-    public function isSubClassOf( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $parentClass)
+    public function isSubClassOf( \core_kernel_classes_Class $resource,  \core_kernel_classes_Class $parentClass)
     {
         $returnValue = (bool) false;
 
@@ -104,15 +94,10 @@ class Clazz
     }
 
     /**
-     * Short description of method getParentClasses
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getParentClasses()
      */
-    public function getParentClasses( \core_kernel_classes_Resource $resource, $recursive = false)
+    public function getParentClasses( \core_kernel_classes_Class $resource, $recursive = false)
     {
         $returnValue = array();
 
@@ -124,15 +109,10 @@ class Clazz
     }
 
     /**
-     * Short description of method getProperties
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getProperties()
      */
-    public function getProperties( \core_kernel_classes_Resource $resource, $recursive = false)
+    public function getProperties( \core_kernel_classes_Class $resource, $recursive = false)
     {
         $returnValue = array();
 
@@ -144,16 +124,10 @@ class Clazz
     }
 
     /**
-     * Short description of method getInstances
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  boolean recursive
-     * @param  array params
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getInstances()
      */
-    public function getInstances( \core_kernel_classes_Resource $resource, $recursive = false, $params = array())
+    public function getInstances( \core_kernel_classes_Class $resource, $recursive = false, $params = array())
     {
         $returnValue = array();
 
@@ -226,79 +200,30 @@ class Clazz
         return (array) $returnValue;
     }
 
-    /**
-     * Short description of method setInstance
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Resource instance
-     * @return \core_kernel_classes_Resource
-     */
-    public function setInstance( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Resource $instance)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001506 begin
-		throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001506 end
-
-        return $returnValue;
-    }
 
     /**
-     * Short description of method setSubClassOf
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Class iClass
-     * @return boolean
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::setSubClassOf()
      */
-    public function setSubClassOf( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $iClass)
+    public function setSubClassOf( \core_kernel_classes_Class $resource,  \core_kernel_classes_Class $iClass)
     {
         $returnValue = (bool) false;
-
+    
         // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000150F begin
-		throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
+        throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
         // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000150F end
-
+    
         return (bool) $returnValue;
     }
 
-    /**
-     * Short description of method setProperty
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Property property
-     * @return boolean
-     */
-    public function setProperty( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property)
-    {
-        $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001512 begin
-		throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001512 end
 
-        return (bool) $returnValue;
-    }
 
     /**
-     * Should not be called by application code, please use
-     * instead
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  string label
-     * @param  string comment
-     * @param  string uri
-     * @return \core_kernel_classes_Resource
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createInstance()
      */
-    public function createInstance( \core_kernel_classes_Resource $resource, $label = '', $comment = '', $uri = '')
+    public function createInstance( \core_kernel_classes_Class $resource, $label = '', $comment = '', $uri = '')
     {
         $returnValue = null;
 
@@ -343,18 +268,10 @@ class Clazz
     }
 
     /**
-     * Short description of method createSubClass
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  string label
-     * @param  string comment
-     * @param  string uri
-     * @return \core_kernel_classes_Class
-     * @throws oat\generisHard\models\hardapi\Exception
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createSubClass()
      */
-    public function createSubClass( \core_kernel_classes_Resource $resource, $label = '', $comment = '', $uri = '')
+    public function createSubClass( \core_kernel_classes_Class $resource, $label = '', $comment = '', $uri = '')
     {
     	// Meta-model is still in smooth mode...
 		$newClass = \core_kernel_persistence_smoothsql_Class::singleton()->createSubClass($resource, $label, $comment, $uri);
@@ -378,17 +295,10 @@ class Clazz
     }
 
     /**
-     * Short description of method createProperty
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  string label
-     * @param  string comment
-     * @param  boolean isLgDependent
-     * @return \core_kernel_classes_Property
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createProperty()
      */
-    public function createProperty( \core_kernel_classes_Resource $resource, $label = '', $comment = '', $isLgDependent = false)
+    public function createProperty( \core_kernel_classes_Class $resource, $label = '', $comment = '', $isLgDependent = false)
     {
         $returnValue = null;
 
@@ -423,18 +333,12 @@ class Clazz
 
         return $returnValue;
     }
-
+    
     /**
-     * Short description of method searchInstances
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  array propertyFilters
-     * @param  array options
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::searchInstances()
      */
-    public function searchInstances( \core_kernel_classes_Resource $resource, $propertyFilters = array(), $options = array())
+    public function searchInstances( \core_kernel_classes_Class $resource, $propertyFilters = array(), $options = array())
     {
         $returnValue = array();
 
@@ -694,16 +598,10 @@ class Clazz
     }
 
     /**
-     * Short description of method countInstances
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  array propertyFilters
-     * @param  array options
-     * @return Integer
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::countInstances()
      */
-    public function countInstances( \core_kernel_classes_Resource $resource, $propertyFilters = array(), $options = array())
+    public function countInstances( \core_kernel_classes_Class $resource, $propertyFilters = array(), $options = array())
     {
         $returnValue = null;
 
@@ -730,17 +628,10 @@ class Clazz
     }
 
     /**
-     * Short description of method getInstancesPropertyValues
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Property property
-     * @param  array propertyFilters
-     * @param  array options
-     * @return array
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::getInstancesPropertyValues()
      */
-    public function getInstancesPropertyValues( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $propertyFilters = array(), $options = array())
+    public function getInstancesPropertyValues( \core_kernel_classes_Class $resource,  \core_kernel_classes_Property $property, $propertyFilters = array(), $options = array())
     {
         $returnValue = array();
 
@@ -846,41 +737,10 @@ class Clazz
         return (array) $returnValue;
     }
 
-    /**
-     * Short description of method unsetProperty
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource
-     * @param  Property property
-     * @return boolean
-     */
-    public function unsetProperty( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-4f08ff91:131764e4b1f:-8000:00000000000031F8 begin
-        throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1-4f08ff91:131764e4b1f:-8000:00000000000031F8 end
-
-        return (bool) $returnValue;
-    }
 
     /**
-     * Should not be called by application code, please use
-     * \core_kernel_classes_ResourceFactory::create() 
-     * or \core_kernel_classes_Class::createInstanceWithProperties()
-     * instead
-     *
-     * Creates a new instance using the properties provided.
-     * May NOT contain additional types in the properties array
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Class type
-     * @param  array properties
-     * @return \core_kernel_classes_Resource
-     * @see \core_kernel_classes_ResourceFactory
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::createInstanceWithProperties()
      */
     public function createInstanceWithProperties( \core_kernel_classes_Class $type, $properties)
     {
@@ -999,16 +859,10 @@ class Clazz
     }
 
     /**
-     * Delete a collection of instances of the Class.
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  Resource resource The resource (class) on which to apply the deletion.
-     * @param  array resources An array containing \core_kernel_classes_Resource objects or URIs.
-     * @param  boolean deleteReference If set to true, references to instances will be deleted accross the database.
-     * @return boolean
+     * (non-PHPdoc)
+     * @see core_kernel_persistence_ClassInterface::deleteInstances()
      */
-    public function deleteInstances( \core_kernel_classes_Resource $resource, $resources, $deleteReference = false)
+    public function deleteInstances( \core_kernel_classes_Class $resource, $resources, $deleteReference = false)
     {
         $returnValue = (bool) false;
 
@@ -1025,7 +879,7 @@ class Clazz
     }
 
     /**
-     * Short description of method delete
+     * Overlaod resource::delete to remove refrence
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -1036,19 +890,19 @@ class Clazz
     public function delete( \core_kernel_classes_Resource $resource, $deleteReference = false)
     {
         $returnValue = (bool) false;
-
+    
         // section 10-13-1-85--2c835591:13bffd6ae29:-8000:0000000000001E78 begin
         $switcher = new Switcher();
         $success = $switcher->unhardify(new \core_kernel_classes_Class($resource));
-        
+    
         if (true == $success){
-        	$returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->delete($resource, $deleteReference);
+            $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->delete($resource, $deleteReference);
         }
         else{
-        	$returnValue = false;	
+            $returnValue = false;
         }
         // section 10-13-1-85--2c835591:13bffd6ae29:-8000:0000000000001E78 end
-
+    
         return (bool) $returnValue;
     }
 
