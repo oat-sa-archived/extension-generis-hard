@@ -1,5 +1,5 @@
-<?php namespace oat\tao\helpers\template;?>
-<link rel="stylesheet" href="<?=_css('optimize.css', 'tao')?>" type="text/css" />
+<?php use oat\tao\helpers\Template as _tpl;?>
+<link rel="stylesheet" href="<?=_tpl::css('optimize.css', 'tao')?>" type="text/css" />
 
 <div id="compilation-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=__("TAO optimizer")?>
