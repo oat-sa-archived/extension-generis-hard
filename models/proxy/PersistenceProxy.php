@@ -25,8 +25,8 @@ namespace oat\generisHard\models\proxy;
  * @abstract
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package core
- * @subpackage kernel_persistence
+ * @package generisHard
+ 
  */
 abstract class PersistenceProxy
 {

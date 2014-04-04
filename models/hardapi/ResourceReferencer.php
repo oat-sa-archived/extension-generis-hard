@@ -35,8 +35,8 @@ use oat\generisHard\models\switcher\PropertySwitcher;
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_hardapi
+ * @package generisHard
+ 
  */
 class ResourceReferencer
 {

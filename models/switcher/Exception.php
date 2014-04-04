@@ -24,8 +24,8 @@ namespace oat\generisHard\models\switcher;
 /**
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_switcher
+ * @package generisHard
+ 
  */
 class Exception
     extends \core_kernel_persistence_Exception

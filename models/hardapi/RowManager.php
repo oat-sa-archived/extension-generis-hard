@@ -24,8 +24,8 @@ namespace oat\generisHard\models\hardapi;
 /**
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_hardapi
+ * @package generisHard
+ 
  */
 class RowManager
 {

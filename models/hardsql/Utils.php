@@ -26,8 +26,8 @@ use oat\generisHard\models\hardapi\ResourceReferencer;
 /**
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_hardsql
+ * @package generisHard
+ 
  */
 class Utils
 {

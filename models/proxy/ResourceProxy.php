@@ -24,8 +24,8 @@ namespace oat\generisHard\models\proxy;
 /**
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package core
- * @subpackage kernel_persistence
+ * @package generisHard
+ 
  */
 class ResourceProxy
     extends PersistenceProxy

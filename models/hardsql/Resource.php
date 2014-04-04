@@ -29,8 +29,8 @@ use oat\generisHard\models\hardapi\Exception as HardapiException;
 /**
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_hardsql
+ * @package generisHard
+ 
  */
 class Resource
     extends \core_kernel_persistence_PersistenceImpl

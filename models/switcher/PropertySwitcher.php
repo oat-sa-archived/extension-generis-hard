@@ -27,8 +27,8 @@ use oat\generisHard\models\hardapi\Utils;
 /**
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_switcher
+ * @package generisHard
+ 
  */
 class PropertySwitcher
 {

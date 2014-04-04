@@ -30,7 +30,7 @@ use oat\generisHard\models\switcher\Switcher;
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- * @subpackage helpers
+ 
  *
  */
 class Optimization {

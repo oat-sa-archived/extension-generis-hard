@@ -26,8 +26,8 @@ namespace oat\generisHard\models\hardapi;
  *
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package core
- * @subpackage kernel_persistence_hardapi
+ * @package generisHard
+ 
  */
 class TableManager
 {

@@ -28,8 +28,8 @@ use oat\generisHard\models\hardsql\Clazz;
  *
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package core
- * @subpackage kernel_persistence
+ * @package generisHard
+ 
  */
 class ClassProxy
     extends ResourceProxy
