@@ -519,7 +519,7 @@ class Switcher
 	}
 
 	/**
-	 * Returns the classes that were successfuly compiled during the last call of the
+	 * Returns the classes that were successfully compiled during the last call of the
 	 * hardify method.
 	 * 
 	 * @access public
@@ -530,7 +530,7 @@ class Switcher
 	}
 
 	/**
-	 * Returns the classes that were successfuly decompiled during the last call of the
+	 * Returns the classes that were successfully decompiled during the last call of the
 	 * unhardify method.
 	 * 
 	 * @access public
