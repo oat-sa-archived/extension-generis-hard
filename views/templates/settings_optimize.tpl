@@ -1,5 +1,5 @@
 <?
-use oat\tao\helpers\Template as _tpl;
+use oat\tao\helpers\Template;
 
 if(get_data('message')):?>
 	<div id="info-box" class="ui-corner-all auto-highlight auto-hide">
@@ -9,11 +9,13 @@ if(get_data('message')):?>
 
 <?
 if (get_data('optimizable')) {
-    include('optimize.tpl'); 
+    Template::inc('optimize.tpl');
 }
 ?>
 
-<?_tpl::inc('footer.tpl', 'tao')?>
+<?php
+Template::inc('footer.tpl', 'tao');
+?>
 
 <script type="text/javascript">
 $(function(){
