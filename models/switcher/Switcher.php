@@ -564,7 +564,7 @@ class Switcher
 					    $indexName = 'idx_'.$table.'_'.$propertyAlias;
 					    if(strlen($indexName) > 64 ){
 					        $md5 = md5($indexName);
-					        $indexName = substr($indexName,0,20) . $md5;
+					        $indexName = substr($indexName,0,30) . $md5;
 					    }
 					    $dbWrapper->createIndex($indexName, $dbWrapper->quoteIdentifier($table), array($dbWrapper->quoteIdentifier($propertyAlias) => 255));
 					}
