@@ -561,7 +561,12 @@ class Switcher
 			foreach($referencer->propertyLocation($property) as $table){
 				if(!preg_match("/props$/", $table) && preg_match("/^_[0-9]{2,}/", $table)){
 					try{
-					    $dbWrapper->createIndex('idx_'.$table.'_'.$propertyAlias, $dbWrapper->quoteIdentifier($table), array($dbWrapper->quoteIdentifier($propertyAlias) => 255));
+					    $indexName = 'idx_'.$table.'_'.$propertyAlias;
+					    if(strlen($indexName) > 64 ){
+					        $md5 = md5($indexName);
+					        $indexName = substr($indexName,0,20) . $md5;
+					    }
+					    $dbWrapper->createIndex($indexName, $dbWrapper->quoteIdentifier($table), array($dbWrapper->quoteIdentifier($propertyAlias) => 255));
 					}
 					catch (\Exception $e){
 						if($e->getCode() != $dbWrapper->getIndexAlreadyExistsErrorCode() && $e->getCode() != '00000'){
