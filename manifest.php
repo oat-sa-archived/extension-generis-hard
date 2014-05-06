@@ -43,8 +43,8 @@ return array(
     ),
     'install' => array(
         'php' => array(
-            dirname(__FILE__).'/script/install/createHardDbTables.php',
-            dirname(__FILE__).'/script/install/setHardDataModel.php'
+            dirname(__FILE__).'/scripts/install/createHardDbTables.php',
+            dirname(__FILE__).'/scripts/install/setHardDataModel.php'
         )
     ),
 	'constants' => array(
