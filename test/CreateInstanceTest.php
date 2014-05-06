@@ -37,6 +37,7 @@ class CreateInstanceTest extends GenerisPhpUnitTestRunner {
 	protected function setUp(){
 
         GenerisPhpUnitTestRunner::initTest();
+        $this->installExtension('generisHard');
 	    $classres = core_kernel_classes_ResourceFactory::create(new core_kernel_classes_Class(RDFS_CLASS), 'TestClass');
 	    $this->class = new core_kernel_classes_Class($classres->getUri());
 	    $this->assertIsA($this->class, 'core_kernel_classes_Class');

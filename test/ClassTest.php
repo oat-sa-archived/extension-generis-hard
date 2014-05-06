@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -38,7 +38,7 @@ class ClassTest extends GenerisPhpUnitTestRunner {
 	protected function setUp(){
 
         GenerisPhpUnitTestRunner::initTest();
-
+        $this->installExtension('generisHard');
 		$this->object = new core_kernel_classes_Class(RDFS_RESOURCE);
 		$this->object->debug = __METHOD__;
 	}

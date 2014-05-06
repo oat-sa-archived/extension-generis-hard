@@ -24,6 +24,10 @@ use oat\generisHard\models\hardsql\Exception;
 use oat\generisHard\models\switcher\Switcher;
 
 class SqlInjectionTestCase extends GenerisPhpUnitTestRunner {
+    
+    public function setUp(){
+        $this->installExtension('generisHard');
+    }
 	
 	public function testInject() {
         $generisClass = new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);

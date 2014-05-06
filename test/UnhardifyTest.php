@@ -31,6 +31,7 @@ class HardDbSubjectTestCase extends GenerisPhpUnitTestRunner {
 
 	public function setUp(){
         GenerisPhpUnitTestRunner::initTest();
+        $this->installExtension('generisHard');
         $this->createContextOfThetest();
 	}
 	

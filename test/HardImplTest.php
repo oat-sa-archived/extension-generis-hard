@@ -103,6 +103,7 @@ class HardImplTest extends GenerisPhpUnitTestRunner {
 	protected function setUp(){
 	    
 	    GenerisPhpUnitTestRunner::initTest();
+	    $this->installExtension('generisHard');
 		$this->createContextOfThetest();
 
 	}
@@ -280,8 +281,7 @@ class HardImplTest extends GenerisPhpUnitTestRunner {
 		$this->assertTrue($this->targetRelatedMoviesProperty->getOnePropertyValue($rangeProperty)->getUri() == $this->targetMovieClass->getUri());
 		
 		$parentClasses = $this->targetMovieClass->getParentClasses();
-		$this->assertEquals(2, count($parentClasses));
-		$this->assertTrue(array_key_exists(RDFS_CLASS, $parentClasses));
+		$this->assertEquals(1, count($parentClasses));
 		$this->assertTrue(array_key_exists($this->targetWorkClass->getUri(), $parentClasses));
 		
 		$prop = new core_kernel_classes_Property($this->targetRelatedMoviesProperty);
@@ -615,8 +615,12 @@ class HardImplTest extends GenerisPhpUnitTestRunner {
 		
 		// We now test rdfTriples on a hardified class.
 		$triples = $workClass->getRdfTriples()->toArray();
-		$this->assertEquals($triples[0]->predicate, RDF_TYPE);
-		$this->assertEquals($triples[0]->object, RDFS_CLASS);
+		foreach ($triples as $t){
+		    $this->assertIsA($t,'core_kernel_classes_Triple');
+		    $this->assertTrue(in_array($t->predicate, array(RDF_SUBCLASSOF,RDFS_COMMENT,RDFS_LABEL)));
+		    $this->assertTrue(in_array($t->object, array('Work','The Work class','http://www.tao.lu/Ontologies/TAO.rdf#TAOObject')));
+		}
+
 	}
 	
 	public function testHardPropertyModifications(){

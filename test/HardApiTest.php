@@ -37,6 +37,7 @@ class HardApiTest extends GenerisPhpUnitTestRunner {
 	 */
 	protected function setUp(){
         GenerisPhpUnitTestRunner::initTest();
+        $this->installExtension('generisHard');
 	}
 	
 	/**
