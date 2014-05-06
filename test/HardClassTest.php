@@ -32,7 +32,7 @@ use oat\generisHard\models\proxy\PersistenceProxy;
  */
 
 
-class ClassTest extends GenerisPhpUnitTestRunner {
+class HardClassTest extends GenerisPhpUnitTestRunner {
 	protected $object;
 	
 	protected function setUp(){

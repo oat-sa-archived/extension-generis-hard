@@ -31,7 +31,7 @@ use oat\generisHard\models\switcher\Switcher;
  */
 
 
-class CreateInstanceTest extends GenerisPhpUnitTestRunner {
+class HardCreateInstanceTest extends GenerisPhpUnitTestRunner {
 	protected $class;
 	
 	protected function setUp(){

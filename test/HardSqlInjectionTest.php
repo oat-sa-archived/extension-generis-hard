@@ -23,7 +23,7 @@ require_once dirname(__FILE__) . '/../../generis/test/GenerisPhpUnitTestRunner.p
 use oat\generisHard\models\hardsql\Exception;
 use oat\generisHard\models\switcher\Switcher;
 
-class SqlInjectionTestCase extends GenerisPhpUnitTestRunner {
+class HardSqlInjectionTestCase extends GenerisPhpUnitTestRunner {
     
     public function setUp(){
         $this->installExtension('generisHard');
