@@ -65,9 +65,9 @@ class Property
     {
         $returnValue = array();
 
-        // section 127-0-1-1-7b8668ff:12f77d22c39:-8000:000000000000144D begin
+        
         throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1-7b8668ff:12f77d22c39:-8000:000000000000144D end
+        
 
         return (array) $returnValue;
     }
@@ -84,9 +84,9 @@ class Property
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DB begin
+        
         throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DB end
+        
 
         return (bool) $returnValue;
     }
@@ -103,9 +103,9 @@ class Property
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DD begin
+        
         throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DD end
+        
 
         return (bool) $returnValue;
     }
@@ -122,9 +122,9 @@ class Property
     {
         $returnValue = null;
 
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001539 begin
+        
         throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001539 end
+        
 
         return $returnValue;
     }
@@ -142,11 +142,11 @@ class Property
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--330ca9de:1318ac7ca9f:-8000:0000000000001641 begin
+        
         
         throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
         
-        // section 127-0-1-1--330ca9de:1318ac7ca9f:-8000:0000000000001641 end
+        
 
         return (bool) $returnValue;
     }
@@ -164,12 +164,12 @@ class Property
     {
         $returnValue = null;
 
-        // section 10-13-1-85-36aaae10:13bad44a267:-8000:0000000000001E25 begin
+        
         
         // always remain in smooth mode.
         $returnValue = \core_kernel_persistence_smoothsql_Property::singleton()->setRange($resource, $class);
 
-        // section 10-13-1-85-36aaae10:13bad44a267:-8000:0000000000001E25 end
+        
 
         return $returnValue;
     }
@@ -185,7 +185,7 @@ class Property
      */
     public function setMultiple( \core_kernel_classes_Resource $resource, $isMultiple)
     {
-        // section 10-13-1-85-71dc1cdd:13bade8452c:-8000:0000000000001E32 begin
+        
         
         // First, do the same as in smooth mode.
         \core_kernel_persistence_smoothsql_Property::singleton()->setMultiple($resource, $isMultiple);
@@ -225,7 +225,7 @@ class Property
         	}
         }
         
-        // section 10-13-1-85-71dc1cdd:13bade8452c:-8000:0000000000001E32 end
+        
     }
 
     /**
@@ -239,7 +239,7 @@ class Property
      */
     public function setLgDependent( \core_kernel_classes_Resource $resource, $isLgDependent)
     {
-        // section 10-13-1-85-4a20f448:13bdca46e9a:-8000:0000000000001E45 begin
+        
         // First, do the same as in smooth mode.
         \core_kernel_persistence_smoothsql_Property::singleton()->setLgDependent($resource, $isLgDependent);
         
@@ -277,7 +277,7 @@ class Property
         		throw new Exception($e->getMessage());
         	}
         }
-        // section 10-13-1-85-4a20f448:13bdca46e9a:-8000:0000000000001E45 end
+        
     }
 
     /**
@@ -291,14 +291,14 @@ class Property
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001499 begin
+        
         
         if (self::$instance == null){
         	self::$instance = new self();
         }
         $returnValue = self::$instance;
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001499 end
+        
 
         return $returnValue;
     }
@@ -315,9 +315,9 @@ class Property
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F54 begin
+        
         $returnValue = ResourceReferencer::singleton()->isPropertyReferenced($resource);
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F54 end
+        
 
         return (bool) $returnValue;
     }

@@ -50,7 +50,7 @@ class Utils
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-53ffc1dd:131463d99b5:-8000:000000000000160E begin
+        
         
     	$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
     	$table = ResourceReferencer::singleton()->resourceLocation ($resource);
@@ -68,7 +68,7 @@ class Utils
     	catch (\PDOException $e){
     		throw new Exception("Unable to find the resource {$resource->getUri()} in {$table} : " .$e->getMessage());
     	}
-        // section 127-0-1-1-53ffc1dd:131463d99b5:-8000:000000000000160E end
+        
 
         return (string) $returnValue;
     }
@@ -85,7 +85,7 @@ class Utils
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-53ffc1dd:131463d99b5:-8000:0000000000001611 begin
+        
         
     	$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
     	$query = 'SELECT "id" FROM "resource_to_table" WHERE "uri"=?';
@@ -95,7 +95,7 @@ class Utils
     		$returnValue = $row['id'];
     	}
     
-        // section 127-0-1-1-53ffc1dd:131463d99b5:-8000:0000000000001611 end
+        
 
         return (string) $returnValue;
     }
@@ -113,7 +113,7 @@ class Utils
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-53ffc1dd:131463d99b5:-8000:0000000000001614 begin
+        
         
         try{
 	        $dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
@@ -131,7 +131,7 @@ class Utils
         	throw new Exception("Unable to find the class {$class->getUri()} in class_to_table : " .$e->getMessage());
         }
         
-        // section 127-0-1-1-53ffc1dd:131463d99b5:-8000:0000000000001614 end
+        
 
         return (string) $returnValue;
     }

@@ -62,7 +62,7 @@ class Resource
     {
         $returnValue = array();
 
-        // section 127-0-1-1--1ee05ee5:13611d6d34c:-8000:000000000000196B begin
+        
 		$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
 		
 		try{
@@ -80,7 +80,7 @@ class Resource
 		catch (\PDOException $e){
 			throw new Exception("Unable to getType of the resource {$resource->getUri()} : " .$e->getMessage());
 		}
-        // section 127-0-1-1--1ee05ee5:13611d6d34c:-8000:000000000000196B end
+        
 
         return (array) $returnValue;
     }
@@ -99,7 +99,7 @@ class Resource
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000129B begin
+        
         
 		$referencer = ResourceReferencer::singleton();
 		// hmmmm ! Perplexe
@@ -204,7 +204,7 @@ class Resource
 			}
 		}
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000129B end
+        
 
         return (array) $returnValue;
     }
@@ -223,7 +223,7 @@ class Resource
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012A9 begin
+        
 
 		$options = array('lg'=>$lg);
 		$returnValue = new \core_kernel_classes_ContainerCollection($resource);
@@ -231,7 +231,7 @@ class Resource
 		    $returnValue->add(\common_Utils::toResource($value));
 		}
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012A9 end
+        
 
         return $returnValue;
     }
@@ -251,7 +251,7 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012AE begin
+        
         
 		// Get the table name
 		$referencer = ResourceReferencer::singleton();
@@ -337,7 +337,7 @@ class Resource
 			}
 		}
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012AE end
+        
 
         return (bool) $returnValue;
     }
@@ -355,7 +355,7 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B3 begin
+        
 		if (is_array($properties)) {
 			if (count($properties) > 0) {
 
@@ -461,7 +461,7 @@ class Resource
 			}
 		}
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B3 end
+        
 
         return (bool) $returnValue;
     }
@@ -481,11 +481,11 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B7 begin
+        
 
 		$returnValue = $this->setPropertyValue ($resource, $property, $value, $lg);
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B7 end
+        
 
         return (bool) $returnValue;
     }
@@ -504,7 +504,7 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012BD begin
+        
 
 		// Get the table name
 		$referencer = ResourceReferencer::singleton();
@@ -609,7 +609,7 @@ class Resource
 			}
 		}
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012BD end
+        
 
         return (bool) $returnValue;
     }
@@ -629,7 +629,7 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C1 begin
+        
 
 		$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
 
@@ -685,7 +685,7 @@ class Resource
                         }
 		}
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C1 end
+        
 
         return (bool) $returnValue;
     }
@@ -702,7 +702,7 @@ class Resource
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C6 begin
+        
         $returnValue = new \core_kernel_classes_ContainerCollection(new \common_Object(__METHOD__));
         
 		$referencer = ResourceReferencer::singleton();
@@ -771,7 +771,7 @@ class Resource
 				throw new Exception("Unable to access data from table '${tableName}: " . $e->getMessage());
 			}
 		}
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C6 end
+        
 
         return $returnValue;
     }
@@ -789,7 +789,7 @@ class Resource
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C9 begin
+        
 		
 		$tableName = ResourceReferencer::singleton()->resourceLocation($resource);
 		$sqlQuery = 'SELECT "'.$tableName.'props"."l_language" FROM "'.$tableName.'props" 
@@ -805,7 +805,7 @@ class Resource
 			$returnValue[] = $row['l_language'];
 		}
 		
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012C9 end
+        
 
         return (array) $returnValue;
     }
@@ -823,7 +823,7 @@ class Resource
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012CD begin
+        
 		$referencer = ResourceReferencer::singleton();
 		$tableName = $referencer->resourceLocation ($resource);
 		if(empty($tableName)){
@@ -926,7 +926,7 @@ class Resource
 				$returnValue = $duplicatedResource;
 			}
 		}
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012CD end
+        
 
         return $returnValue;
     }
@@ -944,7 +944,7 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012D2 begin
+        
 
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         $tableName = ResourceReferencer::singleton()->resourceLocation ($resource);
@@ -1067,7 +1067,7 @@ class Resource
 		// Unreference the resource
 		ResourceReferencer::singleton()->unReferenceResource($resource);
         }
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012D2 end
+        
 
         return (bool) $returnValue;
     }
@@ -1085,7 +1085,7 @@ class Resource
     {
         $returnValue = array();
 
-        // section 127-0-1-1-77557f59:12fa87873f4:-8000:00000000000014D1 begin
+        
         $referencer = ResourceReferencer::singleton();
 		$table = ResourceReferencer::singleton()->resourceLocation($resource);
 		if (empty($table)) {
@@ -1188,7 +1188,7 @@ class Resource
 				}
 			}
 		}
-        // section 127-0-1-1-77557f59:12fa87873f4:-8000:00000000000014D1 end
+        
 
         return (array) $returnValue;
     }
@@ -1261,7 +1261,7 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--398d2ad6:12fd3f7ebdd:-8000:000000000000154C begin
+        
 		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 		$referencer = ResourceReferencer::singleton();
 		
@@ -1285,7 +1285,7 @@ class Resource
 		}
 		
 		$returnValue = true;
-        // section 127-0-1-1--398d2ad6:12fd3f7ebdd:-8000:000000000000154C end
+        
 
         return (bool) $returnValue;
     }
@@ -1301,14 +1301,14 @@ class Resource
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000137E begin
+        
 
 		if (self::$instance == null){
 			self::$instance = new self();
 		}
 		$returnValue = self::$instance;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000137E end
+        
 
         return $returnValue;
     }
@@ -1325,13 +1325,13 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F5A begin
+        
 			
 		if (ResourceReferencer::singleton()->isResourceReferenced($resource)){
 			$returnValue = true;
 		}
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F5A end
+        
 
         return (bool) $returnValue;
     }

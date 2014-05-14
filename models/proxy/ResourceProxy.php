@@ -176,12 +176,12 @@ class ResourceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B7 begin
+        
 
 		$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->setPropertyValueByLg($resource, $property, $value, $lg);
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000012B7 end
+        
 
         return (bool) $returnValue;
     }

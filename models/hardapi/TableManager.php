@@ -73,7 +73,7 @@ class TableManager
      */
     public function __construct($name, $strict = true)
     {
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015AA begin
+        
 
     	$this->strict = $strict;
     	$this->setName($name);
@@ -86,7 +86,7 @@ class TableManager
 				self::$_tables[] = $row['table'] . 'props';
 			}
 		}
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015AA end
+        
     }
 
     /**
@@ -101,10 +101,10 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015AD begin
+        
 		$returnValue = in_array($this->name, self::$_tables);
 
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015AD end
+        
 
         return (bool) $returnValue;
     }
@@ -125,7 +125,7 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015AF begin
+        
 		
 		if(!$this->exists() && !empty($this->name)){
 			$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -201,7 +201,7 @@ class TableManager
 				
 		}
 		
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015AF end
+        
 
         return (bool) $returnValue;
     }
@@ -217,7 +217,7 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015B9 begin
+        
 		$name = $this->getName(); 
 		if(!empty($name) && $this->exists()){
 			
@@ -254,7 +254,7 @@ class TableManager
 			// it will return false.
 		}
 
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:00000000000015B9 end
+        
 
         return (bool) $returnValue;
     }
@@ -270,9 +270,9 @@ class TableManager
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-4976cd9b:13b8f671e92:-8000:0000000000001DD9 begin
+        
         $returnValue = $this->name;
-        // section 10-13-1-85-4976cd9b:13b8f671e92:-8000:0000000000001DD9 end
+        
 
         return (string) $returnValue;
     }
@@ -287,14 +287,14 @@ class TableManager
      */
     public function setName($name)
     {
-        // section 10-13-1-85-4976cd9b:13b8f671e92:-8000:0000000000001DDC begin
+        
     	if($this->isStrict() && !preg_match("/^_[0-9a-zA-Z\-_]{4,}$/", $name)){
 			throw new Exception("Dangerous table name '$name' . Table name must begin by a underscore, followed  with only alphanumeric, - and _ characters are allowed.");
 		}
 		else{
 			$this->name = $name;
 		}
-        // section 10-13-1-85-4976cd9b:13b8f671e92:-8000:0000000000001DDC end
+        
     }
 
     /**
@@ -310,7 +310,7 @@ class TableManager
     {
         $returnValue = array();
 
-        // section 10-13-1-85-4976cd9b:13b8f671e92:-8000:0000000000001DE1 begin
+        
         $name = $this->getName();
         if ($this->isBaseTable()){
         	$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -333,7 +333,7 @@ class TableManager
         		}
         	}
         }
-        // section 10-13-1-85-4976cd9b:13b8f671e92:-8000:0000000000001DE1 end
+        
 
         return (array) $returnValue;
     }
@@ -351,7 +351,7 @@ class TableManager
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DE5 begin
+        
         $name = $this->getName();
         if ($this->isBaseTable()){
         	$propsTableName = $name . 'props';
@@ -366,7 +366,7 @@ class TableManager
         else{
         	throw new Exception("The current table '${name}' is not a 'base table'.");	
         }
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DE5 end
+        
 
         return (string) $returnValue;
     }
@@ -386,7 +386,7 @@ class TableManager
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DE9 begin
+        
         $name = $this->getName();
         if ($this->isPropertiesTable()){
         	$baseTableName = preg_replace("/props$/i", '', $name);
@@ -401,7 +401,7 @@ class TableManager
         else{
         	throw new Exception("The current table '${name}' is not a 'properties table'.");
         }
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DE9 end
+        
 
         return (string) $returnValue;
     }
@@ -417,7 +417,7 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DED begin
+        
         $name = $this->getName();
         if ($this->exists()){
         	$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -428,7 +428,7 @@ class TableManager
         else{
         	throw new Exception("Table '${name}' does not exist.");	
         }
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DED end
+        
 
         return (bool) $returnValue;
     }
@@ -444,7 +444,7 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DF1 begin
+        
     	$name = $this->getName();
         if ($this->exists()){
         	$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -456,7 +456,7 @@ class TableManager
         else{
         	throw new Exception("Table '${name}' does not exist.");	
         }
-        // section 10-13-1-85-60c76063:13b8f97825a:-8000:0000000000001DF1 end
+        
 
         return (bool) $returnValue;
     }
@@ -473,7 +473,7 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--7fc9b7e9:13ba8f5f383:-8000:0000000000001E09 begin
+        
         $tblName = $this->getName();
         if ($this->exists()){
         	$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -484,7 +484,7 @@ class TableManager
         	throw new Exception("Table '${tblName}' does not exist in database.");	
         }
         
-        // section 10-13-1-85--7fc9b7e9:13ba8f5f383:-8000:0000000000001E09 end
+        
 
         return (bool) $returnValue;
     }
@@ -500,9 +500,9 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--7fc9b7e9:13ba8f5f383:-8000:0000000000001E1A begin
+        
         $returnValue = $this->strict;
-        // section 10-13-1-85--7fc9b7e9:13ba8f5f383:-8000:0000000000001E1A end
+        
 
         return (bool) $returnValue;
     }
@@ -524,7 +524,7 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--2619f144:13ba9352ee6:-8000:0000000000001E1A begin
+        
         $tblname = $this->getName();
         if (!empty($column)){
         	if (!empty($column['name'])){
@@ -569,7 +569,7 @@ class TableManager
         else{
         	throw new InvalidArgumentException("Cannot add a column from an empty array.");	
         }
-        // section 10-13-1-85--2619f144:13ba9352ee6:-8000:0000000000001E1A end
+        
 
         return (bool) $returnValue;
     }
@@ -586,7 +586,7 @@ class TableManager
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--2619f144:13ba9352ee6:-8000:0000000000001E1E begin
+        
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         if (!empty($name)){
         	$tblname = $this->getName();
@@ -604,7 +604,7 @@ class TableManager
         else{
         	throw new InvalidArgumentException("Empty column name provided.");	
         }
-        // section 10-13-1-85--2619f144:13ba9352ee6:-8000:0000000000001E1E end
+        
 
         return (bool) $returnValue;
     }

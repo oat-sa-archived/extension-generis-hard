@@ -77,12 +77,12 @@ bewteen a class and it's parent to retrieve the properties.
      */
     public function __construct( \core_kernel_classes_Class $class,  \core_kernel_classes_Class $topclass = null)
     {
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001609 begin
+        
         
     	$this->class = $class;
         $this->topclass = $topclass;
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001609 end
+        
     }
 
     /**
@@ -100,7 +100,7 @@ bewteen a class and it's parent to retrieve the properties.
     {
         $returnValue = array();
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001612 begin
+        
         
         if(is_null($this->topclass)){
 			$parents = $this->class->getParentClasses(true);
@@ -154,7 +154,7 @@ bewteen a class and it's parent to retrieve the properties.
     	}
     	$this->_properties = $returnValue;
         
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001612 end
+        
 
         return (array) $returnValue;
     }
@@ -171,7 +171,7 @@ bewteen a class and it's parent to retrieve the properties.
     {
         $returnValue = array();
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001615 begin
+        
         
         if(count($this->_properties) == 0){
     		$returnValue = $this->findProperties();
@@ -184,7 +184,7 @@ bewteen a class and it's parent to retrieve the properties.
         	$returnValue[$additionalProp->getUri()] = $additionalProp;
         }
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001615 end
+        
 
         return (array) $returnValue;
     }
@@ -206,7 +206,7 @@ bewteen a class and it's parent to retrieve the properties.
     {
         $returnValue = array();
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001618 begin
+        
         
         $properties = $this->getProperties($additionalProps);
                 
@@ -231,7 +231,7 @@ bewteen a class and it's parent to retrieve the properties.
         }
 		
 		
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001618 end
+        
 
         return (array) $returnValue;
     }

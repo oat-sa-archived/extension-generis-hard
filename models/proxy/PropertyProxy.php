@@ -73,8 +73,8 @@ class PropertyProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1-7b8668ff:12f77d22c39:-8000:000000000000144D begin
-        // section 127-0-1-1-7b8668ff:12f77d22c39:-8000:000000000000144D end
+        
+        
 
         return (array) $returnValue;
     }
@@ -91,7 +91,7 @@ class PropertyProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DB begin
+        
         $lgDependentProperty = new \core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT, __METHOD__);
         $lgDependent = null;
 
@@ -109,7 +109,7 @@ class PropertyProxy
         } else {
                 $returnValue = ($lgDependent->getUri() == GENERIS_TRUE);
         }
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DB end
+        
 
         return (bool) $returnValue;
     }
@@ -126,7 +126,7 @@ class PropertyProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DD begin
+        
         $multipleProperty = new \core_kernel_classes_Property(PROPERTY_MULTIPLE,__METHOD__);
         $multiple = null;
         
@@ -145,7 +145,7 @@ class PropertyProxy
         else{
 			$returnValue = ($multiple->getUri() == GENERIS_TRUE);
         }
-        // section 127-0-1-1--bedeb7e:12fb15494a5:-8000:00000000000014DD end
+        
 
         return (bool) $returnValue;
     }
@@ -162,7 +162,7 @@ class PropertyProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001539 begin
+        
         $rangeProperty = new \core_kernel_classes_Property(RDFS_RANGE,__METHOD__);
         $rangeValues = array();
         
@@ -179,7 +179,7 @@ class PropertyProxy
                 $returnValue = new \core_kernel_classes_Class($rangeValues[0]);
         }
         
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001539 end
+        
 
         return $returnValue;
     }
@@ -197,12 +197,12 @@ class PropertyProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--330ca9de:1318ac7ca9f:-8000:0000000000001641 begin
+        
         
     	$delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->delete($resource, $deleteReference);
         
-        // section 127-0-1-1--330ca9de:1318ac7ca9f:-8000:0000000000001641 end
+        
 
         return (bool) $returnValue;
     }
@@ -220,10 +220,10 @@ class PropertyProxy
     {
         $returnValue = null;
 
-        // section 10-13-1-85-36aaae10:13bad44a267:-8000:0000000000001E25 begin
+        
         $delegate = $this->getImpToDelegateTo($resource);
 		$returnValue = $delegate->setRange($resource, $class);
-        // section 10-13-1-85-36aaae10:13bad44a267:-8000:0000000000001E25 end
+        
 
         return $returnValue;
     }
@@ -239,10 +239,10 @@ class PropertyProxy
      */
     public function setMultiple( \core_kernel_classes_Resource $resource, $isMultiple)
     {
-        // section 10-13-1-85-71dc1cdd:13bade8452c:-8000:0000000000001E32 begin
+        
         $delegate = $this->getImpToDelegateTo($resource);
 		$delegate->setMultiple($resource, $isMultiple);
-        // section 10-13-1-85-71dc1cdd:13bade8452c:-8000:0000000000001E32 end
+        
     }
 
     /**
@@ -256,10 +256,10 @@ class PropertyProxy
      */
     public function setLgDependent( \core_kernel_classes_Resource $resource, $isLgDependent)
     {
-        // section 10-13-1-85-4a20f448:13bdca46e9a:-8000:0000000000001E45 begin
+        
         $delegate = $this->getImpToDelegateTo($resource);
 		$delegate->setLgDependent($resource, $isLgDependent);
-        // section 10-13-1-85-4a20f448:13bdca46e9a:-8000:0000000000001E45 end
+        
     }
 
     /**
@@ -273,14 +273,14 @@ class PropertyProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001401 begin
+        
 
         if(self::$instance == null){
                 self::$instance = new self();
         }
         $returnValue = self::$instance;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001401 end
+        
 
         return $returnValue;
     }
@@ -298,7 +298,7 @@ class PropertyProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F63 begin
+        
 		
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
@@ -323,7 +323,7 @@ class PropertyProxy
 
 		$returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F63 end
+        
 
         return $returnValue;
     }
@@ -341,7 +341,7 @@ class PropertyProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000155E begin
+        
 
         $impls = $this->getAvailableImpl(); 
         if(isset($impls[$context]) && $impls[$context]){
@@ -356,7 +356,7 @@ class PropertyProxy
                 }
         }
         
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000155E end
+        
 
         return (bool) $returnValue;
     }

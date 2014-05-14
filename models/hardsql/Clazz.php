@@ -61,14 +61,14 @@ class Clazz
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014EB begin
+        
 		if(class_exists('\core_kernel_persistence_smoothsql_Class')){
 			//the model is not hardened and remains in the soft table:
 			$returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->getSubClasses($resource, $recursive);
 		}else{
 			throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
 		}
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014EB end
+        
 
         return (array) $returnValue;
     }
@@ -81,14 +81,14 @@ class Clazz
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F0 begin
+        
 		if(class_exists('\core_kernel_persistence_smoothsql_Class')){
 			//the model is not hardened and remains in the soft table:
 			$returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->isSubClassOf($resource, $parentClass);
 		}else{
 			throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
 		}
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F0 end
+        
 
         return (bool) $returnValue;
     }
@@ -101,9 +101,9 @@ class Clazz
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F5 begin
+        
 		throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014F5 end
+        
 
         return (array) $returnValue;
     }
@@ -116,9 +116,9 @@ class Clazz
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014FA begin
+        
 		throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000014FA end
+        
 
         return (array) $returnValue;
     }
@@ -131,7 +131,7 @@ class Clazz
     {
         $returnValue = array();
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001500 begin
+        
 
 		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 		$classLocations = ResourceReferencer::singleton()->classLocations($resource);
@@ -195,7 +195,7 @@ class Clazz
 			}
 		}
 		
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001500 end
+        
 
         return (array) $returnValue;
     }
@@ -209,9 +209,9 @@ class Clazz
     {
         $returnValue = (bool) false;
     
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000150F begin
+        
         throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000150F end
+        
     
         return (bool) $returnValue;
     }
@@ -227,7 +227,7 @@ class Clazz
     {
         $returnValue = null;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F27 begin
+        
 
 		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 
@@ -262,7 +262,7 @@ class Clazz
 			throw new Exception("Unable to create instance for the resource {$resource->getUri()} in the table {$table} : " .$e->getMessage());
 		}
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F27 end
+        
 
         return $returnValue;
     }
@@ -302,7 +302,7 @@ class Clazz
     {
         $returnValue = null;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F3C begin
+        
         // First we reference the property in smooth mode because meta models always remain there.
 		$smoothReturnValue = \core_kernel_persistence_smoothsql_Class::singleton()->createProperty($resource, $label, $comment, $isLgDependent);
 		
@@ -329,7 +329,7 @@ class Clazz
 			throw new Exception("An error occured when creating property in smooth mode '${uri}' before handling the hard sql aspect.");
 		}
 		
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F3C end
+        
 
         return $returnValue;
     }
@@ -342,7 +342,7 @@ class Clazz
     {
         $returnValue = array();
 
-        // section 10-13-1--128--26678bb4:12fbafcb344:-8000:00000000000014F0 begin
+        
     	$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 		
 		// 'like' option.
@@ -592,7 +592,7 @@ class Clazz
 				throw new Exception("Unable to search instances for the resource {$resource->getUri()} : " .$e->getMessage());
 			}
 		}
-        // section 10-13-1--128--26678bb4:12fbafcb344:-8000:00000000000014F0 end
+        
 
         return (array) $returnValue;
     }
@@ -605,7 +605,7 @@ class Clazz
     {
         $returnValue = null;
 
-        // section 127-0-1-1--700ce06c:130dbc6fc61:-8000:000000000000159D begin
+        
 
 		$returnValue = 0;
 		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -622,7 +622,7 @@ class Clazz
 			}
 		}
 
-        // section 127-0-1-1--700ce06c:130dbc6fc61:-8000:000000000000159D end
+        
 
         return $returnValue;
     }
@@ -635,7 +635,7 @@ class Clazz
     {
         $returnValue = array();
 
-        // section 127-0-1-1--120bf54f:13142fdf597:-8000:000000000000312D begin
+        
         
         //throw new \core_kernel_persistence_ProhibitedFunctionException("The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
 	        
@@ -732,7 +732,7 @@ class Clazz
 			}
         }
         
-        // section 127-0-1-1--120bf54f:13142fdf597:-8000:000000000000312D end
+        
 
         return (array) $returnValue;
     }
@@ -746,7 +746,7 @@ class Clazz
     {
         $returnValue = null;
 
-        // section 127-0-1-1--49b11f4f:135c41c62e3:-8000:0000000000001947 begin
+        
         if (isset($properties[RDF_TYPE])) {
         	throw new \core_kernel_persistence_Exception('Additional types in createInstanceWithProperties not permited');
         }
@@ -853,7 +853,7 @@ class Clazz
 		catch (\PDOException $e){
 			throw new Exception("Unable to create instance for the class {$type->getUri()} in the table {$table} : " .$e->getMessage());
 		}
-        // section 127-0-1-1--49b11f4f:135c41c62e3:-8000:0000000000001947 end
+        
 
         return $returnValue;
     }
@@ -866,14 +866,14 @@ class Clazz
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85-46895b07:13b99a96e9b:-8000:0000000000001DF5 begin
+        
         foreach ($resources as $r){
         	$resource = ($r instanceof \core_kernel_classes_Resource) ? $r : new \core_kernel_classes_Resource($r);
         	$resource->delete($deleteReference);
         }
         
         $returnValue = true;
-        // section 10-13-1-85-46895b07:13b99a96e9b:-8000:0000000000001DF5 end
+        
 
         return (bool) $returnValue;
     }
@@ -891,7 +891,7 @@ class Clazz
     {
         $returnValue = (bool) false;
     
-        // section 10-13-1-85--2c835591:13bffd6ae29:-8000:0000000000001E78 begin
+        
         $switcher = new Switcher();
         $success = $switcher->unhardify(new \core_kernel_classes_Class($resource));
     
@@ -901,7 +901,7 @@ class Clazz
         else{
             $returnValue = false;
         }
-        // section 10-13-1-85--2c835591:13bffd6ae29:-8000:0000000000001E78 end
+        
     
         return (bool) $returnValue;
     }
@@ -917,14 +917,14 @@ class Clazz
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001495 begin
+        
 
 		if (self::$instance == null){
 			self::$instance = new self();
 		}
 		$returnValue = self::$instance;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:0000000000001495 end
+        
 
         return $returnValue;
     }
@@ -941,13 +941,13 @@ class Clazz
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F57 begin
+        
 
 		if (ResourceReferencer::singleton()->isClassReferenced ($resource)){
 			$returnValue = true;
 		}
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F57 end
+        
 
         return (bool) $returnValue;
     }

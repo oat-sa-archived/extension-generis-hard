@@ -136,7 +136,7 @@ class ResourceReferencer
      */
     private function __construct()
     {
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001633 begin
+        
         
     	//default cache values
 		$this->cacheModes = array(
@@ -145,7 +145,7 @@ class ResourceReferencer
 			'property'	=> self::CACHE_FILE
 		);
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001633 end
+        
     }
 
     /**
@@ -159,7 +159,7 @@ class ResourceReferencer
     {
         $returnValue = null;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001635 begin
+        
         
         if (is_null(self::$_instance)){
 			$class = __CLASS__;
@@ -167,7 +167,7 @@ class ResourceReferencer
         }
         $returnValue = self::$_instance;
         
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001635 end
+        
 
         return $returnValue;
     }
@@ -183,7 +183,7 @@ class ResourceReferencer
      */
     protected function setCache($type, $mode)
     {
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:000000000000170D begin
+        
         
         if(!array_key_exists($type, $this->cacheModes)){
         	throw new Exception("Unknow cacheable object $type");
@@ -195,7 +195,7 @@ class ResourceReferencer
         
         $this->cacheModes[$type] = $mode;
         
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:000000000000170D end
+        
     }
 
     /**
@@ -208,11 +208,11 @@ class ResourceReferencer
      */
     public function setClassCache($mode)
     {
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000164C begin
+        
     	
     	$this->setCache('class', $mode);
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000164C end
+        
     }
 
     /**
@@ -225,11 +225,11 @@ class ResourceReferencer
      */
     public function setInstanceCache($mode)
     {
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000164F begin
+        
         
     	$this->setCache('instance', $mode);
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000164F end
+        
     }
 
     /**
@@ -242,11 +242,11 @@ class ResourceReferencer
      */
     public function setPropertyCache($mode)
     {
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001711 begin
+        
 
     	$this->setCache('property', $mode);
     	
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001711 end
+        
     }
 
     /**
@@ -259,7 +259,7 @@ class ResourceReferencer
      */
     private function loadClasses($force = false)
     {
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001666 begin
+        
         
     	if(is_null(self::$_classes) || $force){
 			$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -276,7 +276,7 @@ class ResourceReferencer
 	        }
 	}
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001666 end
+        
     }
 
     /**
@@ -292,7 +292,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001652 begin
+        
         
         if(!is_null($class)){
 			switch($this->cacheModes['class']){
@@ -345,7 +345,7 @@ class ResourceReferencer
 			}
 		}
         
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001652 end
+        
 
         return (bool) $returnValue;
     }
@@ -363,7 +363,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001655 begin
+        
         \common_Logger::d('Referencing: '.$class->getUri());
         
         // Get optional parameters
@@ -430,7 +430,7 @@ class ResourceReferencer
 			}
 		}
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001655 end
+        
 
         return (bool) $returnValue;
     }
@@ -447,7 +447,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001658 begin
+        
         
         if($this->isClassReferenced($class)){
                 
@@ -508,7 +508,7 @@ class ResourceReferencer
 			}
 		}
         
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001658 end
+        
 
         return (bool) $returnValue;
     }
@@ -525,7 +525,7 @@ class ResourceReferencer
     {
         $returnValue = array();
 
-        // section 127-0-1-1-46522299:12fc0802dbc:-8000:00000000000016C7 begin
+        
         
         if(!is_null($class)){
 			switch($this->cacheModes['class']){
@@ -557,7 +557,7 @@ class ResourceReferencer
 			}
 		}
 		
-        // section 127-0-1-1-46522299:12fc0802dbc:-8000:00000000000016C7 end
+        
 
         return (array) $returnValue;
     }
@@ -572,7 +572,7 @@ class ResourceReferencer
      */
     private function loadResources($force = false)
     {
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000166E begin
+        
         
     	if(!self::$_resources_loaded || $force){
 			$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
@@ -584,7 +584,7 @@ class ResourceReferencer
 		}
     	
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000166E end
+        
     }
 
     /**
@@ -599,7 +599,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000165B begin
+        
         
         if(!is_null($resource)){
 			switch($this->cacheModes['instance']){
@@ -633,7 +633,7 @@ class ResourceReferencer
 			}
 		}
         
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000165B end
+        
 
         return (bool) $returnValue;
     }
@@ -653,7 +653,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000165E begin
+        
         $types = !is_null($types) ? $types : $resource->getTypes();
         $rows = array ();
         if(!$this->isResourceReferenced($resource)){
@@ -696,7 +696,7 @@ class ResourceReferencer
 				}
 			}
         }
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:000000000000165E end
+        
 
         return (bool) $returnValue;
     }
@@ -713,7 +713,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001661 begin
+        
         
         if($this->isResourceReferenced($resource)){
                 
@@ -743,7 +743,7 @@ class ResourceReferencer
 
         }
         
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001661 end
+        
 
         return (bool) $returnValue;
     }
@@ -760,7 +760,7 @@ class ResourceReferencer
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-56674b31:12fbf31d598:-8000:0000000000001505 begin
+        
         
          if(!is_null($resource)){
 			switch($this->cacheModes['instance']){
@@ -797,7 +797,7 @@ class ResourceReferencer
 					\common_Logger::w('Unexpected cacheMode: '.$this->cacheModes['instance'], array('GENERIS'));
 			}
 		}
-        // section 127-0-1-1-56674b31:12fbf31d598:-8000:0000000000001505 end
+        
 
         return (string) $returnValue;
     }
@@ -813,7 +813,7 @@ class ResourceReferencer
      */
     private function loadProperties($force = false, $additionalProperties = array())
     {
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001723 begin
+        
     	if(is_null(self::$_properties) || $force){
 				
     		if(!$force && $this->cacheModes['property'] == self::CACHE_FILE){
@@ -902,7 +902,7 @@ class ResourceReferencer
     		}
     	}
     	
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001723 end
+        
     }
 
     /**
@@ -918,7 +918,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001714 begin
+        
         
         if(!is_null($property)){
 			switch($this->cacheModes['property']){
@@ -956,7 +956,7 @@ class ResourceReferencer
 			}
 		}
         
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001714 end
+        
 
         return (bool) $returnValue;
     }
@@ -973,7 +973,7 @@ class ResourceReferencer
     {
         $returnValue = array();
 
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001717 begin
+        
         
         if(!is_null($property)){
 			switch($this->cacheModes['property']){
@@ -991,7 +991,7 @@ class ResourceReferencer
 			}
 		}
         
-        // section 127-0-1-1-78ed0233:12fde709f61:-8000:0000000000001717 end
+        
 
         return (array) $returnValue;
     }
@@ -1008,7 +1008,7 @@ class ResourceReferencer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-46522299:12fc0802dbc:-8000:00000000000016C4 begin
+        
         
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         
@@ -1033,7 +1033,7 @@ class ResourceReferencer
         	$this->referenceClass(new \core_kernel_classes_Class($type), array ("table"=>$tableName));
         }
         
-        // section 127-0-1-1-46522299:12fc0802dbc:-8000:00000000000016C4 end
+        
 
         return (bool) $returnValue;
     }
@@ -1049,10 +1049,10 @@ class ResourceReferencer
      */
     public function resetCache($additionalProperties = array())
     {
-        // section 10-13-1--128-7c4fbea6:12fe371c06a:-8000:0000000000001573 begin
+        
     	$this->loadClasses(true);
         $this->loadProperties(true, $additionalProperties);
-        // section 10-13-1--128-7c4fbea6:12fe371c06a:-8000:0000000000001573 end
+        
     }
 
     /**
@@ -1064,7 +1064,7 @@ class ResourceReferencer
      */
     public function clearCaches()
     {
-        // section 127-0-1-1--770b92db:136a03f38fa:-8000:00000000000019B8 begin
+        
     	self::$_properties	= null;
     	
     	self::$_classes		= null;
@@ -1078,7 +1078,7 @@ class ResourceReferencer
     	// remove hard-api-property cache.
     	$cache = \common_cache_FileCache::singleton();
     	$cache->remove('hard-api-property');
-        // section 127-0-1-1--770b92db:136a03f38fa:-8000:00000000000019B8 end
+        
     }
 
     /**
@@ -1094,7 +1094,7 @@ class ResourceReferencer
     {
         $returnValue = array();
 
-        // section 127-0-1-1--642cfc1e:13160cfbaf5:-8000:000000000000162A begin
+        
         
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         
@@ -1108,7 +1108,7 @@ class ResourceReferencer
 			$returnValue[] = new \core_kernel_classes_Property($row['property_uri']);
 		}
         
-        // section 127-0-1-1--642cfc1e:13160cfbaf5:-8000:000000000000162A end
+        
 
         return (array) $returnValue;
     }

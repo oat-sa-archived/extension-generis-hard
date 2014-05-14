@@ -84,9 +84,9 @@ abstract class PersistenceProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000130B begin
+        
         throw new \Exception('Must be implemented by subclasses.');
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:000000000000130B end
+        
 
         return $returnValue;
     }
@@ -103,7 +103,7 @@ abstract class PersistenceProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000147C begin
+        
         
         $returnValue = array(
         	PERSISTENCE_HARD => true, 
@@ -119,7 +119,7 @@ abstract class PersistenceProxy
         } else if (count ($params)){
         	$returnValue = array_merge($returnValue, $params);
         }
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000147C end
+        
 
         return (array) $returnValue;
     }
@@ -146,7 +146,7 @@ abstract class PersistenceProxy
      */
     public static function forceMode($implementation)
     {
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:000000000000153C begin
+        
         if (!empty($implementation)){
     		self::$implementationHistory[] = self::$current;
     		self::$current = $implementation;
@@ -154,7 +154,7 @@ abstract class PersistenceProxy
     	} else {
     		throw new \common_exception_Error("forceMode called without implementation");
     	}
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:000000000000153C end
+        
     }
 
     /**
@@ -169,7 +169,7 @@ abstract class PersistenceProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:000000000000153F begin
+        
         
         if (!empty(self::$current)){
 			if(!empty($implementation)){
@@ -179,7 +179,7 @@ abstract class PersistenceProxy
 			}
         }
         
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:000000000000153F end
+        
 
         return (bool) $returnValue;
     }
@@ -194,11 +194,11 @@ abstract class PersistenceProxy
      */
     public function resetMode()
     {
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001545 begin
+        
 		\common_Logger::w('Deprecated function PersistenceProxy::resetMode() called');   	
    		self::$current = "";
     		
-        // section 127-0-1-1-7a0c731b:12fbfab7535:-8000:0000000000001545 end
+        
     }
 
     /**
@@ -210,14 +210,14 @@ abstract class PersistenceProxy
      */
     public static function restoreImplementation()
     {
-        // section 127-0-1-1-6b2ff0f2:135e313546a:-8000:0000000000001967 begin
+        
         if (count(self::$implementationHistory) > 0) {
         	self::$current = array_pop(self::$implementationHistory);
         	\common_Logger::d('Restored persistence "'.self::$current.'"');
         } else {
         	throw new \common_exception_Error("PersistencyProxy::restoreImplementation() called without forcing an implementation first");
         }
-        // section 127-0-1-1-6b2ff0f2:135e313546a:-8000:0000000000001967 end
+        
     }
 
 }

@@ -63,12 +63,12 @@ class RowManager
      */
     public function __construct($table, $columns)
     {
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001622 begin
+        
         
     	$this->table = $table;
 		$this->columns = $columns;
     	
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001622 end
+        
     }
 
     /**
@@ -83,7 +83,7 @@ class RowManager
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001626 begin
+        
 
         // The class has  multiple properties 
         $multipleColumns = array();
@@ -214,7 +214,7 @@ class RowManager
 			}
 		}
         
-        // section 127-0-1-1-8da8919:12f7878e80a:-8000:0000000000001626 end
+        
 
         return (bool) $returnValue;
     }
@@ -231,7 +231,7 @@ class RowManager
     {
         $returnValue = array();
 
-        // section 127-0-1-1--2b59d385:12fb60e84b9:-8000:0000000000001686 begin
+        
         
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         
@@ -279,7 +279,7 @@ class RowManager
 		
 		$returnValue = $foreigns;
         
-        // section 127-0-1-1--2b59d385:12fb60e84b9:-8000:0000000000001686 end
+        
 
         return (array) $returnValue;
     }

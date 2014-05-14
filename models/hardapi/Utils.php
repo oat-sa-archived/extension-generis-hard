@@ -70,7 +70,7 @@ class Utils
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:000000000000159A begin
+        
         
 		if(count(self::$namespaceIds) == 0){
 			$namespaces = \common_ext_NamespaceManager::singleton()->getAllNamespaces();
@@ -87,7 +87,7 @@ class Utils
 			$returnValue = self::$namespaceIds[$namespaceUri];
 		}
         
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:000000000000159A end
+        
 
         return (string) $returnValue;
     }
@@ -106,7 +106,7 @@ class Utils
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:000000000000159D begin
+        
     	if(!is_null($resource)){
     		
     		if (isset(self::$shortNames[$resource->getUri()])){
@@ -123,7 +123,7 @@ class Utils
     		}
 		}
         
-        // section 127-0-1-1--5a63b0fb:12f72879be9:-8000:000000000000159D end
+        
 
         return (string) $returnValue;
     }
@@ -144,7 +144,7 @@ class Utils
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--151fe597:12f7c91b993:-8000:00000000000014C7 begin
+        
         
         if (!empty($shortName) && strlen($shortName)>2){
         	$shortName = preg_replace("/^_/", '', $shortName);
@@ -156,7 +156,7 @@ class Utils
         	}
         }
         
-        // section 127-0-1-1--151fe597:12f7c91b993:-8000:00000000000014C7 end
+        
 
         return (string) $returnValue;
     }
@@ -186,7 +186,7 @@ class Utils
     {
         $returnValue = array();
 
-        // section 10-13-1--128-743691ae:12fc0ed9381:-8000:0000000000001525 begin
+        
         
 		$returnValue = array(
 			'name'			=> self::getShortName($property),
@@ -212,7 +212,7 @@ class Utils
 			$returnValue['range'][] = $range;
 		}
 		
-        // section 10-13-1--128-743691ae:12fc0ed9381:-8000:0000000000001525 end
+        
 
         return (array) $returnValue;
     }
@@ -230,7 +230,7 @@ class Utils
     {
         $returnValue = (int) 0;
 
-        // section 127-0-1-1--4d72422d:1316c1e6091:-8000:000000000000162E begin
+        
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         
         $selectQuery = 'SELECT id FROM "' . $tableName . '" WHERE uri = \'' . $resource->getUri() . '\'';
@@ -246,7 +246,7 @@ class Utils
         catch (\PDOException $e){
         	throw new HardsqlException("Unable to get the id of the resource {$resource->getUri()} in the table '{$tableName}': " . $e->getMessage());
         }
-        // section 127-0-1-1--4d72422d:1316c1e6091:-8000:000000000000162E end
+        
 
         return (int) $returnValue;
     }
@@ -262,7 +262,7 @@ class Utils
      */
     public static function scalarToMultiple( \core_kernel_classes_Resource $property, $batchSize = 100)
     {
-        // section 10-13-1-85--4d7ce118:13bdccf0439:-8000:0000000000001E49 begin
+        
         $referencer = ResourceReferencer::singleton();
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         $propertyDescription = self::propertyDescriptor($property);
@@ -332,7 +332,7 @@ class Utils
         }
         
         $referencer->clearCaches();
-        // section 10-13-1-85--4d7ce118:13bdccf0439:-8000:0000000000001E49 end
+        
     }
 
     /**
@@ -346,7 +346,7 @@ class Utils
      */
     public static function multipleToScalar( \core_kernel_classes_Resource $property, $batchSize = 100)
     {
-        // section 10-13-1-85--4d7ce118:13bdccf0439:-8000:0000000000001E50 begin
+        
         $referencer = ResourceReferencer::singleton();
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         $propertyDescription = self::propertyDescriptor($property);
@@ -434,7 +434,7 @@ class Utils
         }
         
         $referencer->clearCaches();
-        // section 10-13-1-85--4d7ce118:13bdccf0439:-8000:0000000000001E50 end
+        
     }
 
 } /* end of class self */

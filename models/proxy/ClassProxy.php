@@ -175,12 +175,12 @@ class ClassProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F27 begin
+        
         
         $delegate = $this->getImpToDelegateTo($resource);
         $returnValue = $delegate->createInstance($resource, $label, $comment, $uri);
         
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F27 end
+        
 
         return $returnValue;
     }
@@ -219,7 +219,7 @@ class ClassProxy
     {
         $returnValue = array();
 
-        // section 10-13-1--128--26678bb4:12fbafcb344:-8000:00000000000014F0 begin
+        
         
         $clazzToImpls = array();
         $implsToDelegateTo = array();
@@ -261,7 +261,7 @@ class ClassProxy
 	                        
 	        $returnValue = array_merge($returnValue, $delegate->searchInstances($firstClass, $propertyFilters, $options));
         }
-        // section 10-13-1--128--26678bb4:12fbafcb344:-8000:00000000000014F0 end
+        
 
         return (array) $returnValue;
     }
@@ -274,12 +274,12 @@ class ClassProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--700ce06c:130dbc6fc61:-8000:000000000000159D begin
+        
         
 		$delegate = $this->getImpToDelegateTo($resource);
         $returnValue = $delegate->countInstances($resource, $propertyFilters, $options);
         
-        // section 127-0-1-1--700ce06c:130dbc6fc61:-8000:000000000000159D end
+        
 
         return $returnValue;
     }
@@ -292,12 +292,12 @@ class ClassProxy
     {
         $returnValue = array();
 
-        // section 127-0-1-1--120bf54f:13142fdf597:-8000:000000000000312D begin
+        
         
         $delegate = $this->getImpToDelegateTo($resource);
         $returnValue = $delegate->getInstancesPropertyValues($resource, $property, $propertyFilters, $options);
         
-        // section 127-0-1-1--120bf54f:13142fdf597:-8000:000000000000312D end
+        
 
         return (array) $returnValue;
     }
@@ -311,10 +311,10 @@ class ClassProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--49b11f4f:135c41c62e3:-8000:0000000000001947 begin
+        
         $delegate = $this->getImpToDelegateTo($type);
         $returnValue = $delegate->createInstanceWithProperties($type, $properties);
-        // section 127-0-1-1--49b11f4f:135c41c62e3:-8000:0000000000001947 end
+        
 
         return $returnValue;
     }
@@ -327,10 +327,10 @@ class ClassProxy
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85-46895b07:13b99a96e9b:-8000:0000000000001DF5 begin
+        
         $delegate = $this->getImpToDelegateTo($resource);
         $returnValue = $delegate->deleteInstances($resource, $resources, $deleteReference);
-        // section 10-13-1-85-46895b07:13b99a96e9b:-8000:0000000000001DF5 end
+        
 
         return (bool) $returnValue;
     }
@@ -348,14 +348,14 @@ class ClassProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000013FF begin
+        
         
         if(self::$instance == null){
         	self::$instance = new self();
         }
         $returnValue = self::$instance;
         
-        // section 127-0-1-1--30506d9:12f6daaa255:-8000:00000000000013FF end
+        
 
         return $returnValue;
     }
@@ -368,7 +368,7 @@ class ClassProxy
     {
         $returnValue = null;
 
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F60 begin
+        
 
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
@@ -393,7 +393,7 @@ class ClassProxy
         
         $returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
         
-        // section 127-0-1-1--6705a05c:12f71bd9596:-8000:0000000000001F60 end
+        
 
         return $returnValue;
     }
@@ -411,7 +411,7 @@ class ClassProxy
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000155B begin
+        
         
         $impls = $this->getAvailableImpl();             
         if(isset($impls[$context]) && $impls[$context]){
@@ -421,7 +421,7 @@ class ClassProxy
 			$returnValue = $singleton->isValidContext($resource);
         }  
         
-        // section 127-0-1-1--499759bc:12f72c12020:-8000:000000000000155B end
+        
 
         return (bool) $returnValue;
     }
