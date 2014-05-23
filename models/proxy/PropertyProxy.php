@@ -263,7 +263,7 @@ class PropertyProxy
     }
 
     /**
-     * Short description of method singleton
+     * Singleton
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -271,18 +271,11 @@ class PropertyProxy
      */
     public static function singleton()
     {
-        $returnValue = null;
-
-        
-
         if(self::$instance == null){
                 self::$instance = new self();
         }
-        $returnValue = self::$instance;
+        return self::$instance;
 
-        
-
-        return $returnValue;
     }
 
     /**
@@ -296,10 +289,7 @@ class PropertyProxy
      */
     public function getImpToDelegateTo( \core_kernel_classes_Resource $resource, $params = array())
     {
-        $returnValue = null;
 
-        
-		
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
         	
@@ -321,11 +311,8 @@ class PropertyProxy
             }
         }
 
-		$returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
+		return self::$ressourcesDelegatedTo[$resource->getUri()];
 
-        
-
-        return $returnValue;
     }
 
     /**
