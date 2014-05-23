@@ -359,21 +359,14 @@ class ResourceProxy
      */
     public function removeType( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $class)
     {
-        $returnValue = (bool) false;
-
-       
 		$delegate = $this->getImpToDelegateTo($resource);
-		$returnValue = $delegate->removeType($resource, $class);
-		
-        return (bool) $returnValue;
+		return  (bool) $delegate->removeType($resource, $class);		
     }
 
     /**
-     * singleton
-     *
-     * @access public
+     * 
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return PersistenceProxy
+     * @return \oat\generisHard\models\proxy\PersistenceProxy
      */
     public static function singleton()
     {
