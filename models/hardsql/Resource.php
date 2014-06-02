@@ -802,7 +802,9 @@ class Resource
 			$property->getUri()
 		));
 		while ($row = $sqlResult->fetch()){
-			$returnValue[] = $row['l_language'];
+		    if (!empty($row['l_language'])) {
+                $returnValue[] = $row['l_language'];
+		    }
 		}
 		
         
