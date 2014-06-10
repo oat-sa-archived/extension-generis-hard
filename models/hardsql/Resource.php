@@ -1276,7 +1276,7 @@ class Resource
 				$resource->delete(false);
 				$referencer->unReferenceResource($resource);
 				
-				$query = 'INSERT INTO "statements" ("modelid", "subject", "predicate", "object", "l_language", "epoch") VALUES  (?, ?, ?, ?, ?, CURRENT_TIMESTAMP);';
+				$query = 'INSERT INTO "statements" ("modelid", "subject", "predicate", "object", "l_language") VALUES  (?, ?, ?, ?, ?);';
 
 				foreach ($triples as $t){
 					$dbWrapper->exec($query, array(99999, $t->subject, $t->predicate, $t->object, $t->lg));
