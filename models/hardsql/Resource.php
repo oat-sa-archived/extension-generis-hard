@@ -740,13 +740,15 @@ class Resource
 				try{
 					$result = $dbWrapper->query($query);
 					while ($row = $result->fetch()){
-						$triple = new \core_kernel_classes_Triple();
-						$triple->subject = $row['uri'];
-						$triple->predicate = $row['property_uri'];
-						$triple->object = $row['property_value'];
-						$triple->lg = $row['l_language'];
-						
-						$returnValue->add($triple);
+					    if ($row['property_value'] != null) {
+    						$triple = new \core_kernel_classes_Triple();
+    						$triple->subject = $row['uri'];
+    						$triple->predicate = $row['property_uri'];
+    						$triple->object = $row['property_value'];
+    						$triple->lg = $row['l_language'];
+    						
+    						$returnValue->add($triple);
+					    }
 					}
 					// In hard mode, the rdf:type given to resources is defined by
 					// 'the table' their are belonging to. In this case, we need to
