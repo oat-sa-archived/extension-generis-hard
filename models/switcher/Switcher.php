@@ -30,6 +30,7 @@ use oat\generisHard\models\hardapi\Utils;
 use oat\generisHard\models\hardapi\TableManager;
 use oat\generisHard\models\hardapi\Exception;
 use oat\generisHard\models\hardapi\RowManager;
+use core_kernel_persistence_smoothsql_SmoothModel;
 
 /**
  * The Switcher class aims at providing a programming interface to:
@@ -330,11 +331,11 @@ class Switcher
 	{
 		$returnValue = (bool) false;
 		$session = \core_kernel_classes_Session::singleton();
-		$oldUpdatableModels = $session->getUpdatableModels();
+		$oldUpdatableModels = core_kernel_persistence_smoothsql_SmoothModel::getUpdatableModelIds();
 		
 		try{
 			// Give access to all models during hardification.
-			$session->setUpdatableModels(self::getAllModels());
+			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds(self::getAllModelIds());
 			
 			$classLabel = $class->getLabel();
 			\common_Logger::i("Hardifying class ${classLabel}", array("GENERIS"));
@@ -508,11 +509,11 @@ class Switcher
 			}
 			
 			// Give the normal rights on models to the session.
-			$session->setUpdatableModels($oldUpdatableModels);
+			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
 		}
 		catch (Exception $e){
 			\common_Logger::e('An error occured during hardification: ' . $e->getMessage());
-			$session->setUpdatableModels($oldUpdatableModels);
+			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
 		}
 
 		return (bool) $returnValue;
@@ -585,20 +586,18 @@ class Switcher
 	}
 	
 	/**
+	 * Returns the ids of all models
 	 * 
-	 * @return multitype:NULL
+	 * @return array
 	 */
-	private static function getAllModels(){
+	private static function getAllModelIds(){
 		$nsManager = \common_ext_NamespaceManager::singleton();
-		$allModels = $nsManager->getAllNamespaces();
 		
-		$newUpdatableModels = array();
-		foreach ($allModels as $m){
-			$newUpdatableModels[$m->getModelId()] = $m->getUri();
+		$modelIds = array();
+		foreach ($nsManager->getAllNamespaces() as $m){
+			$modelIds[] = $m->getModelId();
 		}
 		
-		return $newUpdatableModels;
+		return $modelIds;
 	}
 }
-
-?>
