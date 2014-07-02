@@ -187,7 +187,7 @@ class Resource
 				$result	= $dbWrapper->query($query, array($resource->getUri()));
 
 				while ($row = $result->fetch()){
-					if ($row['propertyValue'] != null){
+					if ($row['propertyValue'] !== null){
 						$returnValue[] = $row['propertyValue'];
 					}
 				}
