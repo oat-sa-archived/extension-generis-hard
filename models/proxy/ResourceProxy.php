@@ -21,6 +21,8 @@
 
 namespace oat\generisHard\models\proxy;
 
+use core_kernel_classes_Resource;
+
 /**
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -67,7 +69,7 @@ class ResourceProxy
      * @param  Resource resource
      * @return array
      */
-    public function getTypes( \core_kernel_classes_Resource $resource)
+    public function getTypes( core_kernel_classes_Resource $resource)
     {
         $returnValue = array();
         
@@ -87,7 +89,7 @@ class ResourceProxy
      * @param  array options
      * @return array
      */
-    public function getPropertyValues( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $options = array())
+    public function getPropertyValues( core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $options = array())
     {
         $returnValue = array();
 
@@ -107,7 +109,7 @@ class ResourceProxy
      * @param  string lg
      * @return \core_kernel_classes_ContainerCollection
      */
-    public function getPropertyValuesByLg( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $lg)
+    public function getPropertyValuesByLg( core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $lg)
     {
         $returnValue = null;
 
@@ -130,7 +132,7 @@ class ResourceProxy
      * @param  string lg
      * @return boolean
      */
-    public function setPropertyValue( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $object, $lg = null)
+    public function setPropertyValue( core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $object, $lg = null)
     {
         $returnValue = (bool) false;
 
@@ -149,7 +151,7 @@ class ResourceProxy
      * @param  array properties
      * @return boolean
      */
-    public function setPropertiesValues( \core_kernel_classes_Resource $resource, $properties)
+    public function setPropertiesValues( core_kernel_classes_Resource $resource, $properties)
     {
         $returnValue = (bool) false;
 
@@ -172,7 +174,7 @@ class ResourceProxy
      * @param  string lg
      * @return boolean
      */
-    public function setPropertyValueByLg( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $value, $lg)
+    public function setPropertyValueByLg( core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $value, $lg)
     {
         $returnValue = (bool) false;
 
@@ -196,7 +198,7 @@ class ResourceProxy
      * @param  array options
      * @return boolean
      */
-    public function removePropertyValues( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $options = array())
+    public function removePropertyValues( core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $options = array())
     {
         $returnValue = (bool) false;
 
@@ -220,7 +222,7 @@ class ResourceProxy
      * @param  array options
      * @return boolean
      */
-    public function removePropertyValueByLg( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $lg, $options = array())
+    public function removePropertyValueByLg( core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $lg, $options = array())
     {
         $returnValue = (bool) false;
 
@@ -241,7 +243,7 @@ class ResourceProxy
      * @param  Resource resource
      * @return \core_kernel_classes_ContainerCollection
      */
-    public function getRdfTriples( \core_kernel_classes_Resource $resource)
+    public function getRdfTriples( core_kernel_classes_Resource $resource)
     {
         $returnValue = null;
 
@@ -260,7 +262,7 @@ class ResourceProxy
      * @param  Property property
      * @return array
      */
-    public function getUsedLanguages( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property)
+    public function getUsedLanguages( core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property)
     {
         $returnValue = array();
 
@@ -277,9 +279,9 @@ class ResourceProxy
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource resource
      * @param  array excludedProperties
-     * @return \core_kernel_classes_Resource
+     * @return core_kernel_classes_Resource
      */
-    public function duplicate( \core_kernel_classes_Resource $resource, $excludedProperties = array())
+    public function duplicate( core_kernel_classes_Resource $resource, $excludedProperties = array())
     {
         $returnValue = null;
 
@@ -298,7 +300,7 @@ class ResourceProxy
      * @param  boolean deleteReference
      * @return boolean
      */
-    public function delete( \core_kernel_classes_Resource $resource, $deleteReference = false)
+    public function delete( core_kernel_classes_Resource $resource, $deleteReference = false)
     {
         $returnValue = (bool) false;
 
@@ -317,7 +319,7 @@ class ResourceProxy
      * @param  array properties
      * @return array
      */
-    public function getPropertiesValues( \core_kernel_classes_Resource $resource, $properties)
+    public function getPropertiesValues( core_kernel_classes_Resource $resource, $properties)
     {
         $returnValue = array();
 
@@ -337,7 +339,7 @@ class ResourceProxy
      * @param  Class class
      * @return boolean
      */
-    public function setType( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $class)
+    public function setType( core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $class)
     {
         $returnValue = (bool) false;
 
@@ -357,7 +359,7 @@ class ResourceProxy
      * @param  Class class
      * @return boolean
      */
-    public function removeType( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $class)
+    public function removeType( core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $class)
     {
 		$delegate = $this->getImpToDelegateTo($resource);
 		return  (bool) $delegate->removeType($resource, $class);		
@@ -389,7 +391,7 @@ class ResourceProxy
      * @param  array params
      * @return \core_kernel_persistence_ResourceInterface
      */
-    public function getImpToDelegateTo( \core_kernel_classes_Resource $resource, $params = array())
+    public function getImpToDelegateTo( core_kernel_classes_Resource $resource, $params = array())
     {
         $returnValue = null;
 
@@ -433,6 +435,15 @@ class ResourceProxy
 
         return $returnValue;
     }
+    
+    /**
+     * Remove a resource from the cache
+     * 
+     * @param core_kernel_classes_Resource $resource
+     */
+    public function uncacheResource(core_kernel_classes_Resource $resource) {
+        unset(self::$ressourcesDelegatedTo[$resource->getUri()]);
+    }
 
     /**
      * Check if context is valid
@@ -443,7 +454,7 @@ class ResourceProxy
      * @param  Resource resource
      * @return boolean
      */
-    public function isValidContext($context,  \core_kernel_classes_Resource $resource)
+    public function isValidContext($context, core_kernel_classes_Resource $resource)
     {
         $returnValue = (bool) false;
 
