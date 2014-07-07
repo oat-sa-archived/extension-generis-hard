@@ -373,7 +373,7 @@ class HardImplTest extends GenerisPhpUnitTestRunner {
 		$unknownProperty = new core_kernel_classes_Property('unknown property');
 		$unknownProperty2 = new core_kernel_classes_Property('unknown property 2');
 
-		$this->setExpectedException('common_exception_EmptyProperty');
+		$this->setExpectedException('core_kernel_classes_EmptyProperty');
 		$work1->getUniquePropertyValue($unknownProperty);
 		
 
