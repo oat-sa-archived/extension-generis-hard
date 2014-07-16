@@ -1,0 +1,19 @@
+{
+     "repositories": [
+      {
+		"type": "vcs",
+		"url": "git@github.com:oat-sa/oatbox-extension-installer.git"
+		}
+     ],
+
+    "name": "oat-sa/extension-generis-hard",
+    "type" : "tao-extension",
+    "extra" : {
+    	"tao-extension-name" : "generisHard"
+    },
+    "require": {
+        "oatbox/extension-installer": "dev-master"
+
+    }
+}
+
