@@ -12,7 +12,7 @@
     	"tao-extension-name" : "generisHard"
     },
     "require": {
-        "oatbox/extension-installer": "dev-master"
+        "oat-sa/oatbox/extension-installer": "dev-master"
 
     }
 }
