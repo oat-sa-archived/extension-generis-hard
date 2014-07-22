@@ -14,8 +14,8 @@
 		"oat-sa/oatbox-extension-installer": "dev-master"
 
 	},
-    'autoload' : {
-        'psr-4' : {
+    "autoload" : {
+        "psr-4" : {
             "oat\\generisHard\\" : ""
         }
     }
