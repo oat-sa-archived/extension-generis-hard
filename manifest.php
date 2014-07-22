@@ -33,11 +33,6 @@ return array(
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#generisHardManager', array('ext'=>'generisHard')),
     ),
-    'autoload' => array (
-        'psr-4' => array(
-            'oat\\generisHard\\' => dirname(__FILE__).DIRECTORY_SEPARATOR
-        )
-    ),
     'routes' => array(
         '/generisHard' => 'oat\\generisHard\\actions'
     ),

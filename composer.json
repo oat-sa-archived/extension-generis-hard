@@ -1,19 +1,23 @@
 {
+	"name": "oat-sa/extension-generis-hard",
+	"type" : "tao-extension",
+	"extra" : {
+		"tao-extension-name" : "generisHard"
+	},
 	"repositories": [
 	{
 		"type": "composer",
 		"url": "http://packages.taocloud.org/"	
 	}
 	],
+	"require": {
+		"oat-sa/oatbox-extension-installer": "dev-master"
 
-		"name": "oat-sa/extension-generis-hard",
-		"type" : "tao-extension",
-		"extra" : {
-			"tao-extension-name" : "generisHard"
-		},
-		"require": {
-			"oat-sa/oatbox-extension-installer": "dev-master"
-
-		}
+	},
+    'autoload' : {
+        'psr-4' : {
+            "oat\\generisHard\\" : ""
+        }
+    }
 }
 
