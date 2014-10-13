@@ -9,6 +9,6 @@ if (get_data('optimizable')) {
 ?>
 
 <?php
-Template::inc('form-footer.tpl', 'tao');
+Template::inc('footer.tpl', 'tao');
 ?>
 
