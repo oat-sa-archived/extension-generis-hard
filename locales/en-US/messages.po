@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.7\n"
-"PO-Revision-Date: 2014-10-14T10:43:27\n"
+"Project-Id-Version: TAO v3.0\n"
+"PO-Revision-Date: 2014-10-21T07:49:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -31,6 +31,9 @@ msgstr ""
 msgid "Classes and their associated data can be stored in two different modes."
 msgstr ""
 
+msgid "compiled\"===row.status?\"Production\":\"Design"
+msgstr ""
+
 msgid "Design"
 msgstr ""
 
@@ -40,10 +43,10 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
 msgid "make sure to back up your data before changing modes."
