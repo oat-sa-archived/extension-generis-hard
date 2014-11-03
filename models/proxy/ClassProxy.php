@@ -447,6 +447,4 @@ class ClassProxy
         return (bool) $returnValue;
     }
 
-} /* end of class self */
-
-?>
+}
