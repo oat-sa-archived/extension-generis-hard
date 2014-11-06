@@ -437,6 +437,4 @@ class Utils
         
     }
 
-} /* end of class self */
-
-?>
+}
