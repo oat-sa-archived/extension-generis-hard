@@ -675,18 +675,16 @@ class Clazz
 	
 			// Select in the properties table of the class
 			if (in_array("{$table}props", $propertyLocation)
-			|| ! $referencer->isPropertyReferenced($property)){
+                || ! $referencer->isPropertyReferenced($property)){
 				
 				$tableProps = $table."props";
-				$session = \core_kernel_classes_Session::singleton();
 				// Define language if required
 				$lang = '';
 				$defaultLg = '';
 				if (isset($options['lg'])){
 					$lang = $options['lg'];
-				}
-				else{
-					$lang = $session->getDataLanguage();
+				} else {
+					$lang = \common_session_SessionManager::getSession()->getDataLanguage();
 					$defaultLg = ' OR "l_language" = \''.DEFAULT_LANG.'\' ';
 				}
 	            
@@ -764,8 +762,6 @@ class Clazz
 				// Get the table name
 				$referencer = ResourceReferencer::singleton();
 				
-				$session = \core_kernel_classes_Session::singleton();
-
 				$queryProps = array();
 
 				foreach ($properties as $propertyUri => $value) {
@@ -777,7 +773,9 @@ class Clazz
 						|| !$referencer->isPropertyReferenced($property)) {
 
 						$propertyRange = $property->getRange();
-						$lang = ($property->isLgDependent() ? $session->getDataLanguage() : '');
+						$lang = $property->isLgDependent()
+                            ? \common_session_SessionManager::getSession()->getDataLanguage()
+						    : '';
 						$formatedValues = array();
 						if ($value instanceof \core_kernel_classes_Resource) {
 							$formatedValues[] = $dbWrapper->quote($value->getUri());

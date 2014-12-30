@@ -121,7 +121,6 @@ class Resource
 				$last = isset($options['last']) && $options['last'] == true ? true : false;
 				
 				$tableProps = $table."props";
-				$session = \core_kernel_classes_Session::singleton();
 				// Define language if required
 				$lang = '';
 				$defaultLg = '';
@@ -129,7 +128,7 @@ class Resource
 					$lang = $options['lg'];
 				}
 				else{
-					$lang = $session->getDataLanguage();
+					$lang = \common_session_SessionManager::getSession()->getDataLanguage();
 					$defaultLg = ' OR "l_language" = \''.DEFAULT_LANG.'\' ';
 				}
 	            
@@ -292,14 +291,13 @@ class Resource
 		if (in_array("{$tableName}props", $propertyLocation)
 		|| !$referencer->isPropertyReferenced($property)){
 			
-			$session 	= \core_kernel_classes_Session::singleton();
 			$lang = "";
 			// Define language if required
 			if ($property->isLgDependent()){
 				if ($lg!=null){
 					$lang = $lg;
 				} else {
-					$lang = $session->getDataLanguage();
+					$lang = \common_session_SessionManager::getSession()->getDataLanguage();
 				}
 			}
 
@@ -368,7 +366,6 @@ class Resource
 
 				$instanceId = Utils::getInstanceId($resource);
 				$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
-				$session = \core_kernel_classes_Session::singleton();
 
 				$queryProps = '';
 				$hardPropertyNames = array();
@@ -382,7 +379,7 @@ class Resource
 						|| !$referencer->isPropertyReferenced($property)) {
 
 						$propertyRange = $property->getRange();
-						$lang = ($property->isLgDependent() ? $session->getDataLanguage() : '');
+						$lang = ($property->isLgDependent() ? \common_session_SessionManager::getSession()->getDataLanguage() : '');
 						$formatedValues = array();
 						if ($value instanceof \core_kernel_classes_Resource) {
 							$formatedValues[] = $dbWrapper->quote($value->getUri());
@@ -553,8 +550,7 @@ class Resource
 								
 								//@TODO : if the property is language dependent, add the language condition !!
 //								if($property->isLgDependent()){
-//									$session = \core_kernel_classes_Session::singleton();
-//									$lang = $session->getDataLanguage();
+//									$lang = \common_session_SessionManager::getSession()->getDataLanguage();
 //									$query .= ' AND ("l_language" = \'\' OR "l_language" = \''.$lang.'\') ';
 //								}
 		
@@ -1129,8 +1125,6 @@ class Resource
 
 		if (!empty($propertiesProps)) {
 
-			$session = \core_kernel_classes_Session::singleton();
-			$session = \core_kernel_classes_Session::singleton();
 			// Define language if required
 			$lang = '';
 			$defaultLg = '';
@@ -1138,7 +1132,7 @@ class Resource
 			if (isset($options['lg'])) {
 				$lang = $options['lg'];
 			} else {
-				$lang = $session->getDataLanguage();
+				$lang = \common_session_SessionManager::getSession()->getDataLanguage();
 				$defaultLg = ' OR "l_language" = \'' . DEFAULT_LANG . '\' ';
 			}
 

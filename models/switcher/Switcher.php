@@ -330,7 +330,6 @@ class Switcher
 	public function hardify( \core_kernel_classes_Class $class, $options = array())
 	{
 		$returnValue = (bool) false;
-		$session = \core_kernel_classes_Session::singleton();
 		$oldUpdatableModels = core_kernel_persistence_smoothsql_SmoothModel::getUpdatableModelIds();
 		
 		try{
