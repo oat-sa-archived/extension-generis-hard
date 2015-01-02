@@ -804,14 +804,19 @@ class Clazz
 					} else {
 
 						$propertyName = HardapiUtils::getShortName($property);
+						
+						if (is_array($value)) {
+						    if (count($value) > 1) {
+						        throw new Exception("try setting multivalue for the non multiple property {$property->getLabel()} ({$property->getUri()})");
+						    } else {
+						        $value = count($value) == 0 ? null : reset($value); // take the only element
+						    }
+						}
+						
 						if ($value instanceof \core_kernel_classes_Resource) {
 							$value = $value->getUri();
-						} else if (is_array($value)) {
-							throw new Exception("try setting multivalue for the non multiple property {$property->getLabel()} ({$property->getUri()})");
-						} else {
-							$value = $value; // no need to quote, passed to prepared statement
 						}
-
+						
 						$hardPropertyNames[$propertyName] = $value;
 					}
 				}
