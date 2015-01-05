@@ -29,6 +29,8 @@ use oat\generisHard\models\proxy\ResourceProxy;
 use oat\generisHard\models\hardsql\Clazz;
 use oat\generisHard\models\hardsql\Resource;
 use oat\generisHard\models\hardapi\Utils;
+use oat\generis\test\GenerisPhpUnitTestRunner;
+
 
 class HardImplTest extends GenerisPhpUnitTestRunner {
 	
