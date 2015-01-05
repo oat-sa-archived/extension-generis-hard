@@ -185,18 +185,17 @@ class Property
      */
     public function setMultiple( \core_kernel_classes_Resource $resource, $isMultiple)
     {
-        
-        
-        // First, do the same as in smooth mode.
-        \core_kernel_persistence_smoothsql_Property::singleton()->setMultiple($resource, $isMultiple);
-        
-    	// Second, we alter the relevant table(s) if needed.
-        // For all the classes that have the resource as domain,
-        // we have to alter the correspondent tables.
+        // First we get the current property description
         $referencer = ResourceReferencer::singleton();
         $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         $propertyDescription = HardapiUtils::propertyDescriptor($resource);
         
+        // Second, we alter the resource in the same way as we would in smooth.
+        \core_kernel_persistence_smoothsql_Property::singleton()->setMultiple($resource, $isMultiple);
+        
+    	// Finally we alter the relevant table(s) if needed.
+        // For all the classes that have the resource as domain,
+        // we have to alter the correspondent tables.
         $wasMulti = $propertyDescription['isMultiple'];
         $wasLgDependent = $propertyDescription['isLgDependent'];
         
