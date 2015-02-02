@@ -1,4 +1,4 @@
-module.exports = function(grunt) { 
+module.exports = function(grunt) {
 
     var requirejs   = grunt.config('requirejs') || {};
     var clean       = grunt.config('clean') || {};
@@ -7,19 +7,20 @@ module.exports = function(grunt) {
     var root        = grunt.option('root');
     var libs        = grunt.option('mainlibs');
     var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
+    var out         = 'output/generisHard';
 
     /**
      * Remove bundled and bundling files
      */
-    clean.generishardbundle = ['output',  root + '/generisHard/views/js/controllers.min.js'];
-    
+    clean.generishardbundle = [out,  root + '/generisHard/views/js/controllers.min.js'];
+
     /**
-     * Compile tao files into a bundle 
+     * Compile tao files into a bundle
      */
     requirejs.generishardbundle = {
         options: {
             baseUrl : '../js',
-            dir : 'output',
+            dir : out,
             mainConfigFile : './config/requirejs.build.js',
             paths : { 'generisHard' : root + '/generisHard/views/js' },
             modules : [{
@@ -35,8 +36,8 @@ module.exports = function(grunt) {
      */
     copy.generishardbundle = {
         files: [
-            { src: ['output/generisHard/controller/routes.js'],  dest: root + '/generisHard/views/js/controllers.min.js' },
-            { src: ['output/generisHard/controller/routes.js.map'],  dest: root + '/generisHard/views/js/controllers.min.js.map' }
+            { src: [out + '/generisHard/controller/routes.js'],  dest: root + '/generisHard/views/js/controllers.min.js' },
+            { src: [out + '/generisHard/controller/routes.js.map'],  dest: root + '/generisHard/views/js/controllers.min.js.map' }
         ]
     };
 
