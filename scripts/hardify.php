@@ -18,8 +18,12 @@
  *               
  * 
  */
+use oat\generisHard\helpers\Optimization;
 
-use oat\generisHard\models\HardModel;
-use oat\generis\model\data\ModelManager;
+require_once dirname(__FILE__) .'/../../tao/includes/raw_start.php';
 
-ModelManager::setModel(new HardModel(array('persistence' => 'default')));
+foreach (Optimization::getOptimizableClasses() as $class) {
+    $class = new core_kernel_classes_Class($class['classUri']);
+    $result = Optimization::compileClass($class);
+    echo ($result['success'] ? '[  ]' : '[EE]').' Compiled '.$result['count'].' resources for ',$class->getLabel().PHP_EOL;
+}
