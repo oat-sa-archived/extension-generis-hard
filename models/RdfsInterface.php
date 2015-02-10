@@ -23,20 +23,31 @@ namespace oat\generisHard\models;
 use oat\generisHard\models\proxy\ClassProxy;
 use oat\generisHard\models\proxy\ResourceProxy;
 use oat\generisHard\models\proxy\PropertyProxy;
+use common_persistence_SqlPersistence;
 
 class RdfsInterface
     implements \oat\generis\model\data\RdfsInterface
 {
+    private $resourceProxy;
+    private $propertyProxy;
+    private $classProxy;
+    
+    public function __construct(common_persistence_SqlPersistence $persistence) {
+        $this->resourceProxy = new ResourceProxy($persistence);
+        $this->propertyProxy = new PropertyProxy($persistence);
+        $this->classProxy = new ClassProxy($persistence);
+    }
+    
     public function getClassImplementation() {
-        return ClassProxy::singleton();
+        return $this->classProxy;
     }
     
     public function getResourceImplementation() {
-        return ResourceProxy::singleton();
+        return $this->resourceProxy;
     }
     
     public function getPropertyImplementation() {
-        return PropertyProxy::singleton();
+        return $this->propertyProxy;
     }
     
 }
