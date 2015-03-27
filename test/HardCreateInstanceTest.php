@@ -22,6 +22,8 @@ require_once dirname(__FILE__) . '/../../generis/test/GenerisPhpUnitTestRunner.p
 
 use oat\generisHard\models\hardapi\ResourceReferencer;
 use oat\generisHard\models\switcher\Switcher;
+use oat\generis\test\GenerisPhpUnitTestRunner;
+
 
 /**
  * Test class for Class.

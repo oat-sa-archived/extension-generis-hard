@@ -22,6 +22,7 @@ require_once dirname(__FILE__) . '/../../generis/test/GenerisPhpUnitTestRunner.p
 
 use oat\generisHard\models\switcher\Switcher;
 use oat\generisHard\models\proxy\ClassProxy;
+use oat\generis\test\GenerisPhpUnitTestRunner;
 
 class HardDbSubjectTestCase extends GenerisPhpUnitTestRunner {
 

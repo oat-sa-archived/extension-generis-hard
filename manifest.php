@@ -28,7 +28,7 @@ return array(
 	'author' => 'Open Assessment Technologies SA',
 	'requires' => array(
 	   'generis' => '>=2.6'
-	    ,'tao' => '>=2.6'),
+	    ,'tao' => '>=2.7.0'),
 	'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#generisHardManager',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#generisHardManager', array('ext'=>'generisHard')),

@@ -21,6 +21,8 @@
 
 namespace oat\generisHard\models\proxy;
 
+use common_persistence_SqlPersistence;
+
 /**
  * @abstract
  * @access public
@@ -30,19 +32,15 @@ namespace oat\generisHard\models\proxy;
  */
 abstract class PersistenceProxy
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
     /**
-     * Short description of attribute impls
-     *
-     * @access protected
-     * @var array
+     * @var common_persistence_SqlPersistence
      */
-    protected $impls = array();
-
+    private $sqlPersistence;
+    
+    public function __constructor(common_persistence_SqlPersistence $sqlPersistence) {
+        $this->sqlPersistence = $sqlPersistence;
+    }
+    
     /**
      * Short description of attribute current
      *
@@ -72,24 +70,6 @@ abstract class PersistenceProxy
      * @return \core_kernel_persistence_ResourceInterface
      */
     public abstract function getImpToDelegateTo( \core_kernel_classes_Resource $resource, $params = array());
-
-    /**
-     * Short description of method singleton
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return PersistenceProxy
-     */
-    public static function singleton()
-    {
-        $returnValue = null;
-
-        
-        throw new \Exception('Must be implemented by subclasses.');
-        
-
-        return $returnValue;
-    }
 
     /**
      * Short description of method getAvailableImpl

@@ -24,6 +24,7 @@ use oat\generisHard\models\hardapi\TableManager;
 use oat\generisHard\models\hardapi\Utils;
 use oat\generisHard\models\hardapi\ResourceReferencer;
 use oat\generisHard\models\hardapi\Exception;
+use oat\generis\test\GenerisPhpUnitTestRunner;
 
 /**
  * HardApiTestCase enables you to test the classes that manage data storage 

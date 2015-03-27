@@ -54,7 +54,7 @@ class Optimization {
      *
      */
     public static function getClassInstancesCount(\core_kernel_classes_Class $class){
-        return count($class->getInstances($class, true));
+        return count($class->getInstances(true));
     }
     
     /**

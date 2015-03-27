@@ -24,17 +24,28 @@ use oat\generisHard\models\proxy\ClassProxy;
 use oat\generisHard\models\proxy\ResourceProxy;
 use oat\generisHard\models\proxy\PropertyProxy;
 use oat\generis\model\data\Model;
+use oat\generis\model\kernel\persistence\wrapper\RdfWrapper;
 
 class HardModel
     implements Model
 {
+    private $rdfsInterface;
+    
+    private $persistence;
+    
 	/**
 	 * Creates a model from a configuration array provided by getConfig()
 	 * 
 	 * @param array $config
 	 */
     public function __construct($configuration) {
+        if (!isset($configuration['persistence'])) {
+            throw new \common_exception_MissingParameter('persistence', __CLASS__);
+        }
+        $this->persistanceId = $configuration['persistence'];
         
+        $persistence = \common_persistence_SqlPersistence::getPersistence($configuration['persistence']);
+        $this->rdfsInterface = new RdfsInterface($persistence); 
     }
     
 	/**
@@ -44,21 +55,23 @@ class HardModel
 	 * @return array
 	 */
 	public function getConfig() {
-	    return array();
+        return array(
+            'persistence' => $this->persistanceId
+        );
 	}
 
 	/**
 	 * @return RdfInterface
 	 */
 	function getRdfInterface() {
-        throw new \common_Exception('Not implemented');
+	    return new RdfWrapper($this->rdfsInterface);
 	}
 	
 	/**
 	 * @return RdfsInterface
 	 */
 	function getRdfsInterface() {
-	    return new RdfsInterface();
+	    return $this->rdfsInterface;
 	}
     
 }
