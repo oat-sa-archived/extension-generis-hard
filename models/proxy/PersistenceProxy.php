@@ -22,6 +22,8 @@
 namespace oat\generisHard\models\proxy;
 
 use common_persistence_SqlPersistence;
+use oat\generis\model\data\Model;
+use oat\generisHard\models\hardsql\Resource;
 
 /**
  * @abstract
@@ -37,7 +39,10 @@ abstract class PersistenceProxy
      */
     private $sqlPersistence;
     
-    public function __constructor(common_persistence_SqlPersistence $sqlPersistence) {
+    private $smooth;
+    
+    public function __construct(common_persistence_SqlPersistence $sqlPersistence, Model $smooth) {
+        $this->smooth = $smooth;
         $this->sqlPersistence = $sqlPersistence;
     }
     
@@ -70,51 +75,6 @@ abstract class PersistenceProxy
      * @return \core_kernel_persistence_ResourceInterface
      */
     public abstract function getImpToDelegateTo( \core_kernel_classes_Resource $resource, $params = array());
-
-    /**
-     * Short description of method getAvailableImpl
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array params
-     * @return array
-     */
-    protected function getAvailableImpl($params = array())
-    {
-        $returnValue = array();
-
-        
-        
-        $returnValue = array(
-        	PERSISTENCE_HARD => true, 
-        	PERSISTENCE_SMOOTH => true, 
-        	PERSISTENCE_VIRTUOSO => false, 
-        	PERSISTENCE_SUBSCRIPTION => false
-       	);
-        
-        if (self::isForcedMode()){
-        	$returnValue = array (
-        		self::$current => true
-        	);
-        } else if (count ($params)){
-        	$returnValue = array_merge($returnValue, $params);
-        }
-        
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method isValidContext
-     *
-     * @abstract
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string context
-     * @param  Resource resource
-     * @return boolean
-     */
-    public abstract function isValidContext($context,  \core_kernel_classes_Resource $resource);
 
     /**
      * Force the use of a specific implementation
@@ -198,6 +158,44 @@ abstract class PersistenceProxy
         	throw new \common_exception_Error("PersistencyProxy::restoreImplementation() called without forcing an implementation first");
         }
         
+    }
+    
+     /**
+     * Short description of method isValidContext
+     *
+     * @abstract
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string context
+     * @param  Resource resource
+     * @return boolean
+     */
+     public function isValidContext($context,  \core_kernel_classes_Resource $resource)
+     {
+        $returnValue = (bool) false;
+    
+    
+    
+        $impls = $this->getImplementations();
+        if(isset($impls[$context])){
+            $returnValue = $impls[$context]->isValidContext($resource);
+            break;
+        }
+    
+    
+    
+        return (bool) $returnValue;
+    }
+    
+    protected abstract function getImplementations();
+    
+    /**
+     *
+     * @return Model
+     */
+    protected function getSmoothModel()
+    {
+        return $this->smooth;
     }
 
 }

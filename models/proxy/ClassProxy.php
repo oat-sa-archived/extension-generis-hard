@@ -22,6 +22,7 @@
 namespace oat\generisHard\models\proxy;
 
 use oat\generisHard\models\hardsql\Clazz;
+use oat\generis\model\data\Model;
 
 /**
  * Short description of class self
@@ -43,14 +44,6 @@ class ClassProxy
     	'hardsql' => 'oat\generisHard\models\hardsql\Clazz',
         'smoothsql' => '\\core_kernel_persistence_smoothsql_Class'
     );
-    
-    /**
-     * Short description of attribute instance
-     *
-     * @access public
-     * @var self
-     */
-    public static $instance = null;
 
     /**
      * Short description of attribute ressourcesDelegatedTo
@@ -75,7 +68,7 @@ class ClassProxy
         if($delegate instanceof Clazz){
                 // Use the smooth sql implementation to get this information
 		// Or find the right way to treat this case
-                $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->getSubClasses($resource, $recursive);
+                $returnValue = $this->getSmoothClassInterface()->getSubClasses($resource, $recursive);
         }else{
                 $returnValue = $delegate->getSubClasses($resource, $recursive);
         }
@@ -97,7 +90,7 @@ class ClassProxy
         if($delegate instanceof Clazz){
                 // Use the smooth sql implementation to get this information
 		// Or find the right way to treat this case
-                $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->isSubClassOf($resource, $parentClass);
+                $returnValue = $this->getSmoothClassInterface()->isSubClassOf($resource, $parentClass);
         }else{
                 $returnValue = $delegate->isSubClassOf($resource, $parentClass);
         }
@@ -119,7 +112,7 @@ class ClassProxy
         if($delegate instanceof Clazz){
                 // Use the smooth sql implementation to get this information
 		// Or find the right way to treat this case
-                $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->getParentClasses($resource, $recursive);
+                $returnValue = $this->getSmoothClassInterface()->getParentClasses($resource, $recursive);
         }else{
                 $returnValue = $delegate->getParentClasses($resource, $recursive);
         }
@@ -141,7 +134,7 @@ class ClassProxy
         if($delegate instanceof Clazz){
                 // Use the smooth sql implementation to get this information
 		// Or find the right way to treat this case
-                $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->getProperties($resource, $recursive);
+                $returnValue = $this->getSmoothClassInterface()->getProperties($resource, $recursive);
         }else{
                 $returnValue = $delegate->getProperties($resource, $recursive);
         }
@@ -335,31 +328,6 @@ class ClassProxy
         return (bool) $returnValue;
     }
     
-    
-
-    /**
-     * singleton
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return self
-     */
-    public static function singleton()
-    {
-        $returnValue = null;
-
-        
-        
-        if(self::$instance == null){
-        	self::$instance = new self();
-        }
-        $returnValue = self::$instance;
-        
-        
-
-        return $returnValue;
-    }
-
     /**
      * (non-PHPdoc)
      * @see \oat\generisHard\models\proxy\PersistenceProxy::getImpToDelegateTo()
@@ -373,13 +341,9 @@ class ClassProxy
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
         	
-	    	$impls = $this->getAvailableImpl($params);
-			foreach($impls as $implName=>$enable){
+			foreach($this->getImplementations() as $delegate) {
 				// If the implementation is enabled && the resource exists in this context
-				if($enable && $this->isValidContext($implName, $resource)){
-		        	$implClass = self::$implClasses[$implName];
-		        	$reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
-					$delegate = $reflectionMethod->invoke(null);
+				if($delegate->isValidContext($resource)){
 					
 					if(PersistenceProxy::isForcedMode()){
 						return $delegate;
@@ -394,36 +358,9 @@ class ClassProxy
         $returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
         
         
-
+        \common_Logger::d(get_class($returnValue));
+        
         return $returnValue;
-    }
-
-    /**
-     * Short description of method isValidContext
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string context
-     * @param  Resource resource
-     * @return boolean
-     */
-    public function isValidContext($context,  \core_kernel_classes_Resource $resource)
-    {
-        $returnValue = (bool) false;
-
-        
-        
-        $impls = $this->getAvailableImpl();             
-        if(isset($impls[$context]) && $impls[$context]){
-        	$implClass = self::$implClasses[$context];
-        	$reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
-			$singleton = $reflectionMethod->invoke(null);
-			$returnValue = $singleton->isValidContext($resource);
-        }  
-        
-        
-
-        return (bool) $returnValue;
     }
     
     /**
@@ -439,12 +376,28 @@ class ClassProxy
         if($delegate instanceof Clazz){
             // Use the smooth sql implementation to get this information
             // Or find the right way to treat this case
-            $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->setSubClassOf($resource, $iClass);
+            $returnValue = $this->getSmoothClassInterface()->setSubClassOf($resource, $iClass);
         }else{
             $returnValue = $delegate->setSubClassOf($resource, $iClass);
         }
     
         return (bool) $returnValue;
     }
-
+    
+    protected function getImplementations()
+    {
+        return array(
+            'hardsql' => Clazz::singleton(),
+            'smoothsql' => $this->getSmoothClassInterface()
+        );
+    }
+    
+    /**
+     * 
+     * @return \core_kernel_persistence_ClassInterface
+     */
+    private function getSmoothClassInterface()
+    {
+        return new \core_kernel_persistence_smoothsql_Class($this->getSmoothModel());
+    }
 }

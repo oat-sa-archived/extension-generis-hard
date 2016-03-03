@@ -20,57 +20,38 @@
 
 namespace oat\generisHard\models;
 
-use oat\generisHard\models\proxy\ClassProxy;
-use oat\generisHard\models\proxy\ResourceProxy;
-use oat\generisHard\models\proxy\PropertyProxy;
 use oat\generis\model\data\Model;
 use oat\generis\model\kernel\persistence\wrapper\RdfWrapper;
+use oat\oatbox\service\ConfigurableService;
+use oat\generisHard\models\proxy\RdfsInterface;
 
-class HardModel
-    implements Model
+class HardModel extends ConfigurableService implements Model
 {
+    const OPTION_PERSISTENCE = 'persistence';
+    
+    const OPTION_SMOOTH_MODEL = 'smooth';
+    
     private $rdfsInterface;
     
-    private $persistence;
-    
-	/**
-	 * Creates a model from a configuration array provided by getConfig()
-	 * 
-	 * @param array $config
-	 */
-    public function __construct($configuration) {
-        if (!isset($configuration['persistence'])) {
-            throw new \common_exception_MissingParameter('persistence', __CLASS__);
-        }
-        $this->persistanceId = $configuration['persistence'];
-        
-        $persistence = \common_persistence_SqlPersistence::getPersistence($configuration['persistence']);
-        $this->rdfsInterface = new RdfsInterface($persistence); 
-    }
-    
-	/**
-	 * Returns a configuration array that can be used the model, should only contain
-	 * scalars as values
-	 * 
-	 * @return array
-	 */
-	public function getConfig() {
-        return array(
-            'persistence' => $this->persistanceId
-        );
-	}
-
 	/**
 	 * @return RdfInterface
 	 */
 	function getRdfInterface() {
-	    return new RdfWrapper($this->rdfsInterface);
+	    return new RdfWrapper($this->getRdfsInterface());
 	}
 	
 	/**
 	 * @return RdfsInterface
 	 */
 	function getRdfsInterface() {
+	    if (!isset($this->rdfsInterface)) {
+	        if (!$this->hasOption(self::OPTION_PERSISTENCE)) {
+	            throw new \common_exception_MissingParameter(self::OPTION_PERSISTENCE, __CLASS__);
+	        }
+	        
+	        $persistence = \common_persistence_SqlPersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
+	        $this->rdfsInterface = new RdfsInterface($persistence, $this->getOption(self::OPTION_SMOOTH_MODEL));
+	    }
 	    return $this->rdfsInterface;
 	}
     

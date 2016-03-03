@@ -22,6 +22,7 @@
 namespace oat\generisHard\models\proxy;
 
 use core_kernel_classes_Resource;
+use oat\generisHard\models\hardsql\Resource;
 
 /**
  * @access public
@@ -41,14 +42,6 @@ class ResourceProxy
     	'hardsql' => 'oat\generisHard\models\hardsql\Resource',
         'smoothsql' => '\core_kernel_persistence_smoothsql_Resource'
     );
-
-    /**
-     * Short description of attribute instance
-     *
-     * @access public
-     * @var PersistenceProxy
-     */
-    public static $instance = null;
 
     /**
      * Short description of attribute ressourcesDelegatedTo
@@ -366,23 +359,6 @@ class ResourceProxy
     }
 
     /**
-     * 
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return \oat\generisHard\models\proxy\PersistenceProxy
-     */
-    public static function singleton()
-    {
-        $returnValue = null;
-
-		if(self::$instance == null){
-			self::$instance = new self();
-		}
-		$returnValue = self::$instance;
-
-        return $returnValue;
-    }
-
-    /**
      * Retrieve the inplementation to delegate
      *
      * @access public
@@ -398,13 +374,9 @@ class ResourceProxy
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
         	
-	    	$impls = $this->getAvailableImpl($params);
-			foreach($impls as $implName=>$enable){
+			foreach($this->getImplementations() as $delegate) {
 				// If the implementation is enabled && the resource exists in this context
-				if($enable && $this->isValidContext($implName, $resource)){
-		        	$implClass = self::$implClasses[$implName];
-		        	$reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
-					$delegate = $reflectionMethod->invoke(null);
+				if($delegate->isValidContext($resource)){
 					
 					if(PersistenceProxy::isForcedMode()){
 						return $delegate;
@@ -418,20 +390,10 @@ class ResourceProxy
 		if(isset(self::$ressourcesDelegatedTo[$resource->getUri()])){
 			$returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
 		}else{
-			$errorMessage = "The resource with uri {$resource->getUri()} does not exist in the available implementation(s): ";
-			$i = 0;
-			foreach($this->getAvailableImpl() as $name => $valid){
-				if($valid){
-					if($i>0) {
-                        $errorMessage .= ", ";
-                    }
-					$errorMessage .= $name;
-				}
-				$i++;
-			}
-			throw new \core_kernel_persistence_Exception($errorMessage);
+			throw new \core_kernel_persistence_Exception("The resource with uri {$resource->getUri()} does not exist in the available implementation(s)");
 		}
-		
+
+		\common_Logger::d(get_class($returnValue));
 
         return $returnValue;
     }
@@ -445,33 +407,20 @@ class ResourceProxy
         unset(self::$ressourcesDelegatedTo[$resource->getUri()]);
     }
 
-    /**
-     * Check if context is valid
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string context
-     * @param  Resource resource
-     * @return boolean
-     */
-    public function isValidContext($context, core_kernel_classes_Resource $resource)
+    protected function getImplementations()
     {
-        $returnValue = (bool) false;
-
-
-        $impls = $this->getAvailableImpl();
-        if(isset($impls[$context]) && $impls[$context]){
-            $implClass = self::$implClasses[$context];
-            if(class_exists($implClass)){
-                $reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
-                $singleton = $reflectionMethod->invoke(null);
-                $returnValue = $singleton->isValidContext($resource);  
-            }else{
-                throw new \Exception('the persistence class does not exists: '.$implClass);
-            }
-        }
-		 
-
-        return (bool) $returnValue;
+        return array(
+            'hardsql' => Resource::singleton(),
+            'smoothsql' => $this->getSmoothResourceInterface()
+        );
+    }
+    
+    /**
+     *
+     * @return \core_kernel_persistence_ClassInterface
+     */
+    private function getSmoothResourceInterface()
+    {
+        return new \core_kernel_persistence_smoothsql_Resource($this->getSmoothModel());
     }
 }

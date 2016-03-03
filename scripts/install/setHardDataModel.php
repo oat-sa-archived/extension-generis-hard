@@ -22,4 +22,7 @@
 use oat\generisHard\models\HardModel;
 use oat\generis\model\data\ModelManager;
 
-ModelManager::setModel(new HardModel(array('persistence' => 'default')));
+ModelManager::setModel(new HardModel(array(
+    HardModel::OPTION_PERSISTENCE => 'default',
+    HardModel::OPTION_SMOOTH_MODEL => ModelManager::getModel()
+)));

@@ -64,7 +64,7 @@ class Clazz
         
 		if(class_exists('\core_kernel_persistence_smoothsql_Class')){
 			//the model is not hardened and remains in the soft table:
-			$returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->getSubClasses($resource, $recursive);
+			$returnValue = $this->getSmoothClassInterface()->getSubClasses($resource, $recursive);
 		}else{
 			throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
 		}
@@ -84,7 +84,7 @@ class Clazz
         
 		if(class_exists('\core_kernel_persistence_smoothsql_Class')){
 			//the model is not hardened and remains in the soft table:
-			$returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->isSubClassOf($resource, $parentClass);
+			$returnValue = $this->getSmoothClassInterface()->isSubClassOf($resource, $parentClass);
 		}else{
 			throw new \core_kernel_persistence_ProhibitedFunctionException("not implemented => The function (".__METHOD__.") is not available in this persistence implementation (".__CLASS__.")");
 		}
@@ -274,7 +274,7 @@ class Clazz
     public function createSubClass( \core_kernel_classes_Class $resource, $label = '', $comment = '', $uri = '')
     {
     	// Meta-model is still in smooth mode...
-		$newClass = \core_kernel_persistence_smoothsql_Class::singleton()->createSubClass($resource, $label, $comment, $uri);
+		$newClass = $this->getSmoothClassInterface()->createSubClass($resource, $label, $comment, $uri);
 		
 		if (empty($newClass)){
 			$classUri = $resource->getUri();
@@ -304,7 +304,7 @@ class Clazz
 
         
         // First we reference the property in smooth mode because meta models always remain there.
-		$smoothReturnValue = \core_kernel_persistence_smoothsql_Class::singleton()->createProperty($resource, $label, $comment, $isLgDependent);
+		$smoothReturnValue = $this->getSmoothClassInterface()->createProperty($resource, $label, $comment, $isLgDependent);
 		
 		if ($smoothReturnValue){
 			$property = new \core_kernel_classes_Property($resource->getUri());
@@ -899,7 +899,7 @@ class Clazz
         $success = $switcher->unhardify(new \core_kernel_classes_Class($resource));
     
         if (true == $success){
-            $returnValue = \core_kernel_persistence_smoothsql_Class::singleton()->delete($resource, $deleteReference);
+            $returnValue = $this->getSmoothClassInterface()->delete($resource, $deleteReference);
         }
         else{
             $returnValue = false;
@@ -953,6 +953,12 @@ class Clazz
         
 
         return (bool) $returnValue;
+    }
+    
+    private function getSmoothClassInterface()
+    {
+        throw \Exception('not even here yet');
+        return new \core_kernel_persistence_smoothsql_Class($this->getSmoothModel());
     }
 
 }

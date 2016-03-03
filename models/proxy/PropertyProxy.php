@@ -293,59 +293,41 @@ class PropertyProxy
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
         	
-	    	$impls = $this->getAvailableImpl($params);
-            foreach($impls as $implName=>$enable){
-                // If the implementation is enabled && the resource exists in this context
-                if($enable && $this->isValidContext($implName, $resource)){
-                    $implClass = self::$implClasses[$implName];
-                    $reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
-                    $delegate = $reflectionMethod->invoke(null);
-
-                    if(PersistenceProxy::isForcedMode()){
-                            return $delegate;
-                    }
-
-                    self::$ressourcesDelegatedTo[$resource->getUri()] = $delegate;
-                    break;
-                }
-            }
+			foreach($this->getImplementations() as $delegate) {
+				// If the implementation is enabled && the resource exists in this context
+				if($delegate->isValidContext($resource)){
+					
+					if(PersistenceProxy::isForcedMode()){
+						return $delegate;
+					}
+					
+					self::$ressourcesDelegatedTo[$resource->getUri()] = $delegate;
+					break;
+		        }
+			}
         }
+        \common_Logger::d(get_class($returnValue));
+        
 
 		return self::$ressourcesDelegatedTo[$resource->getUri()];
 
     }
 
-    /**
-     * Short description of method isValidContext
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string context
-     * @param  Resource resource
-     * @return boolean
-     */
-    public function isValidContext($context,  \core_kernel_classes_Resource $resource)
+    protected function getImplementations()
     {
-        $returnValue = (bool) false;
-
-        
-
-        $impls = $this->getAvailableImpl(); 
-        if(isset($impls[$context]) && $impls[$context]){
-            
-        	$implClass = self::$implClasses[$context];
-        	$reflectionMethod = new \ReflectionMethod($implClass, 'singleton');
-                $singleton = $reflectionMethod->invoke(null);
-                try{
-                	$returnValue = $singleton->isValidContext($resource);
-                }catch(Exception $e){
-                	echo 'error*';
-                }
-        }
-        
-        
-
-        return (bool) $returnValue;
+        return array(
+            'hardsql' => Property::singleton(),
+            'smoothsql' => $this->getSmoothPropertyInterface()
+        );
+    }
+    
+    /**
+     *
+     * @return \core_kernel_persistence_ClassInterface
+     */
+    private function getSmoothPropertyInterface()
+    {
+        return new \core_kernel_persistence_smoothsql_Property($this->getSmoothModel());
     }
 
 }
