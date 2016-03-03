@@ -24,18 +24,11 @@ return array(
 	'label' => 'generis4 SQL-tables driver',
 	'description' => 'A perfromance oriented implementation of the ontology',
     'license' => 'GPL-2.0',
-    'version' => '1.0',
+    'version' => '2.0.0',
 	'author' => 'Open Assessment Technologies SA',
 	'requires' => array(
-	   'generis' => '>=2.6'
-	    ,'tao' => '>=2.7.0'),
-	'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#generisHardManager',
-    'acl' => array(
-        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#generisHardManager', array('ext'=>'generisHard')),
-    ),
-    'routes' => array(
-        '/generisHard' => 'oat\\generisHard\\actions'
-    ),
+	   'generis' => '>=2.15.0'
+	),
     'install' => array(
         'php' => array(
             dirname(__FILE__).'/scripts/install/createHardDbTables.php',
