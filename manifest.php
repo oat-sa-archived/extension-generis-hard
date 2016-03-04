@@ -27,7 +27,7 @@ return array(
     'version' => '2.0.0',
 	'author' => 'Open Assessment Technologies SA',
 	'requires' => array(
-	   'generis' => '>=2.15.0'
+	   'generis' => '>=2.14.0'
 	),
     'install' => array(
         'php' => array(
