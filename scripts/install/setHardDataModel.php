@@ -19,10 +19,13 @@
  * 
  */
 
-use oat\generisHard\models\HardModel;
 use oat\generis\model\data\ModelManager;
+use oat\generisHard\models\ProxyModel;
+use oat\generisHard\models\HardModel;
 
-ModelManager::setModel(new HardModel(array(
-    HardModel::OPTION_PERSISTENCE => 'default',
-    HardModel::OPTION_SMOOTH_MODEL => ModelManager::getModel()
+ModelManager::setModel(new ProxyModel(array(
+    ProxyModel::OPTION_SMOOTH_MODEL => ModelManager::getModel(),
+    ProxyModel::OPTION_HARD_MODEL => new HardModel(array(
+        HardModel::OPTION_PERSISTENCE => 'default',
+    ))
 )));

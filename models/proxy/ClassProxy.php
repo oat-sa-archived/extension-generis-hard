@@ -23,6 +23,7 @@ namespace oat\generisHard\models\proxy;
 
 use oat\generisHard\models\hardsql\Clazz;
 use oat\generis\model\data\Model;
+use oat\generisHard\models\ProxyModel;
 
 /**
  * Short description of class self
@@ -336,16 +337,19 @@ class ClassProxy
     {
         $returnValue = null;
 
-        
+        $impls = $this->getImplementations();
+        if (PersistenceProxy::isForcedMode()) {
+            return $impls[PersistenceProxy::getForcedMode()];
+        }
 
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
         	
-			foreach($this->getImplementations() as $delegate) {
+			foreach($this->getImplementations() as $code => $delegate) {
 				// If the implementation is enabled && the resource exists in this context
 				if($delegate->isValidContext($resource)){
 					
-					if(PersistenceProxy::isForcedMode()){
+					if(PersistenceProxy::isForcedMode($code)){
 						return $delegate;
 					}
 					
@@ -386,10 +390,11 @@ class ClassProxy
     
     protected function getImplementations()
     {
-        return array(
-            'hardsql' => Clazz::singleton(),
-            'smoothsql' => $this->getSmoothClassInterface()
-        );
+        $implementations = array();
+        foreach ($this->getModels() as $key => $model) {
+            $implementations[$key] = $model->getRdfsInterface()->getClassImplementation();
+        } 
+        return $implementations;
     }
     
     /**
@@ -398,6 +403,6 @@ class ClassProxy
      */
     private function getSmoothClassInterface()
     {
-        return new \core_kernel_persistence_smoothsql_Class($this->getSmoothModel());
+        return $this->getImplementations()[ProxyModel::OPTION_SMOOTH_MODEL];
     }
 }

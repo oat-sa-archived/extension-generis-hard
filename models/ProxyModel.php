@@ -23,16 +23,15 @@ namespace oat\generisHard\models;
 use oat\generis\model\data\Model;
 use oat\generis\model\kernel\persistence\wrapper\RdfWrapper;
 use oat\oatbox\service\ConfigurableService;
-use \oat\generis\model\data\RdfsInterface;
-use oat\generisHard\models\hardsql\Clazz;
-use oat\generisHard\models\hardsql\Resource;
-use oat\generisHard\models\hardsql\Property;
+use oat\generisHard\models\proxy\RdfsInterface;
 
-class HardModel extends ConfigurableService implements Model, RdfsInterface
+class ProxyModel extends ConfigurableService implements Model
 {
-    const OPTION_PERSISTENCE = 'persistence';
+    const OPTION_HARD_MODEL = 'hardsql';
     
-    private $persistence;
+    const OPTION_SMOOTH_MODEL = 'smoothsql';
+    
+    private $rdfsInterface;
     
 	/**
 	 * @return RdfInterface
@@ -45,31 +44,14 @@ class HardModel extends ConfigurableService implements Model, RdfsInterface
 	 * @return RdfsInterface
 	 */
 	function getRdfsInterface() {
-	    return $this;
-	}
-	
-	private function getPersistence() {
-	    
-	    if (is_null($this->persistence)) {
-    	    if (!$this->hasOption(self::OPTION_PERSISTENCE)) {
-    	        throw new \common_exception_MissingParameter(self::OPTION_PERSISTENCE, __CLASS__);
-    	    }
-    	     
-    	    $this->persistence = \common_persistence_SqlPersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
+	    if (!isset($this->rdfsInterface)) {
+	        if (!$this->hasOption(self::OPTION_HARD_MODEL) || !$this->hasOption(self::OPTION_SMOOTH_MODEL)) {
+	            throw new \common_exception_MissingParameter();
+	        }
+	        
+	        $this->rdfsInterface = new RdfsInterface($this->getOption(self::OPTION_HARD_MODEL), $this->getOption(self::OPTION_SMOOTH_MODEL));
 	    }
-        return $this->persistence;
-	}
-	
-	public function getClassImplementation() {
-	    return new Clazz($this->getPersistence());
-	}
-	
-	public function getResourceImplementation() {
-	    return new Resource($this->getPersistence());
-	}
-	
-	public function getPropertyImplementation() {
-	    return new Property($this->getPersistence());
+	    return $this->rdfsInterface;
 	}
     
 }

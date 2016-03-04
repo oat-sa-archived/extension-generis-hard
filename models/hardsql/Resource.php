@@ -531,13 +531,13 @@ class Resource
                                 $additionalConditions = array();
                                 if(!is_null($pattern)){
                                         if(is_string($pattern)){
-                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($pattern, $like);
+                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$pattern, $like);
                                                 $additionalConditions[] = ' ("property_value" '.$searchPattern.' OR "property_foreign_uri" '.$searchPattern.') ';
                                         }else if(is_array($pattern)){
                                                 if(count($pattern) > 0){
                                                         $multiCondition =  "(";
                                                         foreach($pattern as $i => $patternToken){
-                                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($patternToken, $like);
+                                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$patternToken, $like);
                                                                 if($i > 0){
                                                                 	$multiCondition .= " OR ";
                                                                 }
@@ -575,13 +575,13 @@ class Resource
 			$additionalConditions = array();
 			if(!is_null($pattern)){
 				if(is_string($pattern)){
-					$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($pattern, $like);
+					$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$pattern, $like);
 					$additionalConditions[] = ' ("'.$propertyName.'" '.$searchPattern.') ';
 				}else if(is_array($pattern)){
 					if(count($pattern) > 0){
 						$multiCondition =  "(";
 						foreach($pattern as $i => $patternToken){
-							$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($patternToken, $like);
+							$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$patternToken, $like);
 							if($i > 0){
 								$multiCondition .= " OR ";
 							}
@@ -650,13 +650,13 @@ class Resource
                                 $additionalConditions = array();
                                 if(!is_null($pattern)){
                                         if(is_string($pattern)){ 
-                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($pattern, $like);
+                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$pattern, $like);
                                                 $additionalConditions[] = ' ("property_value" '.$searchPattern.' OR "property_foreign_uri" '.$searchPattern.') ';
                                         }else if(is_array($pattern)){
                                                 if(count($pattern) > 0){
                                                         $multiCondition =  "(";
                                                         foreach($pattern as $i => $patternToken){
-                                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($patternToken, $like);
+                                                                $searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$patternToken, $like);
                                                                 if($i > 0){
                                                                 	$multiCondition .= " OR ";
                                                                 }

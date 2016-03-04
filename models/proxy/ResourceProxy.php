@@ -369,24 +369,22 @@ class ResourceProxy
      */
     public function getImpToDelegateTo( core_kernel_classes_Resource $resource, $params = array())
     {
-        $returnValue = null;
-
-        if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
-        || PersistenceProxy::isForcedMode()){
-        	
-			foreach($this->getImplementations() as $delegate) {
-				// If the implementation is enabled && the resource exists in this context
-				if($delegate->isValidContext($resource)){
-					
-					if(PersistenceProxy::isForcedMode()){
-						return $delegate;
-					}
-					
-					self::$ressourcesDelegatedTo[$resource->getUri()] = $delegate;
-					break;
-		        }
-			}
+        $impls = $this->getImplementations();
+        if (PersistenceProxy::isForcedMode()) {
+            return $impls[PersistenceProxy::getForcedMode()];
         }
+        
+        if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()])){
+            foreach($this->getImplementations() as $delegate) {
+                // If the implementation is enabled && the resource exists in this context
+                if($delegate->isValidContext($resource)){
+                    	
+                    self::$ressourcesDelegatedTo[$resource->getUri()] = $delegate;
+                    break;
+                }
+            }
+        }
+        
 		if(isset(self::$ressourcesDelegatedTo[$resource->getUri()])){
 			$returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
 		}else{
@@ -409,18 +407,10 @@ class ResourceProxy
 
     protected function getImplementations()
     {
-        return array(
-            'hardsql' => Resource::singleton(),
-            'smoothsql' => $this->getSmoothResourceInterface()
-        );
-    }
-    
-    /**
-     *
-     * @return \core_kernel_persistence_ClassInterface
-     */
-    private function getSmoothResourceInterface()
-    {
-        return new \core_kernel_persistence_smoothsql_Resource($this->getSmoothModel());
+        $implementations = array();
+        foreach ($this->getModels() as $key => $model) {
+            $implementations[$key] = $model->getRdfsInterface()->getResourceImplementation();
+        } 
+        return $implementations;
     }
 }

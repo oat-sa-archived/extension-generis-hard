@@ -289,15 +289,19 @@ class PropertyProxy
      */
     public function getImpToDelegateTo( \core_kernel_classes_Resource $resource, $params = array())
     {
-
+        $impls = $this->getImplementations();
+        if (PersistenceProxy::isForcedMode()) {
+            return $impls[PersistenceProxy::getForcedMode()];
+        }
+        
         if(!isset(self::$ressourcesDelegatedTo[$resource->getUri()]) 
         || PersistenceProxy::isForcedMode()){
         	
-			foreach($this->getImplementations() as $delegate) {
+			foreach($this->getImplementations() as $code => $delegate) {
 				// If the implementation is enabled && the resource exists in this context
 				if($delegate->isValidContext($resource)){
 					
-					if(PersistenceProxy::isForcedMode()){
+					if(PersistenceProxy::isForcedMode($code)){
 						return $delegate;
 					}
 					
@@ -315,19 +319,10 @@ class PropertyProxy
 
     protected function getImplementations()
     {
-        return array(
-            'hardsql' => Property::singleton(),
-            'smoothsql' => $this->getSmoothPropertyInterface()
-        );
+        $implementations = array();
+        foreach ($this->getModels() as $key => $model) {
+            $implementations[$key] = $model->getRdfsInterface()->getPropertyImplementation();
+        }
+        return $implementations;
     }
-    
-    /**
-     *
-     * @return \core_kernel_persistence_ClassInterface
-     */
-    private function getSmoothPropertyInterface()
-    {
-        return new \core_kernel_persistence_smoothsql_Property($this->getSmoothModel());
-    }
-
 }

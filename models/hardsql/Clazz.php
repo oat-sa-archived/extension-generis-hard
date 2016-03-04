@@ -434,7 +434,7 @@ class Clazz
 						$propShortName = HardapiUtils::getShortName($property);
 						$subConditions = array();
 						foreach ($patterns as $pattern){
-							$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($pattern, $like);
+							$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$pattern, $like);
 							$subConditions[] = '"b"."' . $propShortName . '" ' . $searchPattern;
 						}
 						$baseConditions[] = '(' . implode(' OR ', $subConditions) . ')';
@@ -446,7 +446,7 @@ class Clazz
 						$condition = '("p"."property_uri" = ' . $pUri . ' AND (';
 						$subConditions = array();
 						foreach ($patterns as $pattern){
-							$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($pattern, $like);
+							$searchPattern = \core_kernel_persistence_smoothsql_Utils::buildSearchPattern($this->getPersistence(),$pattern, $like);
 							$subCondition = 'COALESCE("p"."property_value", "p"."property_foreign_uri") ' . $searchPattern;
 							
 							// Deal with the language.

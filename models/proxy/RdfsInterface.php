@@ -33,11 +33,11 @@ class RdfsInterface
     private $propertyProxy;
     private $classProxy;
     
-    public function __construct(common_persistence_SqlPersistence $persistence, Model $smooth) {
+    public function __construct(Model $hard, Model $smooth) {
         
-        $this->resourceProxy = new ResourceProxy($persistence, $smooth);
-        $this->propertyProxy = new PropertyProxy($persistence, $smooth);
-        $this->classProxy = new ClassProxy($persistence, $smooth);
+        $this->resourceProxy = new ResourceProxy($hard, $smooth);
+        $this->propertyProxy = new PropertyProxy($hard, $smooth);
+        $this->classProxy = new ClassProxy($hard, $smooth);
     }
     
     public function getClassImplementation() {

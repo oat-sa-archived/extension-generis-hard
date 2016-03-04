@@ -24,6 +24,7 @@ namespace oat\generisHard\models\proxy;
 use common_persistence_SqlPersistence;
 use oat\generis\model\data\Model;
 use oat\generisHard\models\hardsql\Resource;
+use oat\generisHard\models\ProxyModel;
 
 /**
  * @abstract
@@ -34,16 +35,13 @@ use oat\generisHard\models\hardsql\Resource;
  */
 abstract class PersistenceProxy
 {
-    /**
-     * @var common_persistence_SqlPersistence
-     */
-    private $sqlPersistence;
-    
     private $smooth;
     
-    public function __construct(common_persistence_SqlPersistence $sqlPersistence, Model $smooth) {
+    private $hard;
+    
+    public function __construct(Model $hard, Model $smooth) {
+        $this->hard = $hard;
         $this->smooth = $smooth;
-        $this->sqlPersistence = $sqlPersistence;
     }
     
     /**
@@ -123,23 +121,12 @@ abstract class PersistenceProxy
 
         return (bool) $returnValue;
     }
-
-    /**
-     * Deprecated, please use restoreMode() instead
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @deprecated
-     * @return mixed
-     */
-    public function resetMode()
+    
+    public static function getForcedMode()
     {
-        
-		\common_Logger::w('Deprecated function PersistenceProxy::resetMode() called');   	
-   		self::$current = "";
-    		
-        
+        return self::$current;
     }
+    
 
     /**
      * resores the previsous implementation
@@ -187,15 +174,14 @@ abstract class PersistenceProxy
         return (bool) $returnValue;
     }
     
+    protected function getModels()
+    {
+        return array(
+            ProxyModel::OPTION_HARD_MODEL => $this->hard,
+            ProxyModel::OPTION_SMOOTH_MODEL => $this->smooth,
+        );
+    }
+    
     protected abstract function getImplementations();
     
-    /**
-     *
-     * @return Model
-     */
-    protected function getSmoothModel()
-    {
-        return $this->smooth;
-    }
-
 }
