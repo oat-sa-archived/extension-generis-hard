@@ -37,8 +37,6 @@ class ClassProxy
     extends ResourceProxy
         implements \core_kernel_persistence_ClassInterface
 {
-    // --- ASSOCIATIONS ---
-
 
     // --- ATTRIBUTES ---
     public static $implClasses = array(
@@ -360,9 +358,6 @@ class ClassProxy
         }
         
         $returnValue = self::$ressourcesDelegatedTo[$resource->getUri()];
-        
-        
-        \common_Logger::d(get_class($returnValue));
         
         return $returnValue;
     }

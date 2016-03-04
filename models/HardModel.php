@@ -32,6 +32,8 @@ class HardModel extends ConfigurableService implements Model, RdfsInterface
 {
     const OPTION_PERSISTENCE = 'persistence';
     
+    private $classImpl;
+    
     private $persistence;
     
 	/**
@@ -61,7 +63,10 @@ class HardModel extends ConfigurableService implements Model, RdfsInterface
 	}
 	
 	public function getClassImplementation() {
-	    return new Clazz($this->getPersistence());
+	    if (is_null($this->classImpl)) {
+	        $this->classImpl = new Clazz($this->getPersistence()); 
+	    }
+	    return $this->classImpl;
 	}
 	
 	public function getResourceImplementation() {
@@ -70,6 +75,11 @@ class HardModel extends ConfigurableService implements Model, RdfsInterface
 	
 	public function getPropertyImplementation() {
 	    return new Property($this->getPersistence());
+	}
+	
+	public function setFallback(Model $model)
+	{
+	    $this->getClassImplementation()->setFallback($model->getRdfsInterface()->getClassImplementation());
 	}
     
 }

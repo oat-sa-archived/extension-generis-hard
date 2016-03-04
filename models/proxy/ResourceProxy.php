@@ -391,8 +391,6 @@ class ResourceProxy
 			throw new \core_kernel_persistence_Exception("The resource with uri {$resource->getUri()} does not exist in the available implementation(s)");
 		}
 
-		\common_Logger::d(get_class($returnValue));
-
         return $returnValue;
     }
     

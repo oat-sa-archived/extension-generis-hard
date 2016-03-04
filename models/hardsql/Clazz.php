@@ -38,21 +38,6 @@ class Clazz
     extends Resource
         implements \core_kernel_persistence_ClassInterface
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute instance
-     *
-     * @access public
-     * @var Resource
-     */
-    public static $instance = null;
-
-    // --- OPERATIONS ---
-
     /**
      * (non-PHPdoc)
      * @see core_kernel_persistence_ClassInterface::getSubClasses()
@@ -955,10 +940,18 @@ class Clazz
         return (bool) $returnValue;
     }
     
+    // temporary fix
+    
+    private $smooth;
+    
+    public function setFallback(\core_kernel_persistence_ClassInterface $smooth)
+    {
+        $this->smooth = $smooth;
+    }
+    
     private function getSmoothClassInterface()
     {
-        throw \Exception('not even here yet');
-        return new \core_kernel_persistence_smoothsql_Class($this->getSmoothModel());
+        return $this->smooth;
     }
 
 }

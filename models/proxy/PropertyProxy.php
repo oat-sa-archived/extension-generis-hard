@@ -310,9 +310,7 @@ class PropertyProxy
 		        }
 			}
         }
-        \common_Logger::d(get_class($returnValue));
         
-
 		return self::$ressourcesDelegatedTo[$resource->getUri()];
 
     }

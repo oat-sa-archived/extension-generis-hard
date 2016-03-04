@@ -49,7 +49,12 @@ class ProxyModel extends ConfigurableService implements Model
 	            throw new \common_exception_MissingParameter();
 	        }
 	        
-	        $this->rdfsInterface = new RdfsInterface($this->getOption(self::OPTION_HARD_MODEL), $this->getOption(self::OPTION_SMOOTH_MODEL));
+	        $soft = $this->getOption(self::OPTION_SMOOTH_MODEL);
+	        $hard = $this->getOption(self::OPTION_HARD_MODEL);
+	        
+	        $hard->setFallback($soft);
+	        
+	        $this->rdfsInterface = new RdfsInterface($hard, $soft);
 	    }
 	    return $this->rdfsInterface;
 	}
