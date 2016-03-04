@@ -36,18 +36,23 @@ class Resource
     extends \core_kernel_persistence_PersistenceImpl
         implements \core_kernel_persistence_ResourceInterface
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
     /**
-     * Short description of attribute instance
-     *
-     * @access public
-     * @var Resource
+     * @var \common_persistence_SqlPersistence
      */
-    public static $instance = null;
+    private $persistence;
+    
+    /**
+     * @param \common_persistence_SqlPersistence $persistence
+     */
+    public function __construct(\common_persistence_SqlPersistence $persistence)
+    {
+        $this->persistence = $persistence;
+    }
+    
+    protected function getPersistence()
+    {
+        return $this->persistence;
+    }
 
     // --- OPERATIONS ---
     /**
@@ -353,11 +358,12 @@ class Resource
     {
         $returnValue = (bool) false;
 
-        
 		if (is_array($properties)) {
 			if (count($properties) > 0) {
 
-				// Get the table name
+			    $persistence = $this->getPersistence();
+                
+			    // Get the table name
 				$referencer = ResourceReferencer::singleton();
 				$tableName = $referencer->resourceLocation($resource);
 				if (empty($tableName)) {
@@ -365,7 +371,6 @@ class Resource
 				}
 
 				$instanceId = Utils::getInstanceId($resource);
-				$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 
 				$queryProps = '';
 				$hardPropertyNames = array();
@@ -382,17 +387,17 @@ class Resource
 						$lang = ($property->isLgDependent() ? \common_session_SessionManager::getSession()->getDataLanguage() : '');
 						$formatedValues = array();
 						if ($value instanceof \core_kernel_classes_Resource) {
-							$formatedValues[] = $dbWrapper->quote($value->getUri());
+							$formatedValues[] = $persistence->quote($value->getUri());
 						} else if (is_array($value)) {
 							foreach ($value as $val) {
 								if ($val instanceof \core_kernel_classes_Resource) {
-									$formatedValues[] = $dbWrapper->quote($val->getUri());
+									$formatedValues[] = $persistence->quote($val->getUri());
 								} else {
-									$formatedValues[] = $dbWrapper->quote($val);
+									$formatedValues[] = $persistence->quote($val);
 								}
 							}
 						} else {
-							$formatedValues[] = $dbWrapper->quote($value);
+							$formatedValues[] = $persistence->quote($value);
 						}
 						
 						if ($propertyRange instanceof \core_kernel_classes_Class && $propertyRange->getUri() == RDFS_LITERAL) {
@@ -420,10 +425,11 @@ class Resource
 				}
 
 				if (!empty($queryProps)) {
+				    //$multiHelper = $persistence->getPlatForm()->getMultipleInsertsSqlQueryHelper();
 					try{
 						$query = 'INSERT INTO "' . $tableName . 'props" ("instance_id", "property_uri", "property_value", "property_foreign_uri", "l_language") VALUES ' . $queryProps;
 						$query = substr($query, 0, strlen($query) - 1);
-						$result = $dbWrapper->exec($query);
+						$result = $this->getPersistence()->exec($query);
 						$returnValue = true;
 					}
 					catch (\PDOException $e){
@@ -439,7 +445,7 @@ class Resource
 						if ($i) {
 							$query .= ', ';
 						}
-						$query .= '"' . $hardPropertyName . '" = ? ';
+						$query .= $persistence->getPlatForm()->quoteIdentifier($hardPropertyName).' = ?';
 						$variables[] = $value;
 						$i++;
 					}
@@ -448,7 +454,7 @@ class Resource
 					$variables[] = $instanceId;
 					
 					try{
-						$result = $dbWrapper->exec($query, $variables);
+					    $this->getPersistence()->exec($query, $variables);
 						$returnValue = true;
 					}
 					catch (\PDOException $e){
@@ -1286,29 +1292,6 @@ class Resource
         
 
         return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method singleton
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return \core_kernel_classes_Resource
-     */
-    public static function singleton()
-    {
-        $returnValue = null;
-
-        
-
-		if (self::$instance == null){
-			self::$instance = new self();
-		}
-		$returnValue = self::$instance;
-
-        
-
-        return $returnValue;
     }
 
     /**

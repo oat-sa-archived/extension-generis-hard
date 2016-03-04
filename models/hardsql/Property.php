@@ -37,18 +37,6 @@ class Property
     extends \core_kernel_persistence_PersistenceImpl
         implements \core_kernel_persistence_PropertyInterface
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute instance
-     *
-     * @access public
-     * @var Resource
-     */
-    public static $instance = null;
 
     // --- OPERATIONS ---
 
