@@ -335,6 +335,7 @@ class Switcher
 		try{
 			// Give access to all models during hardification.
 			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds(self::getAllModelIds());
+            $persistence = \common_persistence_SqlPersistence::getPersistence('default');
 			
 			$classLabel = $class->getLabel();
 			\common_Logger::i("Hardifying class ${classLabel}", array("GENERIS"));
@@ -413,7 +414,7 @@ class Switcher
 					$referencer->referenceInstanceTypes($class);
 				}
 			}
-			
+
 			//insert the resources
 			$startIndex = 0;
 			$instancePackSize = 100;
@@ -421,6 +422,8 @@ class Switcher
 			$count = count($instances);
 			$notDeletedInstances = array ();
 			do{
+			    \common_Logger::d('Transferring resources '.$startIndex.' to '.($startIndex+$count));
+
 				//reset timeout:
 				//set_time_limit(30);
 			    \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::MEDIUM);
@@ -442,7 +445,7 @@ class Switcher
 					$rows[] = $row;
 				}
 			
-				$rowMgr = new RowManager($tableName, $columns);
+				$rowMgr = new RowManager($persistence, $tableName, $columns);
 				$rowMgr->insertRows($rows);
 				foreach($instances as $resource){
 					$referencer->referenceResource($resource, $tableName, null, true);
@@ -480,6 +483,7 @@ class Switcher
 			
 				$count = count($instances);
 				\helpers_TimeOutHelper::reset();
+
 			} while($count> 0);
 			
 			$returnValue = true;
