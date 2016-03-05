@@ -330,11 +330,11 @@ class Switcher
 	public function hardify( \core_kernel_classes_Class $class, $options = array())
 	{
 		$returnValue = (bool) false;
-		$oldUpdatableModels = core_kernel_persistence_smoothsql_SmoothModel::getUpdatableModelIds();
+//		$oldUpdatableModels = core_kernel_persistence_smoothsql_SmoothModel::getUpdatableModelIds();
 		
 		try{
 			// Give access to all models during hardification.
-			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds(self::getAllModelIds());
+//			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds(self::getAllModelIds());
             $persistence = \common_persistence_SqlPersistence::getPersistence('default');
 			
 			$classLabel = $class->getLabel();
@@ -480,7 +480,6 @@ class Switcher
 				foreach($notDeletedInstances as $uri){
 					unset($instances[$uri]);
 				}
-			
 				$count = count($instances);
 				\helpers_TimeOutHelper::reset();
 
@@ -512,11 +511,11 @@ class Switcher
 			}
 			
 			// Give the normal rights on models to the session.
-			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
+			// core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
 		}
 		catch (Exception $e){
 			\common_Logger::e('An error occured during hardification: ' . $e->getMessage());
-			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
+			// core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
 		}
 
 		return (bool) $returnValue;

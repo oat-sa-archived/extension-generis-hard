@@ -694,7 +694,7 @@ class ResourceReferencer
 				foreach($rows as $row){
 					self::$_resources[$row['uri']] = $row['table'];
 				}
-				ResourceProxy::singleton()->uncacheResource($resource);
+				//ResourceProxy::singleton()->uncacheResource($resource);
 			}
         }
         
