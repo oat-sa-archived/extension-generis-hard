@@ -105,14 +105,14 @@ class RowManager
         foreach ($rows as $i => $row) {
             $values = array();
             foreach ($columns as $key => $column) {
-                if (isset($row[$key])) {
+                if (isset($row[$key]) && !is_null($row[$key])) {
                     $value = $row[$key];
                     $values[$key] = $this->persistence->quote(($row[$key] instanceof \core_kernel_classes_Resource) ? $row[$key]->getUri() : $row[$key]);
                 } else {
-                    $values[$key] = $this->persistence->getPlatForm()->getNullString();
+                    // don't use getNullString untill function fixed
+                    $values[$key] = 'null';
                 }
             }
-            
             $query .= $multipleInsertQueryHelper->getValuePart($this->table, array_keys($columns), $values);
         }
         
@@ -165,7 +165,7 @@ class RowManager
             }
         
             if (!empty($queryRows)){
-                	
+
                 $queryMultiple = 'INSERT INTO "'.$this->table.'props"
 						("instance_id", "property_uri", "property_value", "property_foreign_uri", "l_language") VALUES ' . $queryRows;
                 	

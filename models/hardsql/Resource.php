@@ -1104,7 +1104,8 @@ class Resource
 		$propertyIndexes = array();
 		$propertyIndex = 0;
 		foreach ($properties as $propertyMixed) {
-			$property = is_object($propertyMixed) ? $propertyMixed : new \core_kernel_classes_Property($propertyMixed); 
+			$property = is_object($propertyMixed) ? $propertyMixed : new \core_kernel_classes_Property($propertyMixed);
+			$returnValue[$property->getUri()] = array();
 			$propertyLocation = $referencer->propertyLocation($property);
 
 			if (in_array($tableProps, $propertyLocation)
