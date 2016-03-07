@@ -1212,13 +1212,20 @@ class Resource
         $returnValue = (bool) false;
 		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 		$referencer = ResourceReferencer::singleton();
+		
+		$found = false;
+		foreach ($this->getTypes($resource) as $type) {
+		    if ($type->equals($class)) {
+		        $found = true;
+		        break;
+		    }
+		}
         
-        if (!$resource->hasType($class)){
+        if (!$found){
         	
         	$classInfo = Utils::getClassInfo($class);
         	
         	if ($classInfo !== false){
-        		
         		
         		$sql = 'INSERT INTO "resource_to_table" ("uri", "table") VALUES (?, ?)';
         		$rowsAffected1 = $dbWrapper->exec($sql, array($resource->getUri(), $classInfo['table']));
@@ -1243,8 +1250,6 @@ class Resource
         			$sql = 'DELETE FROM "statements" WHERE "id" = ' . $row['id'];
         			$dbWrapper->exec($sql);
         		}
-        			
-				
         	}
         }
         
