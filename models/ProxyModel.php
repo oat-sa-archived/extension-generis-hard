@@ -33,6 +33,10 @@ class ProxyModel extends ConfigurableService implements Model
     
     private $rdfsInterface;
     
+    private $smooth;
+    
+    private $hard;
+    
 	/**
 	 * @return RdfInterface
 	 */
@@ -45,18 +49,32 @@ class ProxyModel extends ConfigurableService implements Model
 	 */
 	function getRdfsInterface() {
 	    if (!isset($this->rdfsInterface)) {
-	        if (!$this->hasOption(self::OPTION_HARD_MODEL) || !$this->hasOption(self::OPTION_SMOOTH_MODEL)) {
-	            throw new \common_exception_MissingParameter();
-	        }
-	        
-	        $soft = $this->getOption(self::OPTION_SMOOTH_MODEL);
-	        $hard = $this->getOption(self::OPTION_HARD_MODEL);
-	        
-	        $hard->setFallback($soft);
-	        
-	        $this->rdfsInterface = new RdfsInterface($hard, $soft);
+	        $this->rdfsInterface = new RdfsInterface($this->getHardModel(), $this->getSmoothModel());
 	    }
 	    return $this->rdfsInterface;
+	}
+	
+	/**
+	 * @return Model
+	 */
+	public function getSmoothModel()
+	{
+	    if (is_null($this->smooth)) {
+    	    $this->smooth = $this->getOption(self::OPTION_SMOOTH_MODEL);
+	    }
+	    return $this->smooth;
+	}
+	
+	/**
+	 * @return Model
+	 */
+	public function getHardModel()
+	{
+	    if (is_null($this->hard)) {
+    	    $this->hard = $this->getOption(self::OPTION_HARD_MODEL);
+    	    $this->hard->setFallback($this->getSmoothModel());
+	    }
+	    return $this->hard;
 	}
     
 }
