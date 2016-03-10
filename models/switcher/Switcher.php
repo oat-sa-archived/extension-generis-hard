@@ -31,6 +31,8 @@ use oat\generisHard\models\hardapi\TableManager;
 use oat\generisHard\models\hardapi\Exception;
 use oat\generisHard\models\hardapi\RowManager;
 use core_kernel_persistence_smoothsql_SmoothModel;
+use oat\generis\model\data\ModelManager;
+use oat\generisHard\models\ProxyModel;
 
 /**
  * The Switcher class aims at providing a programming interface to:
@@ -305,9 +307,6 @@ class Switcher
 	}
 
 
-	public static $debug_tables = array();
-	protected $foreignPropertiesWaitingList = array();
-
 	/**
 	 * Calling this method will transfer all instances of $class from the statements table
 	 * to specific optimized relational tables.
@@ -330,52 +329,40 @@ class Switcher
 	public function hardify( \core_kernel_classes_Class $class, $options = array())
 	{
 		$returnValue = (bool) false;
+		
+		if(in_array($class->getUri(), self::$blackList)){
+		    return false;
+		}
+		
 //		$oldUpdatableModels = core_kernel_persistence_smoothsql_SmoothModel::getUpdatableModelIds();
 		
 		try{
 			// Give access to all models during hardification.
 //			core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds(self::getAllModelIds());
-            $persistence = \common_persistence_SqlPersistence::getPersistence('default');
 			
 			$classLabel = $class->getLabel();
 			\common_Logger::i("Hardifying class ${classLabel}", array("GENERIS"));
 			
-			if (defined ("DEBUG_PERSISTENCE") && DEBUG_PERSISTENCE){
-				if (in_array($class->getUri(), self::$debug_tables)){
-					return;
-				}
-				\common_Logger::d('hardify ' .$class->getUri());
-				self::$debug_tables[] = $class->getUri();
-				$countStatement = $this->countStatements();
-			}
-			
-			if(in_array($class->getUri(), self::$blackList)){
-				return $returnValue;
-			}
-			
-			// ENTER IN SMOOTH SQL MODE
-			PersistenceProxy::forceMode(PERSISTENCE_SMOOTH);
-			
 			//recursive will hardify the class and it's subclasses in the same table!
-			(isset($options['recursive'])) ? $recursive = $options['recursive'] : $recursive = false;
+			$recursive = (isset($options['recursive'])) ?  $options['recursive'] : false;
 			
 			//createForeigns will hardify the class that are range of the properties
-			(isset($options['createForeigns'])) ? $createForeigns = $options['createForeigns'] : $createForeigns = false;
+			$createForeigns = (isset($options['createForeigns'])) ? $options['createForeigns'] : false;
 			
 			//check if we append the data in case the hard table exists or truncate the table and add the new rows
-			(isset($options['append'])) ? $append = $options['append'] : $append = false;
+			$append = (isset($options['append'])) ? $options['append'] :  false;
 			
 			//if true, the instances of the class will  be removed from the statements table!
-			(isset($options['rmSources'])) ? $rmSources = (bool) $options['rmSources'] : $rmSources = false;
+			$rmSources = (isset($options['rmSources'])) ? (bool) $options['rmSources'] : false;
 			
 			//if defined, we took all the properties of the class and it's parents till the topclass
-			(isset($options['topclass'])) ? $topclass = $options['topclass'] : $topclass = new \core_kernel_classes_Class(RDFS_RESOURCE);
+			$topclass = (isset($options['topclass'])) ? $options['topclass'] :  new \core_kernel_classes_Class(RDFS_RESOURCE);
 			
 			//if defined, compile the additional properties
-			(isset($options['additionalProperties'])) ? $additionalProperties = $options['additionalProperties'] : $additionalProperties = array();
+			$additionalProperties = (isset($options['additionalProperties'])) ? $options['additionalProperties'] : array();
 			
 			//if defined, reference the additional class to the table
-			(isset($options['referencesAllTypes'])) ? $referencesAllTypes = $options['referencesAllTypes'] : $referencesAllTypes = false;
+			$referencesAllTypes = (isset($options['referencesAllTypes'])) ? $options['referencesAllTypes'] : false;
 			
 			$tableName = '_'.Utils::getShortName($class);
 			$myTableMgr = new TableManager($tableName);
@@ -416,76 +403,7 @@ class Switcher
 			}
 
 			//insert the resources
-			$startIndex = 0;
-			$instancePackSize = 100;
-			$instances = $class->getInstances(false, array('offset'=>$startIndex, 'limit'=> $instancePackSize));
-			$count = count($instances);
-			$notDeletedInstances = array ();
-			do{
-			    \common_Logger::d('Transferring resources '.$startIndex.' to '.($startIndex+$count));
-
-				//reset timeout:
-				//set_time_limit(30);
-			    \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::MEDIUM);
-			
-				$rows = array();
-			
-				foreach($instances as $index =>  $resource){
-					if($referencer->isResourceReferenced($resource)){
-						PersistenceProxy::forceMode(PERSISTENCE_HARD);
-						$resource->delete();
-						PersistenceProxy::restoreImplementation();
-					}
-					$row = array('uri' => $resource->getUri());
-					foreach($properties as $property){
-						$propValue = $resource->getOnePropertyValue($property);
-						$row[Utils::getShortName($property)] = $propValue;
-					}
-			
-					$rows[] = $row;
-				}
-			
-				$rowMgr = new RowManager($persistence, $tableName, $columns);
-				$rowMgr->insertRows($rows);
-				foreach($instances as $resource){
-					$referencer->referenceResource($resource, $tableName, null, true);
-			
-					if($rmSources){
-						//remove exported resources in smooth sql, if required:
-						// Be carefull, the resource can still exist even if
-						// delete returns true. Indeed, modelIds can be mixed between
-						// multiple models and only a part of the triples that consitute
-						// the resource might have been deleted.
-						if (!$resource->delete() || $resource->exists()){//@TODO : modified resource::delete() because resource not in local modelId cannot be deleted
-							$notDeletedInstances[] = $resource->getUri();
-							$startIndex++;
-						}
-					}
-				}
-			
-				if(!$rmSources){
-					//increment start index only if not removed
-					$startIndex += $instancePackSize;
-				}
-			
-				//record hardened instances number
-				if(isset($this->hardenedClasses[$class->getUri()])){
-					$this->hardenedClasses[$class->getUri()] += $count;
-				}else{
-					$this->hardenedClasses[$class->getUri()] = $count;
-				}
-			
-				//update instance array and count value
-				$instances = $class->getInstances(false, array('offset'=>$startIndex, 'limit'=> $instancePackSize));
-				foreach($notDeletedInstances as $uri){
-					unset($instances[$uri]);
-				}
-				$count = count($instances);
-				\helpers_TimeOutHelper::reset();
-
-			} while($count> 0);
-			
-			$returnValue = true;
+			$this->transferResources($class, $referencer, $properties, $tableName, $columns, $rmSources);
 			
 			// Treat subclasses of the current class
 			if($recursive){
@@ -499,26 +417,93 @@ class Switcher
 			
 			//reset cache:
 			$referencer->clearCaches();
-			// EXIT SMOOTH SQL MODE
-			PersistenceProxy::restoreImplementation();
-			
-			if (defined ("DEBUG_PERSISTENCE") && DEBUG_PERSISTENCE){
-				$this->unhardify($class, array_merge($options, array(
-						'recursive' 		=> false,
-						'removeForeigns' 	=> false
-				)));
-				\common_Logger::d('unhardened result statements '.$this->countStatements(). ' / '.$countStatement);
-			}
 			
 			// Give the normal rights on models to the session.
 			// core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
 		}
 		catch (Exception $e){
 			\common_Logger::e('An error occured during hardification: ' . $e->getMessage());
+			throw $e;
 			// core_kernel_persistence_smoothsql_SmoothModel::forceUpdatableModelIds($oldUpdatableModels);
 		}
 
 		return (bool) $returnValue;
+	}
+	
+	protected function transferResources($class, $referencer, $properties, $tableName, $columns, $rmSources = false)
+	{
+	    $persistence = \common_persistence_SqlPersistence::getPersistence('default');
+	    PersistenceProxy::forceMode(PERSISTENCE_SMOOTH);
+	     
+	    $startIndex = 0;
+	    $instancePackSize = 100;
+	    $instances = $class->getInstances(false, array('offset'=>$startIndex, 'limit'=> $instancePackSize));
+	    $count = count($instances);
+	    $notDeletedInstances = array ();
+	    do{
+	        \common_Logger::d('Transferring resources '.$startIndex.' to '.($startIndex+$count));
+	    
+	        //reset timeout:
+	        \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::MEDIUM);
+	        	
+	        $rows = array();
+	        	
+	        foreach($instances as $index =>  $resource){
+	            if($referencer->isResourceReferenced($resource)){
+	                PersistenceProxy::forceMode(PERSISTENCE_HARD);
+	                $resource->delete();
+	                PersistenceProxy::restoreImplementation();
+	            }
+	            $row = array('uri' => $resource->getUri());
+	            
+	            foreach ($resource->getPropertiesValues($properties) as $propUri => $values) {
+	                $property = new \core_kernel_classes_Property($propUri);
+	                $value = empty($values) ? null : reset($values);
+	                $row[Utils::getShortName($property)] = $value;
+	            }
+	            $rows[] = $row;
+	        }
+	        	
+	        $rowMgr = new RowManager($persistence, $tableName, $columns);
+	        $rowMgr->insertRows($rows);
+	        foreach($instances as $resource){
+	            $referencer->referenceResource($resource, $tableName, null, true);
+	            	
+	            if($rmSources){
+	                //remove exported resources in smooth sql, if required:
+	                // Be carefull, the resource can still exist even if
+	                // delete returns true. Indeed, modelIds can be mixed between
+	                // multiple models and only a part of the triples that consitute
+	                // the resource might have been deleted.
+	                if (!$resource->delete() || $resource->exists()){//@TODO : modified resource::delete() because resource not in local modelId cannot be deleted
+	                    $notDeletedInstances[] = $resource->getUri();
+	                    $startIndex++;
+	                }
+	            }
+	        }
+	        	
+	        if(!$rmSources){
+	            //increment start index only if not removed
+	            $startIndex += $instancePackSize;
+	        }
+	        	
+	        //record hardened instances number
+	        if(isset($this->hardenedClasses[$class->getUri()])){
+	            $this->hardenedClasses[$class->getUri()] += $count;
+	        }else{
+	            $this->hardenedClasses[$class->getUri()] = $count;
+	        }
+	        	
+	        //update instance array and count value
+	        $instances = $class->getInstances(false, array('offset'=>$startIndex, 'limit'=> $instancePackSize));
+	        foreach($notDeletedInstances as $uri){
+	            unset($instances[$uri]);
+	        }
+	        $count = count($instances);
+	        \helpers_TimeOutHelper::reset();
+	    
+	    } while($count> 0);
+	    PersistenceProxy::restoreImplementation();
 	}
 
 	/**
