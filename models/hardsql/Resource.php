@@ -67,16 +67,13 @@ class Resource
     {
         $returnValue = array();
 
-        
-		$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
-		
 		try{
 			$query = 'SELECT "class_to_table"."uri"
 	    		FROM "class_to_table"
 	    		INNER JOIN "resource_has_class" ON "resource_has_class"."class_id" = "class_to_table"."id"
 	    		INNER JOIN "resource_to_table" ON "resource_to_table"."id" = "resource_has_class"."resource_id"
 	    		WHERE "resource_to_table"."uri" = ?';
-			$result	= $dbWrapper->query($query, array($resource->getUri()));
+			$result	= $this->getPersistence()->query($query, array($resource->getUri()));
 	
 			while ($row = $result->fetch()){
 				$returnValue[$row['uri']] = new \core_kernel_classes_Class($row['uri']);
@@ -113,7 +110,6 @@ class Resource
 			return $returnValue;
 		}
 		
-		$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
 		$propertyLocation = $referencer->propertyLocation($property);
 		
 		// Select in the properties table of the class
@@ -147,9 +143,9 @@ class Resource
 				// Select first
 				if ($one) {
 					$query .= ' ORDER BY "' .$tableProps. '"."id" ASC';
-					$query = $dbWrapper->limitStatement($query, 1, 0);
+					$query = $this->getPersistence()->getPlatForm()->limitStatement($query, 1, 0);
 					
-					$result	= $dbWrapper->query($query, array(
+					$result	= $this->getPersistence()->query($query, array(
 						$resource->getUri()
 						, $property->getUri()
 						, $lang
@@ -158,9 +154,9 @@ class Resource
 				// Select Last
 				else if ($last) {
 					$query .= ' ORDER BY "' .$tableProps. '"."id" DESC';
-					$query = $dbWrapper->limitStatement($query, 1, 0);
+					$query = $this->getPersistence()->getPlatForm()->limitStatement($query, 1, 0);
 					
-					$result	= $dbWrapper->query($query, array(
+					$result	= $this->getPersistence()->query($query, array(
 						$resource->getUri()
 						, $property->getUri()
 						, $lang
@@ -168,7 +164,7 @@ class Resource
 				}
 				// Select All
 				else {
-					$result	= $dbWrapper->query($query, array(
+					$result	= $this->getPersistence()->query($query, array(
 						$resource->getUri()
 						, $property->getUri()
 						, $lang
@@ -188,7 +184,7 @@ class Resource
 			try {
 				$propertyAlias = HardapiUtils::getShortName($property);
 				$query =  'SELECT "'.$propertyAlias.'" as "propertyValue" FROM "'.$table.'" WHERE "uri" = ?';
-				$result	= $dbWrapper->query($query, array($resource->getUri()));
+				$result	= $this->getPersistence()->query($query, array($resource->getUri()));
 
 				while ($row = $result->fetch()){
 					if ($row['propertyValue'] !== null){
@@ -197,7 +193,7 @@ class Resource
 				}
 			}
 			catch (\PDOException $e){
-				if ($e->getCode() == $dbWrapper->getColumnNotFoundErrorCode()) {
+				if ($e->getCode() == $this->getPersistence()->getSchemaManager()->getColumnNotFoundErrorCode()) {
 					// Column doesn't exists is not an error. Try to get a property which does not exist is allowed
 				}
 				else if ($e->getCode() !== '00000'){ 
@@ -265,7 +261,6 @@ class Resource
 			return $returnValue;
 		}
 
-		$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
 		$object  = $object instanceof \core_kernel_classes_Resource ? $object->getUri() : (string) $object;
 		$instanceId = null;
 		$propertyValue = null;
@@ -310,7 +305,7 @@ class Resource
 				$query = 'INSERT INTO "'.$tableName.'props"
 	        		("instance_id", "property_uri", "property_value", "property_foreign_uri", "l_language") 
 	        		VALUES (?, ?, ?, ?, ?)';
-				$result	= $dbWrapper->exec($query, array(
+				$result	= $this->getPersistence()->exec($query, array(
 					$instanceId,
 					$property->getUri(),
 					$propertyValue,
@@ -328,7 +323,7 @@ class Resource
 			try{
 				$propertyName = HardapiUtils::getShortName ($property);
 				$queryUpdate = 'UPDATE "' . $tableName . '" SET "' . $propertyName . '" = ? WHERE id = ?';
-				$result	= $dbWrapper->exec($queryUpdate, array(
+				$result	= $this->getPersistence()->exec($queryUpdate, array(
 					$propertyValue != null ? $propertyValue : $propertyForeignUri, 
 					$instanceId
 				));
@@ -516,8 +511,6 @@ class Resource
 			return $returnValue;
 		}
 
-		$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
-
 		// Optional params
 		$pattern = isset($options['pattern']) && !is_null($options['pattern']) ? $options['pattern'] : null;
 		$like = isset($options['like']) && $options['like'] == true ? true : false;
@@ -565,7 +558,7 @@ class Resource
                                 }
 
                                 try{
-	                                $result	= $dbWrapper->exec($query);
+	                                $result	= $this->getPersistence()->exec($query);
 	                                $returnValue = true;
                                 }
                                 catch (\PDOException $e){
@@ -603,7 +596,7 @@ class Resource
 			}
 			
 			try{
-				$result	= $dbWrapper->exec($query, array($resource->getUri()));
+				$result	= $this->getPersistence()->exec($query, array($resource->getUri()));
 				$returnValue = true;
 			}
 			catch (\PDOException $e){
@@ -630,10 +623,6 @@ class Resource
     public function removePropertyValueByLg( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Property $property, $lg, $options = array())
     {
         $returnValue = (bool) false;
-
-        
-
-		$dbWrapper 	= \core_kernel_classes_DbWrapper::singleton();
 
 		// Optional params
 		$pattern = isset($options['pattern']) && !is_null($options['pattern']) ? $options['pattern'] : null;
@@ -678,7 +667,7 @@ class Resource
                                 }
 
                                 try{
-                                $result	= $dbWrapper->exec($query);
+                                $result	= $this->getPersistence()->exec($query);
                                 $returnValue = true;
                                 }
                                 catch (\PDOException $e){
@@ -715,10 +704,9 @@ class Resource
 				$tblmgr = new TableManager($tableName);
 				$propertiesTableName = $tblmgr->getPropertiesTable();
 				
-				$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 				// We get the triples for cardinality = multiple or lg dependent properties
 				// as usual...
-				$quotedUri = $dbWrapper->quote($resource->getUri());
+				$quotedUri = $this->getPersistence()->quote($resource->getUri());
 
 				$propsQuery  = 'SELECT "b"."id", "b"."uri", "p"."property_uri" AS "property_uri", COALESCE("p"."property_value", "p"."property_foreign_uri") as "property_value", "p"."l_language"  FROM "' . $tableName . '" "b" ';
 				$propsQuery .= 'INNER JOIN "' . $propertiesTableName . '" "p" ON ("b"."id" = "p"."instance_id") WHERE "b"."uri" = ' . $quotedUri;
@@ -730,7 +718,7 @@ class Resource
 					// have to be crafty...
 					$baseQueries = array();
 					foreach ($propertyColumns as $k => $pC){
-						$quotedPropUri = $dbWrapper->quote($pC);
+						$quotedPropUri = $this->getPersistence()->quote($pC);
 						$baseQueries[] = 'SELECT "b"."id", "b"."uri", ' . $quotedPropUri . ' AS "property_uri", "b"."' . $k . '" AS "property_value", \'\' AS "l_language" FROM "' . $tableName . '" "b" WHERE "b"."uri" = ' . $quotedUri . ' AND "b"."' . $k . '" IS NOT NULL';
 					}
 					
@@ -740,7 +728,7 @@ class Resource
 				$query = $propsQuery . ' UNION ' . $baseQuery . ' ORDER BY "property_uri"';
 				
 				try{
-					$result = $dbWrapper->query($query);
+					$result = $this->getPersistence()->query($query);
 					while ($row = $result->fetch()){
 					    if ($row['property_value'] != null) {
     						$triple = new \core_kernel_classes_Triple();
@@ -800,8 +788,7 @@ class Resource
 			LEFT JOIN "'.$tableName.'" ON "'.$tableName.'".id = "'.$tableName.'props".instance_id
 			WHERE "'.$tableName.'"."uri" = ? 
 				AND "'.$tableName.'props"."property_uri" = ?';
-		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
-		$sqlResult = $dbWrapper->query($sqlQuery, array (
+		$sqlResult = $this->getPersistence()->query($sqlQuery, array (
 			$resource->getUri(),
 			$property->getUri()
 		));
@@ -839,11 +826,9 @@ class Resource
 		//the new Uri
 		$newUri = \common_Utils::getNewUri();
 
-		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
-
 		//duplicate the row in the main table
 		$query = 'SELECT * FROM "'.$tableName.'" WHERE "uri" = ?';
-		$result = $dbWrapper->query($query, array($resource->getUri()));
+		$result = $this->getPersistence()->query($query, array($resource->getUri()));
 		$rows = $result->fetchAll();
 	
 		if(count($rows) > 0){
@@ -876,7 +861,7 @@ class Resource
 			}
 			$insertQuery .= ')';
 
-			$insertResult = $dbWrapper->exec($insertQuery);
+			$insertResult = $this->getPersistence()->exec($insertQuery);
 			if($insertResult !== false  && $instanceId > -1){
 
 				//duplicated data
@@ -903,7 +888,7 @@ class Resource
 				try{
 					$propsQuery = 'SELECT * FROM "'.$tableName.'props" WHERE "instance_id" = ? ';
 					$propsQuery .= empty($excludedPropertyList)?'':' AND "property_uri" NOT IN ('.$excludedPropertyList.') ';
-					$propsResult = $dbWrapper->query($propsQuery, array($instanceId));
+					$propsResult = $this->getPersistence()->query($propsQuery, array($instanceId));
 				}
 				catch (\PDOException $e){
 					throw new Exception("Unable to duplicate the resource {$resource->getUri()} : " .$e->getMessage());
@@ -918,13 +903,13 @@ class Resource
 						
 					//insert them regarding the populated columns
 					if(!is_null($propValue)  && !empty($propValue)){
-						$dbWrapper->exec($insertPropValueQuery, array($propUri, $propValue, $proplang, $duplicateInstanceId));
+						$this->getPersistence()->exec($insertPropValueQuery, array($propUri, $propValue, $proplang, $duplicateInstanceId));
 					}
 					else if(!is_null($propForeign)  && !empty($propForeign)){
-						$dbWrapper->exec($insertPropForeignQuery, array($propUri, $propForeign, $proplang, $duplicateInstanceId));
+						$this->getPersistence()->exec($insertPropForeignQuery, array($propUri, $propForeign, $proplang, $duplicateInstanceId));
 					}
 					else{
-						$dbWrapper->exec($insertPropEmptyQuery, array($propUri, $proplang, $duplicateInstanceId));//costly to insert NULL values
+						$this->getPersistence()->exec($insertPropEmptyQuery, array($propUri, $proplang, $duplicateInstanceId));//costly to insert NULL values
 					}
 				}
 
@@ -952,7 +937,6 @@ class Resource
 
         
 
-        $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         $tableName = ResourceReferencer::singleton()->resourceLocation ($resource);
         if(empty($tableName)){
                 return $returnValue;
@@ -984,7 +968,7 @@ class Resource
 
 				//get all the properties that have one of the resource class as range
 				$sqlQuery = 'SELECT "subject", "object" FROM "statements" WHERE "predicate" = \''.RDFS_RANGE.'\' AND object IN ('.$types.')';
-				$result = $dbWrapper->query($sqlQuery);
+				$result = $this->getPersistence()->query($sqlQuery);
 
 				while($row = $result->fetch()){
 					//fill the properties range: propertyUri => domains:
@@ -1027,7 +1011,7 @@ class Resource
 									$query = 'DELETE FROM "'.$classLocation['table'].'props"
 												WHERE "property_uri" = ? 
 												AND ("property_value" = ? OR "property_foreign_uri" = ?)';
-									$dbWrapper->exec($query, array(
+									$this->getPersistence()->exec($query, array(
 										$propertyUri,
 										$uri,
 										$uri
@@ -1038,9 +1022,7 @@ class Resource
 									$query = 'UPDATE "'.$classLocation['table'].'"
 												SET "'.$columnName.'" = NULL 
 												WHERE "'.$columnName.'" = ?';
-									$dbWrapper->exec($query, array(
-										$uri
-									));
+									$this->getPersistence()->exec($query, array($uri));
 								}
 							}
 						}
@@ -1057,7 +1039,7 @@ class Resource
 		
 		foreach ($queries as $query) {
 			try{
-				$result = $dbWrapper->exec($query);
+				$result = $this->getPersistence()->exec($query);
 				if ($result === false){
 					$returnValue = false;
 					break;
@@ -1098,7 +1080,6 @@ class Resource
 			return $returnValue;
 		}
 		$tableProps = $table . 'props';
-		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 		$propertiesMain = '';
 		$propertiesProps = '';
 		$propertyIndexes = array();
@@ -1152,7 +1133,7 @@ class Resource
 				ORDER BY "property_uri"';
 
 			try{
-				$result = $dbWrapper->query($query, array($resource->getUri(), $lang));
+				$result = $this->getPersistence()->query($query, array($resource->getUri(), $lang));
 			}
 			catch (\PDOException $e){
 				throw new Exception("Unable to get property (multiple) values for {$resource->getUri()} in {$table} : " . $e->getMessage());
@@ -1173,7 +1154,7 @@ class Resource
 		if (!empty($propertiesMain)) {
 			try{
 				$query = 'SELECT ' . $propertiesMain . ' FROM "' . $table . '" WHERE "uri" = ?';
-				$result = $dbWrapper->query($query, array($resource->getUri()));
+				$result = $this->getPersistence()->query($query, array($resource->getUri()));
 	
 				while ($row = $result->fetch()) {
 					foreach ($propertyIndexes as $propertyIndex => $property) {
@@ -1186,7 +1167,7 @@ class Resource
 				}
 			}
 			catch (\PDOException $e){
-				if ($e->getCode() == $dbWrapper->getColumnNotFoundErrorCode()) {
+				if ($e->getCode() == $this->getPersistence()->getSchemaManager()->getColumnNotFoundErrorCode()) {
 					// Column doesn't exists is not an error. Try to get a property which does not exist is allowed
 				} else if ($e->getCode() !== '00000') {
 					throw new Exception("Unable to get property (single) values for {$resource->getUri()} in {$table} : " . $e->getMessage());
@@ -1210,7 +1191,6 @@ class Resource
     public function setType( \core_kernel_classes_Resource $resource,  \core_kernel_classes_Class $class)
     {
         $returnValue = (bool) false;
-		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 		$referencer = ResourceReferencer::singleton();
 		
 		$found = false;
@@ -1228,27 +1208,27 @@ class Resource
         	if ($classInfo !== false){
         		
         		$sql = 'INSERT INTO "resource_to_table" ("uri", "table") VALUES (?, ?)';
-        		$rowsAffected1 = $dbWrapper->exec($sql, array($resource->getUri(), $classInfo['table']));
+        		$rowsAffected1 = $this->getPersistence()->exec($sql, array($resource->getUri(), $classInfo['table']));
+        		$id = $this->getPersistence()->lastInsertId('resource_to_table');
         		
         		$sql = 'INSERT INTO "resource_has_class" ("resource_id", "class_id") VALUES (?, ?)';
-        		$id = $dbWrapper->lastInsertId('resource_to_table');
-        		$rowsAffected2 = $dbWrapper->exec($sql, array($id, $classInfo['id']));
+        		$rowsAffected2 = $this->getPersistence()->exec($sql, array($id, $classInfo['id']));
 
         		$sql = 'INSERT INTO "' . $classInfo['table'] . '" ("uri") VALUES (?)';
-        		$dbWrapper->exec($sql, array($resource->getUri())); 
+        		$this->getPersistence()->exec($sql, array($resource->getUri())); 
         		
         		$referencer->clearCaches();
         		
         		$sql = 'SELECT * FROM "statements" WHERE "modelid" = ? AND "subject" = ?';
-        		$result = $dbWrapper->query($sql, array(99999, $resource->getUri()));
+        		$result = $this->getPersistence()->query($sql, array(99999, $resource->getUri()));
         			
         		while ($row = $result->fetch()){
         			if ($row['predicate'] !== 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'){
         				$resource->setPropertyValue(new \core_kernel_classes_Property($row['predicate']), $row['object']);
         			}
         				
-        			$sql = 'DELETE FROM "statements" WHERE "id" = ' . $row['id'];
-        			$dbWrapper->exec($sql);
+        			$sql = 'DELETE FROM "statements" WHERE "id" = ?';
+        			$this->getPersistence()->exec($sql, array($row['id']));
         		}
         	}
         }
@@ -1272,7 +1252,6 @@ class Resource
         $returnValue = (bool) false;
 
         
-		$dbWrapper = \core_kernel_classes_DbWrapper::singleton();
 		$referencer = ResourceReferencer::singleton();
 		
 		if ($resource->hasType($class)){
@@ -1287,7 +1266,7 @@ class Resource
 				$query = 'INSERT INTO "statements" ("modelid", "subject", "predicate", "object", "l_language") VALUES  (?, ?, ?, ?, ?);';
 
 				foreach ($triples as $t){
-					$dbWrapper->exec($query, array(99999, $t->subject, $t->predicate, $t->object, $t->lg));
+					$this->getPersistence()->exec($query, array(99999, $t->subject, $t->predicate, $t->object, $t->lg));
 				}
 			}
 			

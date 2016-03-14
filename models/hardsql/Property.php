@@ -175,7 +175,6 @@ class Property
     {
         // First we get the current property description
         $referencer = ResourceReferencer::singleton();
-        $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         $propertyDescription = HardapiUtils::propertyDescriptor($resource);
         
         // Second, we alter the resource in the same way as we would in smooth.
@@ -234,7 +233,6 @@ class Property
         // For all the classes that have the resource as domain,
         // we have to alter the correspondent tables.
         $referencer = ResourceReferencer::singleton();
-        $dbWrapper = \core_kernel_classes_DbWrapper::singleton();
         $propertyDescription = HardapiUtils::propertyDescriptor($resource);
         
         $wasMulti = $propertyDescription['isMultiple'];
