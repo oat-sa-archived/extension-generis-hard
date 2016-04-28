@@ -26,7 +26,7 @@ module.exports = function(grunt) {
             modules : [{
                 name: 'generisHard/controller/routes',
                 include : ext.getExtensionsControllers(['generisHard']),
-                exclude : ['mathJax', 'mediaElement'].concat(libs)
+                exclude : ['mathJax'].concat(libs)
             }]
         }
     };
