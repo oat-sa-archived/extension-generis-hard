@@ -24,7 +24,7 @@ return array(
 	'label' => 'generis4 SQL-tables driver',
 	'description' => 'A perfromance oriented implementation of the ontology',
     'license' => 'GPL-2.0',
-    'version' => '1.0',
+    'version' => '1.0.1',
 	'author' => 'Open Assessment Technologies SA',
 	'requires' => array(
 	   'generis' => '>=2.6'
@@ -42,6 +42,7 @@ return array(
             dirname(__FILE__).'/scripts/install/setHardDataModel.php'
         )
     ),
+    'update' => 'oat\\generisHard\\scripts\\update\\Updater',
 	'constants' => array(
         'DIR_VIEWS' => dirname(__FILE__).DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR,
         
