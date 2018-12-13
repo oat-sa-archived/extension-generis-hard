@@ -1,34 +1,35 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *               
- * 
- */               
+ *
+ *
+ */
 
 return array(
     'name' => 'generisHard',
 	'label' => 'generis4 SQL-tables driver',
 	'description' => 'A perfromance oriented implementation of the ontology',
     'license' => 'GPL-2.0',
-    'version' => '1.0.1',
+    'version' => '1.1.0',
 	'author' => 'Open Assessment Technologies SA',
 	'requires' => array(
-	   'generis' => '>=2.6'
-	    ,'tao' => '>=2.7.0'),
+	    'generis' => '>=2.6',
+        'tao' => '>=21.15.0',
+    ),
 	'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#generisHardManager',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#generisHardManager', array('ext'=>'generisHard')),
@@ -45,7 +46,7 @@ return array(
     'update' => 'oat\\generisHard\\scripts\\update\\Updater',
 	'constants' => array(
         'DIR_VIEWS' => dirname(__FILE__).DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR,
-        
+
         'BASE_WWW' => ROOT_URL.'generisHard/views/'
 	)
 );
